@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "timezone": "Asia/Seoul",
+  "facilities": [
+    {
+      "kakaoId": "568711784",
+      "researchLabel": "구 통계국청사",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "건물의 일반 관광객 관람시간·휴관일을 확인하지 못함. 현재 입주 기관의 회원 이용시간을 관광 운영시간으로 사용하지 않음.",
+      "sources": [
+        {
+          "url": "https://seoulnoin.or.kr/main/main.asp",
+          "checkedAt": "2026-11-19",
+          "scope": "현재 입주 기관 홈페이지; 관광객 관람시간 근거는 아님"
+        }
+      ]
+    },
+    {
+      "kakaoId": "10405648",
+      "researchLabel": "박규수선생집터",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "헌법재판소 구내 집터. 정원 출입과 집터 접근 가능 범위를 별도 확인해야 하며 상시 개방으로 간주하지 않음.",
+      "sources": [
+        {
+          "url": "https://kids.ccourt.go.kr/site/kor/ex/bbs/View.do?bcIdx=1008015&cbIdx=1150",
+          "checkedAt": "2026-11-19",
+          "scope": "백송 관람 출입 규정; 집터 관람시간을 확정할 자료는 아님"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8043295",
+      "researchLabel": "이상재집터",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "역사 표석의 현재 접근시간과 휴관일을 확인하지 못함.",
+      "sources": [],
+      "researchQueries": [
+        "이상재집터 공식 운영시간 휴관일"
+      ]
+    },
+    {
+      "kakaoId": "27495541",
+      "researchLabel": "학아재미술관",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "2016년 안내의 11:00~19:00은 과거 정보임. 운영자 소개에 활동 중단 이력이 있어 현재 운영시간으로 사용하지 않음.",
+      "sources": [
+        {
+          "url": "https://inmun360.culture.go.kr/content/580.do?cid=2369181&mode=view&page=100",
+          "checkedAt": "2026-11-19",
+          "scope": "공공기관의 과거 안내; 최종 업데이트 2016-11-02"
+        },
+        {
+          "url": "https://hagajaeclinic.com/23/?bmode=view&idx=161283538&q=YToxOntzOjEyOiJrZXl3b3JkX3R5cGUiO3M6MzoiYWxsIjt9&t=board",
+          "checkedAt": "2026-11-19",
+          "scope": "운영자 소개의 미술관 활동 중단 이력"
+        }
+      ],
+      "historicalHours": {
+        "open": "11:00",
+        "close": "19:00",
+        "sourceUpdatedAt": "2016-11-02",
+        "usableForRecommendation": false
+      }
+    },
+    {
+      "kakaoId": "27558021",
+      "researchLabel": "한글전각미술관",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "검색에서 현재 시설의 공식 운영시간·정기휴관 안내를 찾지 못함.",
+      "sources": [],
+      "researchQueries": [
+        "한글전각미술관 공식 운영시간 휴관일"
+      ]
+    },
+    {
+      "kakaoId": "1490573702",
+      "researchLabel": "서울문화홍보원",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "기관 발행 매체는 확인했으나 안국 지역 시설의 일반 관람시간과 휴관일은 확인하지 못함.",
+      "sources": [
+        {
+          "url": "https://maily.so/seoulculture/posts",
+          "checkedAt": "2026-11-19",
+          "scope": "기관 발행 매체; 방문 운영시간 근거는 아님"
+        }
+      ]
+    },
+    {
+      "kakaoId": "9290049",
+      "researchLabel": "예전사",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "동명 출판사 정보와 혼동 가능. 해당 문화시설의 공식 관람 안내를 찾지 못함.",
+      "sources": [],
+      "researchQueries": [
+        "예전사 공식 운영시간 휴관일"
+      ]
+    },
+    {
+      "kakaoId": "1479985456",
+      "researchLabel": "갤러리더플럭스",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "사이아트의 전시공간으로 소개되지만 해당 공간의 현재 공식 운영시간·휴관일을 확정하지 못함.",
+      "sources": [],
+      "researchQueries": [
+        "갤러리더플럭스 공식 운영시간 휴관일"
+      ]
+    },
+    {
+      "kakaoId": "919042739",
+      "researchLabel": "공평공원",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "공원 명칭이 행정 자료에 있으나 현재 개방시간·휴무 근거는 확인하지 못함.",
+      "sources": [],
+      "researchQueries": [
+        "공평공원 공식 운영시간 휴관일"
+      ]
+    },
+    {
+      "kakaoId": "850231755",
+      "researchLabel": "종로정원사마을",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "예약 프로그램 일정만 확인됨. 프로그램 시간을 공원 전체의 개방시간으로 사용하지 않음. 예약이 필요한 체험은 보고서의 예약 제외 범위에 해당.",
+      "sources": [
+        {
+          "url": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260716101448580150",
+          "checkedAt": "2026-11-19",
+          "scope": "종로구 공식 정원 프로그램 예약 안내"
+        }
+      ],
+      "programOnly": {
+        "dates": [
+          "2026-08-25",
+          "2026-09-08",
+          "2026-09-15",
+          "2026-10-13",
+          "2026-10-27",
+          "2026-11-10",
+          "2026-11-24"
+        ],
+        "start": "14:00",
+        "durationMinutes": 50,
+        "reservationRequired": true,
+        "usableAsFacilityHours": false
+      }
+    },
+    {
+      "kakaoId": "735903470",
+      "researchLabel": "서린공원",
+      "verificationStatus": "unconfirmed",
+      "hours": null,
+      "closedDays": null,
+      "checkedAt": "2026-11-19",
+      "note": "도시계획 자료로 시설은 확인되나 현재 개방시간·휴관일은 확인하지 못함.",
+      "sources": [
+        {
+          "url": "https://bookcouncil.jongno.go.kr/attach/record/JONGNO/appendix/a09/A0010795.pdf",
+          "checkedAt": "2026-11-19",
+          "scope": "구의회 도시계획 자료; 운영시간 근거는 아님"
+        }
+      ]
+    }
+  ]
+}
