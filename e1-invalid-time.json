@@ -1,0 +1,8 @@
+{
+  "startPointId": "anguk-stn",
+  "date": "2026-11-28",
+  "startTime": "15:00",
+  "endTime": "14:00",
+  "transport": "walk",
+  "themes": ["cafe"]
+}

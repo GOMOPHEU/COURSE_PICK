@@ -1,0 +1,10 @@
+{
+  "startPointId": "anguk-stn",
+  "date": "2026-11-28",
+  "startTime": "14:00",
+  "endTime": "18:00",
+  "transport": "transit",
+  "themes": ["history", "cafe"],
+  "companion": "family",
+  "partySize": 4
+}
