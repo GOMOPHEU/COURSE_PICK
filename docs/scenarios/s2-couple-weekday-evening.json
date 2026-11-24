@@ -1,0 +1,10 @@
+{
+  "startPointId": "gyeongbokgung-stn",
+  "date": "2026-11-26",
+  "startTime": "17:00",
+  "endTime": "21:00",
+  "transport": "walk",
+  "themes": ["culture", "walk", "food"],
+  "companion": "couple",
+  "partySize": 2
+}

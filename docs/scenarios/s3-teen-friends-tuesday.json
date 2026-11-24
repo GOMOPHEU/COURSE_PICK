@@ -1,0 +1,12 @@
+{
+  "startPointId": "gwanghwamun-stn",
+  "date": "2026-12-01",
+  "startTime": "10:00",
+  "endTime": "13:00",
+  "transport": "walk",
+  "themes": ["history", "shopping"],
+  "companion": "friends",
+  "partySize": 3,
+  "ageGroup": "10s",
+  "mobility": "minimizeWalking"
+}

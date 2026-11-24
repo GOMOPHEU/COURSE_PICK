@@ -1,0 +1,124 @@
+{
+  "version": "2026-11-22-draft",
+
+  "region": {
+    "name": "안국역 반경 1.3km",
+    "center": { "lat": 37.5765, "lng": 126.9854 },
+    "radiusMeters": 1300
+  },
+
+  "startPoints": [
+    { "id": "anguk-stn", "name": "안국역", "lat": 37.5765, "lng": 126.9854 },
+    { "id": "gyeongbokgung-stn", "name": "경복궁역", "lat": 37.5758, "lng": 126.9733 },
+    { "id": "jonggak-stn", "name": "종각역", "lat": 37.5702, "lng": 126.9831 },
+    { "id": "gwanghwamun-stn", "name": "광화문역", "lat": 37.5716, "lng": 126.9768 }
+  ],
+
+  "stayMinutes": {
+    "cafe":           { "default": 60, "min": 40, "max": 90 },
+    "food":           { "default": 60, "min": 45, "max": 90 },
+    "walk":           { "default": 40, "min": 20, "max": 60 },
+    "palace":         { "default": 90, "min": 60, "max": 120 },
+    "heritageSmall":  { "default": 30, "min": 20, "max": 45 },
+    "culture":        { "default": 60, "min": 45, "max": 90 },
+    "shoppingStreet": { "default": 40, "min": 20, "max": 60 },
+    "shoppingShop":   { "default": 20, "min": 15, "max": 30 }
+  },
+
+  "mealWindows": {
+    "lunch":  { "from": "11:00", "to": "14:30" },
+    "dinner": { "from": "17:00", "to": "20:30" }
+  },
+
+  "timeFit": {
+    "relaxedMaxRatio": 0.90,
+    "tightMaxRatio": 1.00
+  },
+
+  "leftoverTime": {
+    "extendStayBelowMinutes": 20,
+    "shortSlotBelowMinutes": 45
+  },
+
+  "walkingEstimate": {
+    "detourFactor": 1.3,
+    "metersPerMinute": 67
+  },
+
+  "candidateSearch": {
+    "radiusMeters": 690,
+    "expandedRadiusMeters": 1000,
+    "minCandidates": 3,
+    "maxPages": 2
+  },
+
+  "rating": {
+    "m": 50,
+    "priorMean": "auto"
+  },
+
+  "weights": {
+    "distance": 0.25,
+    "rating": 0.30,
+    "theme": 0.15,
+    "companion": 0.15,
+    "openVerified": 0.10,
+    "review": 0.05
+  },
+
+  "reviewBonus": true,
+
+  "themeMapping": {
+    "cafe":     { "groupCode": "CE7", "categoryPrefix": "음식점 > 카페", "alsoFromFood": ["음식점 > 간식"] },
+    "food":     { "groupCode": "FD6", "excludeCategoryContains": ["간식", "구내식당", "도시락"] },
+    "walk":     { "groupCode": "AT4", "categoryContains": ["공원", "테마거리", "산책로"] },
+    "shopping": { "groupCode": null, "categoryContains": ["테마거리", "시장", "인테리어장식", "디자인문구", "패션잡화", "복합쇼핑몰"] },
+    "history":  { "groupCode": "AT4", "categoryContains": ["문화유적", "고궁"] },
+    "culture":  { "groupCode": "CT1" }
+  },
+
+  "duplicateRule": {
+    "excludeIfNameStartsWithChosen": true,
+    "sameCategoryWithinMeters": 300
+  },
+
+  "barRule": {
+    "categoryContains": ["음식점 > 술집"],
+    "nameKeywords": ["이자카야", "호프", "포차", "앤바", "사카바", "주점"]
+  },
+
+  "companionRules": {
+    "family": {
+      "excludeBars": true,
+      "maxLegMinutes": 15,
+      "bonusAttributes": ["goodForChildren"],
+      "bonusKeywords": ["아이", "아기", "가족", "유모차", "키즈"]
+    },
+    "couple": {
+      "eveningFrom": "17:00",
+      "eveningPreferThemes": ["cafe", "culture", "walk"],
+      "bonusKeywords": ["데이트", "분위기", "야경"]
+    },
+    "friends": {
+      "bonusAttributes": ["goodForGroups"],
+      "bonusKeywords": ["친구", "모임"]
+    },
+    "solo": {
+      "bonusKeywords": ["혼밥", "혼자", "1인"]
+    }
+  },
+
+  "partySizeRules": {
+    "groupFrom": 5,
+    "bonusAttributes": ["goodForGroups", "reservable"],
+    "penaltyKeywords": ["좁다", "자리 없다"]
+  },
+
+  "ageGroupRules": {
+    "10s": { "excludeBars": true }
+  },
+
+  "mobilityRules": {
+    "minimizeWalking": { "maxWalkLegMinutes": 10, "preferShorterWalkTotal": true }
+  }
+}
