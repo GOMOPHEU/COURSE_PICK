@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: coursepick-server
+
+coursepick:
+  config-path: ${COURSEPICK_CONFIG:config/coursepick.json}
+  keys:
+    kakao-rest: ${KAKAO_REST_KEY:}
+    google-places: ${GOOGLE_PLACES_KEY:}
+    gemini: ${GEMINI_API_KEY:}
+  endpoints:
+    kakao-local: https://dapi.kakao.com
+    google-places: https://places.googleapis.com

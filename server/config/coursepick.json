@@ -1,0 +1,43 @@
+{
+  "region": {
+    "name": "안국역",
+    "lat": 37.5765,
+    "lng": 126.9855,
+    "radiusM": 1300
+  },
+  "startPoints": [
+    { "id": "anguk-stn", "name": "안국역" },
+    { "id": "gyeongbokgung-stn", "name": "경복궁역" }
+  ],
+  "stayMinutes": {
+    "cafe": { "default": 60, "min": 40, "max": 90 },
+    "palace": { "default": 90, "min": 60, "max": 120 }
+  },
+  "mealWindows": {
+    "lunch": ["11:00", "14:30"],
+    "dinner": ["17:00", "20:30"]
+  },
+  "closedDays": [
+    { "name": "경복궁", "weekday": "TUE", "source": "국가유산청", "checkedAt": "2026-11-18" },
+    { "name": "창덕궁", "weekday": "MON", "source": "국가유산청", "checkedAt": "2026-11-18" }
+  ],
+  "rating": { "m": 50, "C": "auto" },
+  "weights": {
+    "distance": 0.25,
+    "rating": 0.30,
+    "theme": 0.15,
+    "companion": 0.15,
+    "openVerified": 0.10,
+    "review": 0.05
+  },
+  "reviewBonus": true,
+  "companionRules": {
+    "family": {
+      "excludeCategories": ["술집"],
+      "excludeNameKeywords": ["이자카야", "호프", "포차", "주점"],
+      "maxLegMinutes": 15,
+      "bonusAttributes": ["goodForChildren"],
+      "bonusKeywords": ["아이", "아기", "가족", "유모차", "키즈"]
+    }
+  }
+}
