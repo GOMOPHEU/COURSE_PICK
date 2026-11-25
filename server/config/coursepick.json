@@ -6,38 +6,160 @@
     "radiusM": 1300
   },
   "startPoints": [
-    { "id": "anguk-stn", "name": "안국역" },
-    { "id": "gyeongbokgung-stn", "name": "경복궁역" }
+    {
+      "id": "anguk-stn",
+      "name": "안국역"
+    },
+    {
+      "id": "gyeongbokgung-stn",
+      "name": "경복궁역"
+    }
   ],
   "stayMinutes": {
-    "cafe": { "default": 60, "min": 40, "max": 90 },
-    "palace": { "default": 90, "min": 60, "max": 120 }
+    "cafe": {
+      "default": 60,
+      "min": 40,
+      "max": 90
+    },
+    "palace": {
+      "default": 90,
+      "min": 60,
+      "max": 120
+    }
   },
   "mealWindows": {
-    "lunch": ["11:00", "14:30"],
-    "dinner": ["17:00", "20:30"]
+    "lunch": [
+      "11:00",
+      "14:30"
+    ],
+    "dinner": [
+      "17:00",
+      "20:30"
+    ]
   },
   "closedDays": [
-    { "name": "경복궁", "weekday": "TUE", "source": "국가유산청", "checkedAt": "2026-11-18" },
-    { "name": "창덕궁", "weekday": "MON", "source": "국가유산청", "checkedAt": "2026-11-18" }
+    {
+      "name": "경복궁",
+      "weekday": "TUE",
+      "source": "국가유산청",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "name": "창덕궁",
+      "weekday": "MON",
+      "source": "국가유산청",
+      "checkedAt": "2026-11-18"
+    }
   ],
-  "rating": { "m": 50, "C": "auto" },
+  "rating": {
+    "m": 50,
+    "C": "auto"
+  },
   "weights": {
     "distance": 0.25,
-    "rating": 0.30,
+    "rating": 0.3,
     "theme": 0.15,
     "companion": 0.15,
-    "openVerified": 0.10,
+    "openVerified": 0.1,
     "review": 0.05
   },
   "reviewBonus": true,
   "companionRules": {
     "family": {
-      "excludeCategories": ["술집"],
-      "excludeNameKeywords": ["이자카야", "호프", "포차", "주점"],
+      "excludeCategories": [
+        "술집"
+      ],
+      "excludeNameKeywords": [
+        "이자카야",
+        "호프",
+        "포차",
+        "주점"
+      ],
       "maxLegMinutes": 15,
-      "bonusAttributes": ["goodForChildren"],
-      "bonusKeywords": ["아이", "아기", "가족", "유모차", "키즈"]
+      "bonusAttributes": [
+        "goodForChildren"
+      ],
+      "bonusKeywords": [
+        "아이",
+        "아기",
+        "가족",
+        "유모차",
+        "키즈"
+      ]
+    }
+  },
+  "candidateSearch": {
+    "startHalfSizeM": 100,
+    "stepM": 100,
+    "maxHalfSizeM": 1000,
+    "pages": 2,
+    "minEligible": 3,
+    "maxSplitDepth": 2,
+    "maxRequestsPerStep": 30,
+    "themes": {
+      "cafe": {
+        "categoryCodes": [
+          "CE7"
+        ],
+        "keywords": [],
+        "allowedCategoryPrefixes": [
+          "음식점 > 카페"
+        ],
+        "excludeCategoryPrefixes": [],
+        "excludeNameKeywords": []
+      },
+      "food": {
+        "categoryCodes": [
+          "FD6"
+        ],
+        "keywords": [],
+        "allowedCategoryPrefixes": [
+          "음식점 >"
+        ],
+        "excludeCategoryPrefixes": [
+          "음식점 > 카페"
+        ],
+        "excludeNameKeywords": []
+      },
+      "walk": {
+        "categoryCodes": [],
+        "keywords": [
+          "공원",
+          "산책"
+        ],
+        "allowedCategoryPrefixes": [],
+        "excludeCategoryPrefixes": [],
+        "excludeNameKeywords": []
+      },
+      "shopping": {
+        "categoryCodes": [],
+        "keywords": [
+          "소품샵",
+          "쇼핑"
+        ],
+        "allowedCategoryPrefixes": [],
+        "excludeCategoryPrefixes": [],
+        "excludeNameKeywords": []
+      },
+      "history": {
+        "categoryCodes": [],
+        "keywords": [
+          "궁궐",
+          "문화유적"
+        ],
+        "allowedCategoryPrefixes": [],
+        "excludeCategoryPrefixes": [],
+        "excludeNameKeywords": []
+      },
+      "culture": {
+        "categoryCodes": [
+          "CT1"
+        ],
+        "keywords": [],
+        "allowedCategoryPrefixes": [],
+        "excludeCategoryPrefixes": [],
+        "excludeNameKeywords": []
+      }
     }
   }
 }

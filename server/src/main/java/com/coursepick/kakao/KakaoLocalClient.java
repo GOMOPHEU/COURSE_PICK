@@ -1,8 +1,11 @@
 package com.coursepick.kakao;
 
+import com.coursepick.geo.Rect;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.function.IntFunction;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -10,7 +13,7 @@ import org.springframework.web.client.RestClient;
 @Component
 public class KakaoLocalClient {
 
-    private static final int PAGE_SIZE = 15;
+    public static final int PAGE_SIZE = 15;
     private static final int MAX_PAGES = 3;
 
     private final RestClient client;
@@ -20,7 +23,7 @@ public class KakaoLocalClient {
     }
 
     public List<KakaoPlace> searchCategory(String categoryGroupCode, double lat, double lng, int radiusM) {
-        return fetchPages(page -> client.get()
+        return fetchPages(MAX_PAGES, page -> client.get()
                 .uri(uri -> uri.path("/v2/local/search/category.json")
                         .queryParam("category_group_code", categoryGroupCode)
                         .queryParam("x", lng)
@@ -31,11 +34,11 @@ public class KakaoLocalClient {
                         .queryParam("page", page)
                         .build())
                 .retrieve()
-                .body(JsonNode.class));
+                .body(JsonNode.class)).places();
     }
 
     public List<KakaoPlace> searchKeyword(String keyword, double lat, double lng, int radiusM) {
-        return fetchPages(page -> client.get()
+        return fetchPages(MAX_PAGES, page -> client.get()
                 .uri(uri -> uri.path("/v2/local/search/keyword.json")
                         .queryParam("query", keyword)
                         .queryParam("x", lng)
@@ -46,15 +49,48 @@ public class KakaoLocalClient {
                         .queryParam("page", page)
                         .build())
                 .retrieve()
+                .body(JsonNode.class)).places();
+    }
+
+    public KakaoSearchResult searchCategoryRect(String categoryGroupCode, Rect rect, int pages) {
+        return fetchPages(pages, page -> client.get()
+                .uri(uri -> uri.path("/v2/local/search/category.json")
+                        .queryParam("category_group_code", categoryGroupCode)
+                        .queryParam("rect", rectParam(rect))
+                        .queryParam("size", PAGE_SIZE)
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
                 .body(JsonNode.class));
     }
 
-    private List<KakaoPlace> fetchPages(java.util.function.IntFunction<JsonNode> fetcher) {
+    public KakaoSearchResult searchKeywordRect(String keyword, Rect rect, int pages) {
+        return fetchPages(pages, page -> client.get()
+                .uri(uri -> uri.path("/v2/local/search/keyword.json")
+                        .queryParam("query", keyword)
+                        .queryParam("rect", rectParam(rect))
+                        .queryParam("size", PAGE_SIZE)
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
+                .body(JsonNode.class));
+    }
+
+    private String rectParam(Rect rect) {
+        return String.format(Locale.ROOT, "%.6f,%.6f,%.6f,%.6f", rect.west(), rect.south(), rect.east(), rect.north());
+    }
+
+    private KakaoSearchResult fetchPages(int pages, IntFunction<JsonNode> fetcher) {
         List<KakaoPlace> result = new ArrayList<>();
-        for (int page = 1; page <= MAX_PAGES; page++) {
+        int total = 0;
+        int limit = Math.min(Math.max(pages, 1), MAX_PAGES);
+        for (int page = 1; page <= limit; page++) {
             JsonNode body = fetcher.apply(page);
             if (body == null) {
                 break;
+            }
+            if (page == 1) {
+                total = body.path("meta").path("total_count").asInt(0);
             }
             for (JsonNode doc : body.path("documents")) {
                 result.add(toPlace(doc));
@@ -63,7 +99,7 @@ public class KakaoLocalClient {
                 break;
             }
         }
-        return result;
+        return new KakaoSearchResult(total, result);
     }
 
     private KakaoPlace toPlace(JsonNode doc) {
