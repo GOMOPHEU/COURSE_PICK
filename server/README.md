@@ -50,14 +50,14 @@ curl http://localhost:8080/health
 
 | 환경변수 | 용도 |
 |---|---|
-| `KAKAO_REST_KEY` | 카카오 로컬 API와 길찾기 API (같은 앱 키를 사용) |
-| `GOOGLE_PLACES_KEY` | 구글 Places API (New) |
-| `GEMINI_API_KEY` | Gemini (11/25 이후 연결 예정) |
+| `KAKAO_REST_API_KEY` | 카카오 로컬 API와 길찾기 API (같은 앱 키를 사용) |
+| `GOOGLE_PLACES_API_KEY` | 구글 Places API (New) |
+| `GEMINI_API_KEY` | Gemini 코스 구성 (없으면 기본 코스만 사용) |
 
 PowerShell에서 키를 넣고 실행하는 예:
 
 ```
-$env:KAKAO_REST_KEY="여기에_키"
+$env:KAKAO_REST_API_KEY="여기에_키"
 .\gradlew.bat bootRun
 ```
 
@@ -74,7 +74,7 @@ $env:KAKAO_REST_KEY="여기에_키"
 |---|---|---|
 | `GET /health` | 서버 상태, 설정된 지역, 키 설정 여부 | 완료 |
 | `POST /recommend` | 설문 값을 받아 코스 1~3개를 돌려줌 | 가짜 응답 |
-| `GET /places/{kakaoId}` | 장소 상세 | 예정 |
+| `GET /places/{kakaoId}?theme=food&date=2026-11-28` | 카카오 ID로 구글 조회(별점, 영업시간, 폐업 여부). `theme`은 cafe, food, walk, shopping, history, culture 중 하나, `date`는 생략하면 오늘. `arrive`·`depart`(HH:mm)를 함께 주면 `openCheck`(OPEN, CLOSED, UNKNOWN)로 도착~출발 전체가 영업 구간 안인지 판정. `GOOGLE_PLACES_API_KEY`가 없으면 503 | 완료 |
 
 요청과 응답 형식은 팀 할일 목록 v2의 12-1절을 따릅니다.
 
@@ -89,9 +89,12 @@ src/main/java/com/coursepick
 ├── CoursepickApplication.java
 ├── config        설정 파일과 API 클라이언트 설정
 ├── controller    요청을 받는 곳
+├── places        구글 장소 조회 (정환 작성, mobile/tools/place-data에서 이동)
 ├── dto           앱과 주고받는 요청·응답 형식
 └── service       추천 로직 (현재는 가짜 응답)
 config/coursepick.json
+config/place-mappings.json    카카오 ID와 구글 장소 ID 연결표 (정환 작성, 데모 표본 90곳)
+config/official-hours.json    구글에 없는 시설의 공식 운영시간 기록
 ```
 
 ## 개발 규칙

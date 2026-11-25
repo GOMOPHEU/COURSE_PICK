@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest
+@SpringBootTest(properties = "coursepick.keys.kakao-rest=")
 @AutoConfigureMockMvc
 class ApiSmokeTest {
 

@@ -1,0 +1,1219 @@
+{
+  "schemaVersion": 1,
+  "regionId": "anguk-1300m",
+  "radiusMeters": 1300,
+  "generatedAt": "2026-11-19",
+  "runComplete": true,
+  "coverage": "bounded_demo_sample",
+  "maxPerTheme": 15,
+  "searches": [
+    {
+      "theme": "history",
+      "query": "경복궁",
+      "retrieved": 15,
+      "searchTotal": 276
+    },
+    {
+      "theme": "history",
+      "query": "창덕궁",
+      "retrieved": 19,
+      "searchTotal": 133
+    },
+    {
+      "theme": "culture",
+      "query": "서울공예박물관",
+      "retrieved": 3,
+      "searchTotal": 9
+    },
+    {
+      "theme": "culture",
+      "query": "국립현대미술관 서울",
+      "retrieved": 2,
+      "searchTotal": 8
+    },
+    {
+      "theme": "history",
+      "query": "궁궐",
+      "retrieved": 32,
+      "searchTotal": 34
+    },
+    {
+      "theme": "history",
+      "query": "문화유적",
+      "retrieved": 44,
+      "searchTotal": 378
+    },
+    {
+      "theme": "culture",
+      "query": "CT1",
+      "retrieved": 45,
+      "searchTotal": 308
+    },
+    {
+      "theme": "walk",
+      "query": "공원",
+      "retrieved": 24,
+      "searchTotal": 49
+    },
+    {
+      "theme": "walk",
+      "query": "산책",
+      "retrieved": 4,
+      "searchTotal": 18
+    },
+    {
+      "theme": "shopping",
+      "query": "소품샵",
+      "retrieved": 45,
+      "searchTotal": 82
+    },
+    {
+      "theme": "shopping",
+      "query": "쇼핑",
+      "retrieved": 10,
+      "searchTotal": 10
+    },
+    {
+      "theme": "cafe",
+      "query": "CE7",
+      "retrieved": 45,
+      "searchTotal": 1037
+    },
+    {
+      "theme": "food",
+      "query": "FD6",
+      "retrieved": 45,
+      "searchTotal": 3071
+    }
+  ],
+  "requestCounts": {
+    "kakao": 33,
+    "googleTextSearch": 2
+  },
+  "mappings": [
+    {
+      "kakaoId": "8465462",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJy_KLudyifDUR8R3cB_PyJsU",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "10771162",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJ4wh0zluifDURaFBW2pdrKf8",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "18619553",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJod7tSseifDUR9hXHLFNGMIs"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "568711784",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJWYcQ5tO7fDURRT3uUBsyWTk",
+        "ChIJM8RrS-qifDURlKsrSEjdshg",
+        "ChIJKwjLMvOifDURqPAMQqxwK-k"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "1253088572",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJGySdS32jfDURdLUkuiQ7WTs",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "12765605",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJDTb_pdyifDURjAwKUiWM02A",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "8040331",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJ7VvQlDOjfDURkExWAhlRIsA",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "10405648",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJt6iXn8SifDUR8RYCe0KcoPM"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "12559342",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJy_KLudyifDUR8R3cB_PyJsU",
+        "ChIJi_SJroWjfDUR0Vh5H3eWsl0",
+        "ChIJuYs1ltyifDURvaRBrbHFkks",
+        "ChIJJyllN6qjfDURg7Dqf_2x-Og",
+        "ChIJ7VvQlDOjfDURkExWAhlRIsA"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "8043295",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJtfW6BL6ifDUR459rO4phG_g",
+        "ChIJW5w059SjfDURbXPl97k9jZE"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "8252251",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJi_SJroWjfDUR0Vh5H3eWsl0",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "913934484",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJRQJtzFOjfDUR8FZxNYLNb2Y"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "8228024",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJJyllN6qjfDURg7Dqf_2x-Og",
+        "ChIJi_SJroWjfDUR0Vh5H3eWsl0"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "7888449",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJCXue0cKifDURRmRoBF9st-E",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "182424572",
+      "themes": [
+        "history"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJuYs1ltyifDURvaRBrbHFkks",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1038056172",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJY-nOhd2jfDUR_m1oGRl-0Cw",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "17952661",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJRynTqcaifDURBaSFx8HncPs",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "24268177",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJIQkfMcOifDUR9NPV-fas4ME",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "11494384",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJF1exJcOifDUR0aW0kG8RqJk",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "549419880",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJW46Qa8WifDURcpZDhuLnlfQ"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "2108894844",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJqfqaZ8OifDURizaOC9325mM"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "27495541",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJYWCcpMaifDURgMD-2anpdqc",
+        "ChIJk0nQhUmjfDURUKhakNmWF5g"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "27558021",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJORa4qsKifDURZfqHFbwHJOo",
+        "ChIJN9u6fBW9fDURvKNV_3rLvyA",
+        "ChIJlSMo88KifDURTdHTqMG9-w0",
+        "ChIJ7flynb6jfDURr_2yp5gZwmQ"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "133825377",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJY-nOhd2jfDUR_m1oGRl-0Cw"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "17574803",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJy_KLudyifDUR8R3cB_PyJsU"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "1490573702",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJx87IytO8fDURmph-jkKDYn4",
+        "ChIJzVd2J8KifDURBhJF2WSehOM",
+        "ChIJ7Yxf1emifDURgh7FCEmNpBI",
+        "ChIJ5Y68bcSifDUR1U9AGUhb8nw",
+        "ChIJt-abLJKifDURQIyPfvZ7W1c"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "9290049",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJv1A45N-ifDURg7EZbdqrEeE",
+        "ChIJW2VJt3yjfDURQMpNTuCBcQ8",
+        "ChIJz8RqDTADZmcRPEIwfVjXWeQ",
+        "ChIJ39uFYRajfDUR7GcKkXZvNVE"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "1422281685",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJHVSEPQ2jfDURAVZgUb2umiY",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1058701476",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJP1L5qJ2jfDURkDLcsM3KG4w",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1479985456",
+      "themes": [
+        "culture"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJN-a2dsOifDUR-lkrb3d_uts",
+        "ChIJq8M8osKifDURoFvHsX4vv0I",
+        "ChIJN-baMr6ifDURsjAqaULxEi8",
+        "ChIJN-a2dsOifDURjZIwiUHroiM",
+        "ChIJC-h-GcSifDUR7W-qXezVEIE"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "8625328",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJt5HKlueifDURHONSIuFp_3A",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "8035658",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJl59KAtuifDURLcWAa06cLH8"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "18214024",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ2WfOc8KifDURzAQlnTJkk-c"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "18213828",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJfWSk9-mifDURhEvVOxxjhFA",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "919042739",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJmyYDH1ajfDUR-CEqpHLT6Y4",
+        "ChIJK4BmkTWjfDURQg7C1sK4REk",
+        "ChIJsUdO8gKjfDURyxxHV_yWDs0",
+        "ChIJ1yiCIWajfDURrfbRJyuJbds",
+        "ChIJe_DH-eeifDURH6NzBYr0d7I"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "1248528572",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ4wh0zluifDURaFBW2pdrKf8",
+        "ChIJHyS4wtaifDURHzOOAZM0aWA",
+        "ChIJq-GYdTGjfDURD4JtNf0GyzM",
+        "ChIJ6Y_GsxmjfDURv8APR08pFpU",
+        "ChIJne1DY0SjfDURNSuVwRRXlU4"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "11228160",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJ3Rx0GI2jfDUR2P2ZpNH5ur4",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "850231755",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJxQfjtiSjfDURBo81YVoZr3Y",
+        "ChIJtdXF6-uifDURek7GXdGy_oI",
+        "ChIJM8RrS-qifDURlKsrSEjdshg",
+        "ChIJW38d4qqjfDURgKFJWUkq3Mk",
+        "ChIJyfkL8-uifDURGjR9tuiIbSo"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "1963402560",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJtdXF6-uifDURek7GXdGy_oI",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "8181333",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJod7tSseifDUR9hXHLFNGMIs",
+        "ChIJbTDsRX2jfDURZGsJ7zkpq98",
+        "ChIJZbmYll-jfDUR4J55PTMGRgM",
+        "ChIJBRo_lcGifDURcqbefriFY6U",
+        "ChIJH68MSk6jfDURs7MYILPCKI8"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "735903470",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJMViPD-yifDURbSlLZ2vn29Q",
+        "ChIJK4BmkTWjfDURQg7C1sK4REk",
+        "ChIJofU4c82ifDURBpcmeWJQgAc",
+        "ChIJ0bB4W6ajfDURowCS_2p_A_4",
+        "ChIJIwCT4-yifDUR1E63iG76hr0"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "7964572",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJCVqKMeuifDURznNohrWIrd8",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "24974768",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJRwmOouyjfDURDeacURuuXaU"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "8081471",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJcWcwoN-ifDURVRYucrheEEE",
+        "ChIJz7ocWtiifDURU-HmRwLa3yQ"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "1462572933",
+      "themes": [
+        "walk"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ_ae0p86ifDURYCc5vk2z_5Q",
+        "ChIJW1SKHwq9fDURzVU0sc8jaBk",
+        "ChIJofU4c82ifDURBpcmeWJQgAc",
+        "ChIJxWdlwcWifDURXnul8g1YuaE",
+        "ChIJu_hsTcOjfDURLoNspC_5-dg"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "414013653",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJE9ZfkYWjfDURAnRb_VOudDw",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "572406137",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJz92FnPCjfDUR4zdSF5faTv4",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1368678855",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJjRPhTwCjfDURNv5Iio07sj8",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "792033514",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJU7MqqmijfDURELbbHuES6XM",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "20849811",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJDcMri8KifDUR1_ktH38uPvs"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "1831441960",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJfffEomGjfDURBaxnYR49Xx0"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "622017702",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJr3GKolGjfDURnc4EcNLGXWU"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "433161268",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJR4LGunSjfDURzmOzcckco6U",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1479060323",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJS9Dt6tujfDUR5wE_KwdB65w",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "574819073",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ7-I80MajfDUREe-e1VRmxgY"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "1793274722",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJC0tJTwCjfDURFBLJbq692d4",
+        "ChIJj2wT9nKjfDURJzk-QjOEJrM",
+        "ChIJQRutlcKifDURiMoaUPYmWX4",
+        "ChIJzfsnQe-jfDUR1ifC26hm898",
+        "ChIJe_DH-eeifDURH6NzBYr0d7I"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "373844664",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJUeNPesSifDUR2kp3ulq1tNE"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "882729963",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ94Ln-euifDURhDRixkliG3c",
+        "ChIJmRrEV2qkfDURuWiyxriz8gs",
+        "ChIJsca3dYKjfDURoLRsgrYzgwo",
+        "ChIJQRutlcKifDURiMoaUPYmWX4"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "410399820",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJdzqxE6qjfDURu9-W5hCyP4U"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "20373895",
+      "themes": [
+        "shopping"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJz3DQ7sSifDURyYZa5LXo-J0",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1928614414",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJOV2VFt2ifDUR6mCnEPk0-Hs",
+        "ChIJrbguqhGjfDURCeLOPQnUpDA",
+        "ChIJpfulTeeifDURE7cet2cYQy8",
+        "ChIJN2k2TiejfDURK97s5PiP2yA",
+        "ChIJ3YIxfSajfDUR8-14JP6PWEY"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "928960375",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJCWfsT8OifDURfPdjxE9ns60"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "289647366",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJD_la-WSjfDURwXpyrZ5JcUA",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "11052973",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJ-W_GUcOifDURNJqZfa9cpiE",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "26936182",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJcWMQPMOifDURQ0a44OboNuU",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1591136356",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJfwz8TDejfDUR3NE4m8hlaoQ"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "675148585",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJ0TJT472jfDURS1-IoqHe3Is"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "16874884",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJBVymacOifDURtXdPX5rjwr4",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1653105633",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJHWW74uqjfDURage3e2fdnqY"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "390294975",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJKZHRWcOifDURjqgza-B5yeE",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "838446337",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJx8Av-yWjfDURtcx3UCBY4Rw",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1432460444",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJo2xtEU2jfDUR4Yb7MvwbEF8"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "504361150",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJWdqXPKFEezURbrSltGlYBes",
+        "ChIJMz44VzajfDURZXzK__k7waw",
+        "ChIJWajnAyKjfDURCmzCFeusbPQ",
+        "ChIJY87NUuaifDURMgLZ12u_OdA",
+        "ChIJFZ3kmnSjfDURL_X007uc9kU"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "688039831",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJOTDxnk-jfDUREDAWxTIX2ko"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "878756028",
+      "themes": [
+        "cafe"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJSQAIN06jfDURY-qvyYcJzcE",
+        "ChIJ5QkDkNijfDUR8axmsJNi7FE"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "648709154",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJrxtX7zajfDURlyGDMtGc0Jw",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1446956294",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJPW7lswyjfDURF9NNbSzH2oo"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "27281766",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJJd0KFcOifDURpvVPdS2Bxh8",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1741950525",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJCWfsT8OifDUR1axoVw7Na7Q"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "13096739",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJCWfsT8OifDURFbg_n_TIgMg",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "1770495891",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJ78K0whWjfDURzaYD6r34Alw",
+      "reason": "name_and_distance_or_address"
+    },
+    {
+      "kakaoId": "474118494",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJi2enrcSifDURZoUAezX8LvU",
+        "ChIJiYacZJ6jfDUR2KgrxgYVgEw",
+        "ChIJAXWttsSifDURPytRaMl6vu0",
+        "ChIJqePRy9qifDUR_AViqUR3aF8",
+        "ChIJ09YWjgWjfDURgJkAQNQ2F-E"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "171620390",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "unmatched",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJYxRQGgCjfDURO8ohegLor6A",
+        "ChIJN1teXgCjfDUR5UbDOahLTSo",
+        "ChIJGw8hMgCjfDURQ7Yqa9MYZzs"
+      ],
+      "reason": "no_plausible_candidate"
+    },
+    {
+      "kakaoId": "22837395",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJox-UWsOifDURR0drDVv6w3s",
+        "ChIJjX05Cd6jfDURnz5Kwked7Qk",
+        "ChIJ09YWjgWjfDURgJkAQNQ2F-E",
+        "ChIJdUEeTd2ifDUR-cu4BrfqmC0",
+        "ChIJY4eCAC-jfDURyZHvgqoP-IU"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "1368148550",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJWSCNBACjfDURJ6hynmb6NOc",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "2116027684",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJA5eR8XWlfDURxPdNK82fY2A",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1806869446",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJIXUVDrejfDURqWstJTyF3qM"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    },
+    {
+      "kakaoId": "2143022811",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJIYJ5QJajfDURHhmGhE-XxGQ",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1179567185",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "matched",
+      "googlePlaceId": "ChIJsSwuQMKjfDURBQHRzZvq-i0",
+      "reason": "name_address_distance"
+    },
+    {
+      "kakaoId": "1125281223",
+      "themes": [
+        "food"
+      ],
+      "checkedAt": "2026-11-19",
+      "status": "review",
+      "googlePlaceId": null,
+      "candidatePlaceIds": [
+        "ChIJgT3KUMOifDURTl0Ar2Tj784"
+      ],
+      "reason": "ambiguous_or_insufficient_evidence"
+    }
+  ]
+}
