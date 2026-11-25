@@ -11,9 +11,9 @@ public class WalkTime {
     private final double detourFactor;
 
     public WalkTime(CoursepickSettings settings) {
-        JsonNode planning = settings.root().path("planning");
-        this.speedMPerMin = planning.path("walkSpeedMPerMin").asDouble(67);
-        this.detourFactor = planning.path("detourFactor").asDouble(1.3);
+        JsonNode estimate = settings.root().path("walkingEstimate");
+        this.speedMPerMin = estimate.path("metersPerMinute").asDouble(67);
+        this.detourFactor = estimate.path("detourFactor").asDouble(1.3);
     }
 
     public int minutes(double straightDistanceM) {

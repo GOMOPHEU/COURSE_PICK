@@ -14,15 +14,19 @@ class SlotPlannerTest {
 
     private static final String CONFIG = """
             {
-              "mealWindows": {"lunch": ["11:00", "14:30"], "dinner": ["17:00", "20:30"]},
+              "mealWindows": {
+                "lunch": {"from": "11:00", "to": "14:30"},
+                "dinner": {"from": "17:00", "to": "20:30"}
+              },
+              "walkingEstimate": {"detourFactor": 1.3, "metersPerMinute": 67},
+              "leftoverTime": {"extendStayBelowMinutes": 20, "shortSlotBelowMinutes": 45},
               "stayMinutes": {
                 "cafe": {"default": 60, "min": 40, "max": 90},
                 "palace": {"default": 90, "min": 60, "max": 120},
-                "historySmall": {"default": 30, "min": 20, "max": 45}
+                "heritageSmall": {"default": 30, "min": 20, "max": 45}
               },
               "planning": {
-                "walkSpeedMPerMin": 67, "detourFactor": 1.3, "returnReserveMin": 15,
-                "shortSlotMinMin": 20, "normalSlotMinMin": 45, "mealOverlapMin": 30,
+                "returnReserveMin": 15, "mealOverlapMin": 30,
                 "cafeMaxPerDay": 3, "cafeMinGapMin": 240,
                 "largePalaceNames": ["경복궁", "창덕궁"]
               }

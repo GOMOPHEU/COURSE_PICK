@@ -1,18 +1,37 @@
 {
+  "version": "2026-11-22-draft",
   "region": {
     "name": "안국역",
-    "lat": 37.5765,
-    "lng": 126.9855,
-    "radiusM": 1300
+    "center": {
+      "lat": 37.5765,
+      "lng": 126.9854
+    },
+    "radiusMeters": 1300
   },
   "startPoints": [
     {
       "id": "anguk-stn",
-      "name": "안국역"
+      "name": "안국역",
+      "lat": 37.5765,
+      "lng": 126.9854
     },
     {
       "id": "gyeongbokgung-stn",
-      "name": "경복궁역"
+      "name": "경복궁역",
+      "lat": 37.5758,
+      "lng": 126.9733
+    },
+    {
+      "id": "jonggak-stn",
+      "name": "종각역",
+      "lat": 37.5702,
+      "lng": 126.9831
+    },
+    {
+      "id": "gwanghwamun-stn",
+      "name": "광화문역",
+      "lat": 37.5716,
+      "lng": 126.9768
     }
   ],
   "stayMinutes": {
@@ -36,11 +55,6 @@
       "min": 20,
       "max": 60
     },
-    "historySmall": {
-      "default": 30,
-      "min": 20,
-      "max": 45
-    },
     "culture": {
       "default": 60,
       "min": 45,
@@ -55,68 +69,34 @@
       "default": 20,
       "min": 15,
       "max": 30
+    },
+    "heritageSmall": {
+      "default": 30,
+      "min": 20,
+      "max": 45
     }
   },
   "mealWindows": {
-    "lunch": [
-      "11:00",
-      "14:30"
-    ],
-    "dinner": [
-      "17:00",
-      "20:30"
-    ]
-  },
-  "closedDays": [
-    {
-      "name": "경복궁",
-      "weekday": "TUE",
-      "source": "국가유산청",
-      "checkedAt": "2026-11-18"
+    "lunch": {
+      "from": "11:00",
+      "to": "14:30"
     },
-    {
-      "name": "창덕궁",
-      "weekday": "MON",
-      "source": "국가유산청",
-      "checkedAt": "2026-11-18"
+    "dinner": {
+      "from": "17:00",
+      "to": "20:30"
     }
-  ],
-  "rating": {
-    "m": 50,
-    "C": "auto"
   },
-  "weights": {
-    "distance": 0.25,
-    "rating": 0.3,
-    "theme": 0.15,
-    "companion": 0.15,
-    "openVerified": 0.1,
-    "review": 0.05
+  "timeFit": {
+    "relaxedMaxRatio": 0.9,
+    "tightMaxRatio": 1.0
   },
-  "reviewBonus": true,
-  "companionRules": {
-    "family": {
-      "excludeCategories": [
-        "술집"
-      ],
-      "excludeNameKeywords": [
-        "이자카야",
-        "호프",
-        "포차",
-        "주점"
-      ],
-      "maxLegMinutes": 15,
-      "bonusAttributes": [
-        "goodForChildren"
-      ],
-      "bonusKeywords": [
-        "아이",
-        "아기",
-        "가족",
-        "유모차",
-        "키즈"
-      ]
-    }
+  "leftoverTime": {
+    "extendStayBelowMinutes": 20,
+    "shortSlotBelowMinutes": 45
+  },
+  "walkingEstimate": {
+    "detourFactor": 1.3,
+    "metersPerMinute": 67
   },
   "candidateSearch": {
     "stepsM": [
@@ -214,12 +194,119 @@
       }
     }
   },
+  "rating": {
+    "m": 50,
+    "priorMean": "auto"
+  },
+  "weights": {
+    "distance": 0.25,
+    "rating": 0.3,
+    "theme": 0.15,
+    "companion": 0.15,
+    "openVerified": 0.1,
+    "review": 0.05
+  },
+  "reviewBonus": true,
+  "duplicateRule": {
+    "excludeIfNameStartsWithChosen": true,
+    "sameCategoryWithinMeters": 300
+  },
+  "barRule": {
+    "categoryContains": [
+      "음식점 > 술집"
+    ],
+    "nameKeywords": [
+      "이자카야",
+      "호프",
+      "포차",
+      "앤바",
+      "사카바",
+      "주점"
+    ]
+  },
+  "companionRules": {
+    "family": {
+      "excludeBars": true,
+      "maxLegMinutes": 15,
+      "bonusAttributes": [
+        "goodForChildren"
+      ],
+      "bonusKeywords": [
+        "아이",
+        "아기",
+        "가족",
+        "유모차",
+        "키즈"
+      ]
+    },
+    "couple": {
+      "eveningFrom": "17:00",
+      "eveningPreferThemes": [
+        "cafe",
+        "culture",
+        "walk"
+      ],
+      "bonusKeywords": [
+        "데이트",
+        "분위기",
+        "야경"
+      ]
+    },
+    "friends": {
+      "bonusAttributes": [
+        "goodForGroups"
+      ],
+      "bonusKeywords": [
+        "친구",
+        "모임"
+      ]
+    },
+    "solo": {
+      "bonusKeywords": [
+        "혼밥",
+        "혼자",
+        "1인"
+      ]
+    }
+  },
+  "partySizeRules": {
+    "groupFrom": 5,
+    "bonusAttributes": [
+      "goodForGroups",
+      "reservable"
+    ],
+    "penaltyKeywords": [
+      "좁다",
+      "자리 없다"
+    ]
+  },
+  "ageGroupRules": {
+    "10s": {
+      "excludeBars": true
+    }
+  },
+  "mobilityRules": {
+    "minimizeWalking": {
+      "maxWalkLegMinutes": 10,
+      "preferShorterWalkTotal": true
+    }
+  },
+  "closedDays": [
+    {
+      "name": "경복궁",
+      "weekday": "TUE",
+      "source": "국가유산청",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "name": "창덕궁",
+      "weekday": "MON",
+      "source": "국가유산청",
+      "checkedAt": "2026-11-18"
+    }
+  ],
   "planning": {
-    "walkSpeedMPerMin": 67,
-    "detourFactor": 1.3,
     "returnReserveMin": 15,
-    "shortSlotMinMin": 20,
-    "normalSlotMinMin": 45,
     "mealOverlapMin": 30,
     "cafeMaxPerDay": 3,
     "cafeMinGapMin": 240,

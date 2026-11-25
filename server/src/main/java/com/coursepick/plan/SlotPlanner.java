@@ -16,10 +16,12 @@ public class SlotPlanner {
 
     private final JsonNode mealWindows;
     private final JsonNode planning;
+    private final JsonNode leftover;
 
     public SlotPlanner(CoursepickSettings settings) {
         this.mealWindows = settings.root().path("mealWindows");
         this.planning = settings.root().path("planning");
+        this.leftover = settings.root().path("leftoverTime");
     }
 
     public static int parseMinutes(String hhmm) {
@@ -29,8 +31,8 @@ public class SlotPlanner {
 
     public Optional<Slot> next(PlanState state) {
         int returnReserve = planning.path("returnReserveMin").asInt(15);
-        int shortMin = planning.path("shortSlotMinMin").asInt(20);
-        int normalMin = planning.path("normalSlotMinMin").asInt(45);
+        int shortMin = leftover.path("extendStayBelowMinutes").asInt(20);
+        int normalMin = leftover.path("shortSlotBelowMinutes").asInt(45);
         int remaining = state.endMin() - state.clockMin() - returnReserve;
         if (remaining < shortMin) {
             return Optional.empty();
@@ -63,8 +65,8 @@ public class SlotPlanner {
             if (state.mealsDone().contains(e.getKey())) {
                 continue;
             }
-            int ws = parseMinutes(e.getValue().get(0).asText());
-            int we = parseMinutes(e.getValue().get(1).asText());
+            int ws = parseMinutes(edge(e.getValue(), 0, "from"));
+            int we = parseMinutes(edge(e.getValue(), 1, "to"));
             int overlap = Math.min(state.endMin(), we) - Math.max(state.courseStartMin(), ws);
             boolean due = state.clockMin() >= ws - 30 && state.clockMin() <= we - 45;
             if (overlap >= needOverlap && due) {
@@ -72,6 +74,10 @@ public class SlotPlanner {
             }
         }
         return null;
+    }
+
+    private String edge(JsonNode window, int index, String key) {
+        return window.isArray() ? window.get(index).asText() : window.path(key).asText();
     }
 
     private List<String> candidates(PlanState state, boolean shortSlot) {

@@ -21,7 +21,7 @@ public class StayTimePolicy {
 
     public Stay stayFor(String theme, String placeName) {
         String key = switch (theme) {
-            case "history" -> largePalaces.contains(placeName.strip()) ? "palace" : "historySmall";
+            case "history" -> largePalaces.contains(placeName.strip()) ? "palace" : "heritageSmall";
             case "shopping" -> placeName.contains("거리") || placeName.contains("시장") ? "shoppingStreet" : "shoppingShop";
             default -> theme;
         };

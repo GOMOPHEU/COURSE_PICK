@@ -9,14 +9,18 @@ public record CoursepickSettings(JsonNode root) {
     }
 
     public int regionRadiusM() {
-        return root.path("region").path("radiusM").asInt(0);
+        JsonNode region = root.path("region");
+        int value = region.path("radiusM").asInt(0);
+        return value > 0 ? value : region.path("radiusMeters").asInt(0);
     }
 
     public double regionLat() {
-        return root.path("region").path("lat").asDouble();
+        JsonNode region = root.path("region");
+        return region.has("center") ? region.path("center").path("lat").asDouble() : region.path("lat").asDouble();
     }
 
     public double regionLng() {
-        return root.path("region").path("lng").asDouble();
+        JsonNode region = root.path("region");
+        return region.has("center") ? region.path("center").path("lng").asDouble() : region.path("lng").asDouble();
     }
 }
