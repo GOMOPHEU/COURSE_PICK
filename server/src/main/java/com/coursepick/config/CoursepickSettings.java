@@ -11,4 +11,12 @@ public record CoursepickSettings(JsonNode root) {
     public int regionRadiusM() {
         return root.path("region").path("radiusM").asInt(0);
     }
+
+    public double regionLat() {
+        return root.path("region").path("lat").asDouble();
+    }
+
+    public double regionLng() {
+        return root.path("region").path("lng").asDouble();
+    }
 }

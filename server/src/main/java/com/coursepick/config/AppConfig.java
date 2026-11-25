@@ -35,7 +35,7 @@ public class AppConfig {
     }
 
     @Bean
-    public RestClient kakaoLocalClient(RestClient.Builder builder, CoursepickProperties properties) {
+    public RestClient kakaoRestClient(RestClient.Builder builder, CoursepickProperties properties) {
         return builder
                 .baseUrl(properties.endpoints().kakaoLocal())
                 .defaultHeader("Authorization", "KakaoAK " + properties.keys().kakaoRest())
