@@ -35,10 +35,17 @@ public class CandidateCollector {
     }
 
     public List<Integer> expansionSteps() {
+        List<Integer> steps = new ArrayList<>();
+        JsonNode configured = search().path("stepsM");
+        if (configured.isArray() && !configured.isEmpty()) {
+            for (JsonNode n : configured) {
+                steps.add(n.asInt());
+            }
+            return steps;
+        }
         int start = search().path("startHalfSizeM").asInt(100);
         int step = Math.max(search().path("stepM").asInt(100), 1);
         int max = search().path("maxHalfSizeM").asInt(1000);
-        List<Integer> steps = new ArrayList<>();
         for (int size = start; size <= max; size += step) {
             steps.add(size);
         }
@@ -108,7 +115,7 @@ public class CandidateCollector {
             if (Geo.distanceM(regionLat, regionLng, p.lat(), p.lng()) > regionRadius) {
                 continue;
             }
-            String category = p.categoryName().strip();
+            String category = p.categoryName().replaceAll("\\s*>\\s*", " > ").strip();
             if (!allowed.isEmpty() && allowed.stream().noneMatch(category::startsWith)) {
                 continue;
             }
@@ -122,8 +129,28 @@ public class CandidateCollector {
             result.add(new KakaoPlace(p.id(), p.name(), category, p.categoryGroupCode(), p.address(),
                     p.roadAddress(), p.lat(), p.lng(), distance, p.placeUrl()));
         }
+        if (rule.path("collapseNamePrefix").asBoolean(false)) {
+            result = collapseNamePrefix(result);
+        }
         result.sort(Comparator.comparingInt(KakaoPlace::distanceM));
         return List.copyOf(result);
+    }
+
+    private List<KakaoPlace> collapseNamePrefix(List<KakaoPlace> places) {
+        List<KakaoPlace> byNameLength = new ArrayList<>(places);
+        byNameLength.sort(Comparator.comparingInt(p -> p.name().strip().length()));
+        List<KakaoPlace> kept = new ArrayList<>();
+        for (KakaoPlace p : byNameLength) {
+            String name = p.name().strip();
+            boolean child = kept.stream().anyMatch(k -> {
+                String keptName = k.name().strip();
+                return name.length() > keptName.length() && name.startsWith(keptName);
+            });
+            if (!child) {
+                kept.add(p);
+            }
+        }
+        return kept;
     }
 
     private List<String> strings(JsonNode array) {

@@ -37,6 +37,14 @@ class CandidateCollectorTest {
                     "allowedCategoryPrefixes": ["음식점 > 카페"],
                     "excludeCategoryPrefixes": [],
                     "excludeNameKeywords": ["폐업"]
+                  },
+                  "history": {
+                    "categoryCodes": ["AT4"],
+                    "keywords": [],
+                    "allowedCategoryPrefixes": ["여행 > 관광,명소 > 문화유적"],
+                    "excludeCategoryPrefixes": [],
+                    "excludeNameKeywords": [],
+                    "collapseNamePrefix": true
                   }
                 }
               }
@@ -106,6 +114,21 @@ class CandidateCollectorTest {
         collector.collectRing("cafe", LAT, LNG, 0, 100);
 
         verify(kakao, times(5)).searchCategoryRect(eq("CE7"), any(Rect.class), eq(2));
+    }
+
+    @Test
+    void collapsesPalaceBuildingsIntoRepresentative() {
+        String cat = "여행 > 관광,명소 > 문화유적 > 고궁,궁";
+        when(kakao.searchCategoryRect(eq("AT4"), any(Rect.class), eq(2)))
+                .thenReturn(new KakaoSearchResult(4, List.of(
+                        place("a", "창덕궁 영화당", cat, 37.5766, 126.9860),
+                        place("b", "창덕궁", cat, 37.5790, 126.9910),
+                        place("c", "운현궁", cat, 37.5762, 126.9870),
+                        place("d", "운현궁 노안당", cat, 37.5763, 126.9871))));
+
+        List<KakaoPlace> result = collector.collectRing("history", LAT, LNG, 0, 700);
+
+        assertThat(result).extracting(KakaoPlace::name).containsExactlyInAnyOrder("창덕궁", "운현궁");
     }
 
     @Test
