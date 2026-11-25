@@ -38,7 +38,7 @@ public class AppConfig {
     public RestClient kakaoRestClient(RestClient.Builder builder, CoursepickProperties properties) {
         return builder
                 .baseUrl(properties.endpoints().kakaoLocal())
-                .defaultHeader("Authorization", "KakaoAK " + properties.keys().kakaoRest())
+                .defaultHeader("Authorization", "KakaoAK " + properties.keys().kakaoRest().strip())
                 .build();
     }
 
@@ -46,7 +46,7 @@ public class AppConfig {
     public RestClient googlePlacesClient(RestClient.Builder builder, CoursepickProperties properties) {
         return builder
                 .baseUrl(properties.endpoints().googlePlaces())
-                .defaultHeader("X-Goog-Api-Key", properties.keys().googlePlaces())
+                .defaultHeader("X-Goog-Api-Key", properties.keys().googlePlaces().strip())
                 .build();
     }
 }

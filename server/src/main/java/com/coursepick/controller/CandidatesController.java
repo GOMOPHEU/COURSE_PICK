@@ -1,5 +1,6 @@
 package com.coursepick.controller;
 
+import com.coursepick.common.BadRequestException;
 import com.coursepick.candidate.CandidateCollector;
 import com.coursepick.config.CoursepickProperties;
 import com.coursepick.config.CoursepickSettings;
@@ -67,7 +68,7 @@ public class CandidatesController {
                         ? kakao.searchCategory(category, centerLat, centerLng, r)
                         : kakao.searchKeyword(keyword, centerLat, centerLng, r);
             }
-        } catch (IllegalArgumentException e) {
+        } catch (BadRequestException e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
         return ResponseEntity.ok(Map.of("count", places.size(), "places", places));

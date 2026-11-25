@@ -29,6 +29,7 @@ class CandidateCollectorTest {
               "region": {"name": "안국역", "lat": 37.5765, "lng": 126.9855, "radiusM": 1300},
               "candidateSearch": {
                 "startHalfSizeM": 100, "stepM": 100, "maxHalfSizeM": 300,
+                "parentPlaceNames": ["창덕궁"],
                 "pages": 2, "minEligible": 3, "maxSplitDepth": 1, "maxRequestsPerStep": 30,
                 "themes": {
                   "cafe": {
@@ -129,6 +130,19 @@ class CandidateCollectorTest {
         List<KakaoPlace> result = collector.collectRing("history", LAT, LNG, 0, 700);
 
         assertThat(result).extracting(KakaoPlace::name).containsExactlyInAnyOrder("창덕궁", "운현궁");
+    }
+
+    @Test
+    void dropsSubBuildingsWhoseParentIsNotInResults() {
+        String cat = "여행 > 관광,명소 > 문화유적 > 고궁,궁";
+        when(kakao.searchCategoryRect(eq("AT4"), any(Rect.class), eq(2)))
+                .thenReturn(new KakaoSearchResult(2, List.of(
+                        place("a", "창덕궁 성정각", cat, 37.5766, 126.9860),
+                        place("b", "운현궁", cat, 37.5762, 126.9870))));
+
+        List<KakaoPlace> result = collector.collectRing("history", LAT, LNG, 0, 700);
+
+        assertThat(result).extracting(KakaoPlace::name).containsExactly("운현궁");
     }
 
     @Test

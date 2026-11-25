@@ -1,5 +1,6 @@
 package com.coursepick.controller;
 
+import com.coursepick.common.BadRequestException;
 import com.coursepick.dto.RecommendRequest;
 import com.coursepick.dto.RecommendResponse;
 import com.coursepick.service.RecommendService;
@@ -28,9 +29,15 @@ public class RecommendController {
         return recommendService.recommend(request);
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, DateTimeParseException.class})
+    @ExceptionHandler({BadRequestException.class, DateTimeParseException.class})
     public ResponseEntity<Map<String, String>> badRequest(RuntimeException e) {
         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> internalError(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of("error", "요청을 처리하는 중 오류가 발생했습니다"));
     }
 
     @ExceptionHandler(RestClientException.class)

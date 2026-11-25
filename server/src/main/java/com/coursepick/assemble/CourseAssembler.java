@@ -25,7 +25,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
@@ -133,29 +132,63 @@ public class CourseAssembler {
         while (picks.size() < maxPlaces) {
             PlanState state = new PlanState(
                     in.startMin(), clock, in.endMin(), last, lastCafe, Map.copyOf(counts), Set.copyOf(meals), in.themes());
-            Optional<Slot> next = planner.next(state);
-            if (next.isEmpty()) {
+            String pending = planner.pendingMealWindow(state);
+            boolean mealPending = pending != null;
+            Slot slot = planner.next(state).orElse(null);
+            if (slot == null && mealPending && !"food".equals(last)) {
+                slot = new Slot("food", false, pending);
+            }
+            if (slot == null) {
                 break;
             }
-            Slot slot = next.get();
             if (slot.mealWindow() != null) {
                 meals.add(slot.mealWindow());
             }
             String theme = slot.theme();
-            Eligible chosen = choose(ctx, theme, slot.shortSlot(), lat, lng, clock, picks, used);
+            Eligible chosen = choose(ctx, theme, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
             if (chosen == null && slot.mealWindow() != null) {
-                continue;
+                chosen = rescueMeal(ctx, slot.mealWindow(), picks, used, counts);
+                if (chosen == null) {
+                    continue;
+                }
+                theme = "food";
+                Cursor c = cursor(in, picks, used, counts);
+                clock = c.clock();
+                last = c.last();
+                lastCafe = c.lastCafe();
+                lat = c.lat();
+                lng = c.lng();
             }
             if (chosen == null) {
                 for (String alt : in.themes()) {
                     if (alt.equals(slot.theme()) || alt.equals(last)) {
                         continue;
                     }
-                    chosen = choose(ctx, alt, slot.shortSlot(), lat, lng, clock, picks, used);
+                    chosen = choose(ctx, alt, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
                     if (chosen != null) {
                         theme = alt;
                         break;
                     }
+                }
+            }
+            if (chosen == null && mealPending && !"food".equals(last)) {
+                chosen = choose(ctx, "food", false, lat, lng, clock, picks, used, false);
+                if (chosen != null) {
+                    theme = "food";
+                    meals.add(pending);
+                }
+            }
+            if (chosen == null && mealPending && !"food".equals(last)) {
+                chosen = rescueMeal(ctx, pending, picks, used, counts);
+                if (chosen != null) {
+                    theme = "food";
+                    meals.add(pending);
+                    Cursor c = cursor(in, picks, used, counts);
+                    clock = c.clock();
+                    last = c.last();
+                    lastCafe = c.lastCafe();
+                    lat = c.lat();
+                    lng = c.lng();
                 }
             }
             if (chosen == null) {
@@ -173,8 +206,77 @@ public class CourseAssembler {
             last = theme;
             lat = pick.place().lat();
             lng = pick.place().lng();
+            if (!"food".equals(theme) && !meals.contains("dinner")) {
+                PlanState after = new PlanState(in.startMin(), clock, in.endMin(), last, lastCafe,
+                        Map.copyOf(counts), Set.copyOf(meals), in.themes());
+                if ("dinner".equals(planner.pendingMealWindow(after))) {
+                    int split = SlotPlanner.parseMinutes(planning.path("dinnerPlan").path("splitAt").asText("16:30"));
+                    int early = planner.mealWindowStart("dinner");
+                    if (clock >= split && clock < early) {
+                        stretchTail(picks, early);
+                        clock = picks.get(picks.size() - 1).departMin();
+                    }
+                }
+            }
         }
         return extendLast(picks, in.endMin(), ctx.reserveMin);
+    }
+
+    private record Cursor(int clock, String last, int lastCafe, double lat, double lng) {}
+
+    private Cursor cursor(Input in, List<Pick> picks, Set<String> used, Map<String, Integer> counts) {
+        used.clear();
+        counts.clear();
+        int lastCafe = -1;
+        for (Pick p : picks) {
+            used.add(p.place().id());
+            counts.merge(p.theme(), 1, Integer::sum);
+            if ("cafe".equals(p.theme())) {
+                lastCafe = p.arriveMin();
+            }
+        }
+        if (picks.isEmpty()) {
+            return new Cursor(in.startMin(), null, -1, in.startLat(), in.startLng());
+        }
+        Pick tail = picks.get(picks.size() - 1);
+        return new Cursor(tail.departMin(), tail.theme(), lastCafe, tail.place().lat(), tail.place().lng());
+    }
+
+    private Eligible rescueMeal(
+            Context ctx, String window, List<Pick> picks, Set<String> used, Map<String, Integer> counts) {
+        int windowStart = planner.mealWindowStart(window);
+        int tolerance = settings.root().path("planning").path("mealRescueEarlyMin").asInt(30);
+        List<Pick> backup = new ArrayList<>(picks);
+        for (int pops = 0; pops < 2 && !picks.isEmpty(); pops++) {
+            picks.remove(picks.size() - 1);
+            stretchTail(picks, windowStart - 5);
+            Cursor c = cursor(ctx.input, picks, used, counts);
+            if ("food".equals(c.last())) {
+                break;
+            }
+            Eligible found = choose(ctx, "food", false, c.lat(), c.lng(), c.clock(), picks, used, false);
+            if (found != null && found.arriveMin() >= windowStart - tolerance) {
+                return found;
+            }
+        }
+        picks.clear();
+        picks.addAll(backup);
+        cursor(ctx.input, picks, used, counts);
+        return null;
+    }
+
+    private void stretchTail(List<Pick> picks, int targetDepart) {
+        if (picks.isEmpty()) {
+            return;
+        }
+        Pick tail = picks.get(picks.size() - 1);
+        int wanted = targetDepart - tail.arriveMin();
+        int stay = Math.min(Math.max(tail.stay().maxMin(), tail.stayMin()), Math.max(tail.stayMin(), wanted));
+        if (stay == tail.stayMin()) {
+            return;
+        }
+        picks.set(picks.size() - 1, new Pick(tail.place(), tail.theme(), tail.travelMin(), tail.arriveMin(), stay,
+                tail.stay(), tail.openStatus()));
     }
 
     private List<Pick> extendLast(List<Pick> picks, int endMin, int reserveMin) {
@@ -201,7 +303,8 @@ public class CourseAssembler {
             double lng,
             int clock,
             List<Pick> picks,
-            Set<String> used) {
+            Set<String> used,
+            boolean mealPending) {
         JsonNode planning = settings.root().path("planning");
         int maxVerify = planning.path("maxVerifyPerSlot").asInt(20);
         int minEligible = collector.minEligible();
@@ -218,7 +321,7 @@ public class CourseAssembler {
                 if (!seen.add(p.id()) || used.contains(p.id())) {
                     continue;
                 }
-                Eligible e = prefilter(ctx, p, theme, shortSlot, clock, picks);
+                Eligible e = prefilter(ctx, p, theme, shortSlot, clock, picks, mealPending);
                 if (e != null) {
                     pre.add(e);
                 }
@@ -227,8 +330,11 @@ public class CourseAssembler {
                 if (eligible.size() >= minEligible || verifyCount >= maxVerify) {
                     break;
                 }
-                verifyCount++;
+                int callsBefore = ctx.googleCalls;
                 Eligible verified = verify(ctx, e, theme);
+                if (ctx.googleCalls > callsBefore) {
+                    verifyCount++;
+                }
                 if (verified != null) {
                     eligible.add(verified);
                 }
@@ -277,7 +383,13 @@ public class CourseAssembler {
     }
 
     private Eligible prefilter(
-            Context ctx, KakaoPlace p, String theme, boolean shortSlot, int clock, List<Pick> picks) {
+            Context ctx,
+            KakaoPlace p,
+            String theme,
+            boolean shortSlot,
+            int clock,
+            List<Pick> picks,
+            boolean mealPending) {
         Input in = ctx.input;
         if (isClosedDay(p.name(), in.date()) || isExcludedBar(p, in) || duplicatesChosen(p, theme, picks)) {
             return null;
@@ -289,22 +401,32 @@ public class CourseAssembler {
         }
         int arrive = clock + travel;
         Stay stay = stayPolicy.stayFor(theme, p.name());
+        int mealReserve = mealPending && !"food".equals(theme) ? mealNeedMin() : 0;
         int stayMin = shortSlot ? stay.minMin() : stay.defaultMin();
-        if (arrive + stayMin + ctx.reserveMin > in.endMin()) {
+        if (arrive + stayMin + mealReserve + ctx.reserveMin > in.endMin()) {
             stayMin = stay.minMin();
         }
-        if (arrive + stayMin + ctx.reserveMin > in.endMin()) {
+        if (arrive + stayMin + mealReserve + ctx.reserveMin > in.endMin()) {
             return null;
         }
         return new Eligible(p, travel, arrive, stayMin, stay, "unknown", null, null);
     }
 
+    private int mealNeedMin() {
+        int buffer = settings.root().path("planning").path("mealBufferMin").asInt(10);
+        return stayPolicy.stayFor("food", "").minMin() + buffer;
+    }
+
     private Eligible verify(Context ctx, Eligible e, String theme) {
-        int maxCalls = settings.root().path("planning").path("maxGoogleCallsPerRequest").asInt(30);
-        if (ctx.lookup == null || ctx.googleCalls >= maxCalls) {
+        JsonNode planning = settings.root().path("planning");
+        int maxCalls = planning.path("maxGoogleCallsPerRequest").asInt(30);
+        boolean strict = planning.path("requireGoogleMatch").asBoolean(false);
+        if (ctx.lookup == null) {
             return e;
         }
-        ctx.googleCalls++;
+        if (ctx.googleCalls >= maxCalls) {
+            return strict ? null : e;
+        }
         LocalDate date = ctx.input.date();
         LocalDateTime arrive = date.atStartOfDay().plusMinutes(e.arriveMin());
         LocalDateTime depart = arrive.plusMinutes(e.stayMin());
@@ -312,14 +434,17 @@ public class CourseAssembler {
         try {
             result = ctx.lookup.lookup(e.place().id(), theme, date);
         } catch (RuntimeException ex) {
-            return e;
+            return strict ? null : e;
+        }
+        if (result.google() != null) {
+            ctx.googleCalls++;
         }
         String decision = result.decision();
         if ("EXCLUDE".equals(decision)) {
             return null;
         }
         if (!"CHECK_HOURS".equals(decision)) {
-            return e;
+            return strict ? null : e;
         }
         PlaceLookupResponse response = PlaceLookupResponse.from(result, date, arrive, depart);
         if ("CLOSED".equals(response.openCheck())) {

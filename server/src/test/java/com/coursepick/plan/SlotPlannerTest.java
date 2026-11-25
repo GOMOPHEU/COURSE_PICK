@@ -69,7 +69,7 @@ class SlotPlannerTest {
 
     @Test
     void mealIsInsertedWhenCourseOverlapsMealWindow() {
-        PlanState s = state(t("15:00"), t("16:45"), t("21:00"), "history", -1, Map.of("history", 1), Set.of(),
+        PlanState s = state(t("15:00"), t("17:05"), t("21:00"), "history", -1, Map.of("history", 1), Set.of(),
                 List.of("history", "culture"));
         Slot slot = planner.next(s).get();
         assertThat(slot.theme()).isEqualTo("food");
@@ -104,6 +104,16 @@ class SlotPlannerTest {
         PlanState s = state(t("14:00"), t("18:20"), t("18:50"), "cafe", t("14:00"), Map.of("cafe", 1), Set.of(),
                 List.of("cafe", "history"));
         assertThat(planner.next(s)).isEmpty();
+    }
+
+    @Test
+    void pendingMealWindowIsReportedUntilDoneOrTooLate() {
+        PlanState early = state(t("14:00"), t("15:00"), t("19:00"), "history", -1, Map.of(), Set.of(), List.of("history"));
+        assertThat(planner.pendingMealWindow(early)).isEqualTo("dinner");
+        PlanState done = state(t("14:00"), t("15:00"), t("19:00"), "history", -1, Map.of(), Set.of("dinner"), List.of("history"));
+        assertThat(planner.pendingMealWindow(done)).isNull();
+        PlanState late = state(t("14:00"), t("19:50"), t("21:30"), "history", -1, Map.of(), Set.of(), List.of("history"));
+        assertThat(planner.pendingMealWindow(late)).isNull();
     }
 
     @Test

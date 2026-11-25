@@ -1,5 +1,6 @@
 package com.coursepick.candidate;
 
+import com.coursepick.common.BadRequestException;
 import com.coursepick.config.CoursepickSettings;
 import com.coursepick.geo.Geo;
 import com.coursepick.geo.Rect;
@@ -55,7 +56,7 @@ public class CandidateCollector {
     public List<KakaoPlace> collectRing(String theme, double lat, double lng, int innerHalfM, int outerHalfM) {
         JsonNode rule = search().path("themes").path(theme);
         if (rule.isMissingNode()) {
-            throw new IllegalArgumentException("설정에 없는 테마입니다: " + theme);
+            throw new BadRequestException("설정에 없는 테마입니다: " + theme);
         }
         int pages = search().path("pages").asInt(2);
         int maxDepth = search().path("maxSplitDepth").asInt(2);
@@ -130,10 +131,24 @@ public class CandidateCollector {
                     p.roadAddress(), p.lat(), p.lng(), distance, p.placeUrl()));
         }
         if (rule.path("collapseNamePrefix").asBoolean(false)) {
+            result = dropSubBuildings(result);
             result = collapseNamePrefix(result);
         }
         result.sort(Comparator.comparingInt(KakaoPlace::distanceM));
         return List.copyOf(result);
+    }
+
+    private List<KakaoPlace> dropSubBuildings(List<KakaoPlace> places) {
+        List<String> parents = strings(search().path("parentPlaceNames"));
+        List<KakaoPlace> kept = new ArrayList<>();
+        for (KakaoPlace p : places) {
+            String name = p.name().strip();
+            boolean sub = parents.stream().anyMatch(parent -> name.length() > parent.length() && name.startsWith(parent));
+            if (!sub) {
+                kept.add(p);
+            }
+        }
+        return kept;
     }
 
     private List<KakaoPlace> collapseNamePrefix(List<KakaoPlace> places) {

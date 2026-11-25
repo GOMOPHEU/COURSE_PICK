@@ -50,7 +50,12 @@ public final class PlaceLookupService {
             || !Set.of("cafe", "food", "walk", "shopping", "history", "culture").contains(theme))
             throw new IllegalArgumentException("Kakao ID, valid theme and visitDate required");
         JsonNode mapping = mappings.get(kakaoId);
-        if (mapping == null) return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null);
+        if (mapping == null) {
+            JsonNode known = official.get(kakaoId);
+            if (known != null && known.path("verificationStatus").asText().equals("verified") && known.hasNonNull("hours"))
+                return result(kakaoId, "CHECK_HOURS", "official", "OFFICIAL_RULES_REQUIRE_EVALUATION", null, known);
+            return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null);
+        }
         String status = mapping.path("status").asText();
         if (status.equals("api_error")) return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MATCH_API_ERROR", null, null);
         if (status.equals("review")) return result(kakaoId, "NEEDS_REVIEW", "unknown", "MATCH_REVIEW_REQUIRED", null, null);

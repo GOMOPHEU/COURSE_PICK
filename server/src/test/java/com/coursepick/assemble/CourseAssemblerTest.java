@@ -14,6 +14,7 @@ import com.coursepick.kakao.KakaoLocalClient;
 import com.coursepick.kakao.KakaoPlace;
 import com.coursepick.kakao.KakaoSearchResult;
 import com.coursepick.places.PlaceLookupService;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.coursepick.plan.SlotPlanner;
 import com.coursepick.plan.StayTimePolicy;
 import com.coursepick.plan.WalkTime;
@@ -79,7 +80,7 @@ class CourseAssemblerTest {
               "closedDays": [{"name": "창덕궁", "weekday": "MON"}],
               "planning": {
                 "returnReserveMin": 15, "mealOverlapMin": 30, "cafeMaxPerDay": 3, "cafeMinGapMin": 240,
-                "largePalaceNames": ["창덕궁"], "maxPlaces": 8, "maxVerifyPerSlot": 20,
+                "largePalaceNames": ["창덕궁"], "requireGoogleMatch": true, "maxPlaces": 8, "maxVerifyPerSlot": 20,
                 "maxGoogleCallsPerRequest": 30
               }
             }
@@ -162,6 +163,86 @@ class CourseAssemblerTest {
         assertThat(picks).isNotEmpty();
         assertThat(picks.get(0).place().name()).isEqualTo("한식당");
         assertThat(picks).extracting(p -> p.place().name()).doesNotContain("한밤술집");
+    }
+
+    @Test
+    void placesDinnerWhenNothingElseFitsBeforeIt() {
+        stubCategory("AT4", place("h2", "창덕궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0030, 0.0050));
+        stubCategory("FD6", place("f2", "한식당", "음식점 > 한식", 0.0004, -0.0003));
+
+        List<Pick> picks = assembler.assemble(input("2026-11-28", "14:00", "19:00", List.of("history"), null));
+
+        assertThat(picks).extracting(Pick::theme).contains("history", "food");
+    }
+
+    @Test
+    void shrinksPalaceStayToLeaveRoomForDinner() {
+        stubCategory("AT4", place("h2", "창덕궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0030, 0.0050));
+        stubCategory("FD6", place("f2", "한식당", "음식점 > 한식", 0.0004, -0.0003));
+
+        List<Pick> picks = assembler.assemble(input("2026-11-28", "16:30", "19:00", List.of("history"), null));
+
+        assertThat(picks).extracting(Pick::theme).containsExactly("history", "food");
+        assertThat(picks.get(0).stayMin()).isEqualTo(60);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void dropsCandidatesWithoutGoogleMatch() throws Exception {
+        String openAllDay = """
+                {"kakaoId": "h1", "verificationStatus": "verified",
+                 "hours": {"weekly": [{"days": [1,2,3,4,5,6,7], "open": "09:00", "close": "21:00"}]},
+                 "closedDays": {"isoWeekdays": [], "exceptions": []}, "sources": []}
+                """;
+        JsonNode official = new ObjectMapper().readTree(openAllDay);
+        PlaceLookupService lookup = mock(PlaceLookupService.class);
+        when(lookup.lookup(eq("h1"), eq("history"), any(LocalDate.class)))
+                .thenReturn(new PlaceLookupService.Result("h1", "CHECK_HOURS", "official", "R", null, official));
+        when(lookup.lookup(eq("h2"), eq("history"), any(LocalDate.class)))
+                .thenReturn(new PlaceLookupService.Result("h2", "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null));
+        ObjectProvider<PlaceLookupService> provider = mock(ObjectProvider.class);
+        when(provider.getIfAvailable()).thenReturn(lookup);
+        CoursepickSettings settings = new CoursepickSettings(new ObjectMapper().readTree(CONFIG));
+        CourseAssembler strict = new CourseAssembler(
+                settings, new CandidateCollector(kakao, settings), new SlotPlanner(settings),
+                new StayTimePolicy(settings), new WalkTime(settings), provider);
+        stubCategory("AT4",
+                place("h1", "운현궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0004, 0.0016),
+                place("h2", "이름없는유적", "여행 > 관광,명소 > 문화유적", 0.0002, 0.0002));
+
+        List<Pick> picks = strict.assemble(input("2026-11-28", "14:00", "16:00", List.of("history"), null));
+
+        assertThat(picks).extracting(p -> p.place().id()).containsExactly("h1");
+        assertThat(picks.get(0).openStatus()).isEqualTo("confirmed");
+    }
+
+    @Test
+    void movesDinnerBeforeFarPlaceWhenNoFoodIsNearIt() {
+        stubCategory("CE7", place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003));
+        stubCategory("AT4", place("h1", "운현궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0030, 0.0128));
+        KakaoPlace food = place("f1", "한식당", "음식점 > 한식", -0.0004, -0.0005);
+        when(kakao.searchCategoryRect(eq("FD6"), any(Rect.class), eq(2))).thenAnswer(invocation -> {
+            Rect r = invocation.getArgument(1);
+            boolean inside = food.lng() >= r.west() && food.lng() <= r.east()
+                    && food.lat() >= r.south() && food.lat() <= r.north();
+            return new KakaoSearchResult(inside ? 1 : 0, inside ? List.of(food) : List.of());
+        });
+
+        List<Pick> picks = assembler.assemble(input("2026-11-28", "15:00", "20:00", List.of("cafe", "history"), null));
+
+        assertThat(picks).extracting(Pick::theme).startsWith("cafe", "food");
+        assertThat(picks.get(1).arriveMin()).isGreaterThanOrEqualTo(SlotPlanner.parseMinutes("16:30"));
+    }
+
+    @Test
+    void stretchesLastActivityToFiveWhenItEndsAfterFourThirty() {
+        stubCategory("CE7", place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003));
+        stubCategory("FD6", place("f2", "한식당", "음식점 > 한식", 0.0004, -0.0003));
+
+        List<Pick> picks = assembler.assemble(input("2026-11-28", "15:30", "20:00", List.of("cafe"), null));
+
+        assertThat(picks).extracting(Pick::theme).startsWith("cafe", "food");
+        assertThat(picks.get(0).departMin()).isEqualTo(SlotPlanner.parseMinutes("17:00"));
     }
 
     @Test

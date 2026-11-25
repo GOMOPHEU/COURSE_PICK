@@ -1,5 +1,6 @@
 package com.coursepick.service;
 
+import com.coursepick.common.BadRequestException;
 import com.coursepick.assemble.CourseAssembler;
 import com.coursepick.assemble.CourseAssembler.Pick;
 import com.coursepick.config.CoursepickProperties;
@@ -38,7 +39,7 @@ public class RecommendService {
         int startMin = parseTime(request.startTime(), "출발 시각");
         int endMin = parseTime(request.endTime(), "종료 시각");
         if (endMin <= startMin) {
-            throw new IllegalArgumentException("종료 시각은 출발 시각보다 늦어야 합니다");
+            throw new BadRequestException("종료 시각은 출발 시각보다 늦어야 합니다");
         }
         JsonNode startPoint = findStartPoint(request.startPointId());
         LocalDate date = request.date() == null || request.date().isBlank()
@@ -80,14 +81,14 @@ public class RecommendService {
                 return point;
             }
         }
-        throw new IllegalArgumentException("알 수 없는 출발 지점입니다: " + id);
+        throw new BadRequestException("알 수 없는 출발 지점입니다: " + id);
     }
 
     private int parseTime(String value, String label) {
         try {
             return SlotPlanner.parseMinutes(value);
         } catch (RuntimeException e) {
-            throw new IllegalArgumentException(label + "은 HH:mm 형식이어야 합니다");
+            throw new BadRequestException(label + "은 HH:mm 형식이어야 합니다");
         }
     }
 

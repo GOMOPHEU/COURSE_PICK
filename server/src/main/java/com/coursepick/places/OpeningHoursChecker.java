@@ -80,7 +80,7 @@ public final class OpeningHoursChecker {
         int start = arrive.getHour() * 60 + arrive.getMinute();
         int end = start + minutesBetween(arrive, depart);
         for (JsonNode entry : weekly) {
-            if (!containsDay(entry.path("days"), isoDay)) {
+            if (!containsDay(entry.path("days"), isoDay) || !containsMonth(entry.path("months"), arrive.getMonthValue())) {
                 continue;
             }
             Integer open = minuteOfDay(entry.path("open").asText(null));
@@ -89,6 +89,10 @@ public final class OpeningHoursChecker {
                 continue;
             }
             int closeAt = close <= open ? close + DAY : close;
+            Integer lastEntry = minuteOfDay(entry.path("lastEntry").asText(null));
+            if (lastEntry != null && start > lastEntry) {
+                continue;
+            }
             if (open <= start && end <= closeAt) {
                 return Status.OPEN;
             }
@@ -110,6 +114,18 @@ public final class OpeningHoursChecker {
 
     private static int weekMinute(JsonNode point) {
         return point.path("day").asInt(0) * DAY + point.path("hour").asInt(0) * 60 + point.path("minute").asInt(0);
+    }
+
+    private static boolean containsMonth(JsonNode months, int month) {
+        if (!months.isArray() || months.isEmpty()) {
+            return true;
+        }
+        for (JsonNode m : months) {
+            if (m.asInt() == month) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean containsDay(JsonNode days, int isoDay) {

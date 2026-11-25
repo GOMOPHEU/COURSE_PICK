@@ -1,3 +1,4 @@
+
 package com.coursepick.plan;
 
 import com.coursepick.config.CoursepickSettings;
@@ -57,7 +58,11 @@ public class SlotPlanner {
         return Optional.of(new Slot(chosen, shortSlot, null));
     }
 
-    private String dueMealWindow(PlanState state) {
+    public int mealWindowStart(String name) {
+        return parseMinutes(edge(mealWindows.path(name), 0, "from"));
+    }
+
+    public String pendingMealWindow(PlanState state) {
         int needOverlap = planning.path("mealOverlapMin").asInt(30);
         Iterator<Map.Entry<String, JsonNode>> it = mealWindows.fields();
         while (it.hasNext()) {
@@ -68,7 +73,26 @@ public class SlotPlanner {
             int ws = parseMinutes(edge(e.getValue(), 0, "from"));
             int we = parseMinutes(edge(e.getValue(), 1, "to"));
             int overlap = Math.min(state.endMin(), we) - Math.max(state.courseStartMin(), ws);
-            boolean due = state.clockMin() >= ws - 30 && state.clockMin() <= we - 45;
+            if (overlap >= needOverlap && state.clockMin() <= we - 45) {
+                return e.getKey();
+            }
+        }
+        return null;
+    }
+
+    private String dueMealWindow(PlanState state) {
+        int needOverlap = planning.path("mealOverlapMin").asInt(30);
+        int earlyMin = planning.path("mealEarlyMin").asInt(0);
+        Iterator<Map.Entry<String, JsonNode>> it = mealWindows.fields();
+        while (it.hasNext()) {
+            Map.Entry<String, JsonNode> e = it.next();
+            if (state.mealsDone().contains(e.getKey())) {
+                continue;
+            }
+            int ws = parseMinutes(edge(e.getValue(), 0, "from"));
+            int we = parseMinutes(edge(e.getValue(), 1, "to"));
+            int overlap = Math.min(state.endMin(), we) - Math.max(state.courseStartMin(), ws);
+            boolean due = state.clockMin() >= ws - earlyMin && state.clockMin() <= we - 45;
             if (overlap >= needOverlap && due) {
                 return e.getKey();
             }
@@ -105,7 +129,7 @@ public class SlotPlanner {
     }
 
     private List<String> fallback(PlanState state, boolean shortSlot) {
-        List<String> pool = shortSlot ? SHORT_THEMES : List.of("history", "culture", "walk", "shopping", "food", "cafe");
+        List<String> pool = shortSlot ? List.of("walk") : List.of("walk", "culture", "history", "cafe");
         List<String> result = new ArrayList<>();
         for (String theme : pool) {
             if (theme.equals(state.lastTheme())) {

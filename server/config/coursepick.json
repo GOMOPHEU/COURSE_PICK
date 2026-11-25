@@ -111,6 +111,15 @@
     "minEligible": 3,
     "maxSplitDepth": 2,
     "maxRequestsPerStep": 30,
+    "parentPlaceNames": [
+      "경복궁",
+      "창덕궁",
+      "창경궁",
+      "덕수궁",
+      "경희궁",
+      "운현궁",
+      "종묘"
+    ],
     "themes": {
       "cafe": {
         "categoryCodes": [
@@ -319,6 +328,11 @@
     ],
     "maxPlaces": 8,
     "maxVerifyPerSlot": 20,
-    "maxGoogleCallsPerRequest": 30
+    "maxGoogleCallsPerRequest": 30,
+    "mealEarlyMin": 0,
+    "requireGoogleMatch": true,
+    "dinnerPlan": {
+      "splitAt": "16:30"
+    }
   }
 }

@@ -188,6 +188,226 @@
           "scope": "구의회 도시계획 자료; 운영시간 근거는 아님"
         }
       ]
+    },
+    {
+      "kakaoId": "18619553",
+      "researchLabel": "경복궁",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              1,
+              2,
+              11,
+              12
+            ],
+            "open": "09:00",
+            "close": "17:00",
+            "lastEntry": "16:00"
+          },
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              3,
+              4,
+              5,
+              9,
+              10
+            ],
+            "open": "09:00",
+            "close": "18:00",
+            "lastEntry": "17:00"
+          },
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              6,
+              7,
+              8
+            ],
+            "open": "09:00",
+            "close": "18:30",
+            "lastEntry": "17:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          2
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-25",
+      "note": "계절별 시간표(1~12월). 화요일 휴궁",
+      "sources": [
+        {
+          "url": "https://www.cha.go.kr/",
+          "checkedAt": "2026-11-25",
+          "scope": "국가유산청 궁능 관람 안내(팀원 제공 시간표). 정확한 안내 페이지 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "10771162",
+      "researchLabel": "창덕궁",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              11,
+              12,
+              1
+            ],
+            "open": "09:00",
+            "close": "17:30",
+            "lastEntry": "16:30"
+          },
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              2,
+              3,
+              4,
+              5,
+              9,
+              10
+            ],
+            "open": "09:00",
+            "close": "18:00",
+            "lastEntry": "17:00"
+          },
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              6,
+              7,
+              8
+            ],
+            "open": "09:00",
+            "close": "18:30",
+            "lastEntry": "17:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-25",
+      "note": "계절별 시간표(1~12월). 월요일 휴궁",
+      "sources": [
+        {
+          "url": "https://www.cha.go.kr/",
+          "checkedAt": "2026-11-25",
+          "scope": "국가유산청 궁능 관람 안내(팀원 제공 시간표). 정확한 안내 페이지 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "11156260",
+      "researchLabel": "창경궁",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "months": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              12
+            ],
+            "open": "09:00",
+            "close": "21:00",
+            "lastEntry": "20:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-25",
+      "note": "일반관람 1~12월 동일. 월요일 휴궁",
+      "sources": [
+        {
+          "url": "https://www.cha.go.kr/",
+          "checkedAt": "2026-11-25",
+          "scope": "국가유산청 궁능 관람 안내(팀원 제공 시간표). 정확한 안내 페이지 주소로 교체 필요"
+        }
+      ]
     }
   ]
 }
