@@ -25,6 +25,36 @@
       "default": 90,
       "min": 60,
       "max": 120
+    },
+    "food": {
+      "default": 60,
+      "min": 45,
+      "max": 90
+    },
+    "walk": {
+      "default": 40,
+      "min": 20,
+      "max": 60
+    },
+    "historySmall": {
+      "default": 30,
+      "min": 20,
+      "max": 45
+    },
+    "culture": {
+      "default": 60,
+      "min": 45,
+      "max": 90
+    },
+    "shoppingStreet": {
+      "default": 40,
+      "min": 20,
+      "max": 60
+    },
+    "shoppingShop": {
+      "default": 20,
+      "min": 15,
+      "max": 30
     }
   },
   "mealWindows": {
@@ -183,5 +213,22 @@
         "excludeNameKeywords": []
       }
     }
+  },
+  "planning": {
+    "walkSpeedMPerMin": 67,
+    "detourFactor": 1.3,
+    "returnReserveMin": 15,
+    "shortSlotMinMin": 20,
+    "normalSlotMinMin": 45,
+    "mealOverlapMin": 30,
+    "cafeMaxPerDay": 3,
+    "cafeMinGapMin": 240,
+    "largePalaceNames": [
+      "경복궁",
+      "창덕궁",
+      "창경궁",
+      "덕수궁",
+      "경희궁"
+    ]
   }
 }
