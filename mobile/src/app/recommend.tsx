@@ -1,11 +1,13 @@
 import { router } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
 import { recommend } from '@/course/api';
+import { ConditionSummary } from '@/course/course-summary';
+import { SeoulIllustration } from '@/course/seoul-illustration';
 import { validate } from '@/course/schedule';
 import { useCourseStore } from '@/course/store';
-import { Button, colors, ErrorText, Screen } from '@/course/ui';
+import { Button, colors, Copy, ErrorText, Heading, Screen } from '@/course/ui';
 
 export default function Recommend() {
   const input = useCourseStore(state => state.request);
@@ -51,12 +53,32 @@ export default function Recommend() {
   }
 
   return (
-    <Screen title="코스를 찾고 있어요" subtitle="선택한 테마와 이용 가능 시간에 맞는 일정을 만들고 있어요.">
-      <ActivityIndicator color={colors.blue} size="large" accessibilityLabel="추천 진행 중" />
-      <Button title="추천 취소" secondary onPress={() => {
+    <Screen style={styles.page}>
+      <View style={styles.content}>
+        <View style={styles.art}>
+          <SeoulIllustration />
+          <View style={styles.spinner}>
+            <ActivityIndicator color={colors.primary} size="large" accessibilityLabel="추천 진행 중" />
+          </View>
+        </View>
+      </View>
+      <View style={styles.message}>
+        <Heading>취향에 맞는 하루를 만들고 있어요</Heading>
+        <Copy>장소와 이동 시간을 확인하며 방문 순서를 찾고 있어요.</Copy>
+      </View>
+      <ConditionSummary request={input} />
+      <Button title="취소하고 조건 확인" secondary onPress={() => {
         cancelled.current = true;
         router.dismissTo('/confirm');
       }} />
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  page: { justifyContent: 'center', gap: 20 },
+  content: { alignItems: 'center' },
+  art: { width: '86%', maxWidth: 360, justifyContent: 'center', alignItems: 'center' },
+  spinner: { position: 'absolute', backgroundColor: colors.surface, borderRadius: 26, padding: 8 },
+  message: { alignItems: 'center', gap: 6 },
+});

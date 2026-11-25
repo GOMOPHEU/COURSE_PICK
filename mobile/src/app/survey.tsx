@@ -1,13 +1,13 @@
 import { router } from 'expo-router';
 import { useRef, useState, type ComponentRef } from 'react';
-import type { LayoutChangeEvent, ScrollView } from 'react-native';
+import { Pressable, StyleSheet, Text, View, type LayoutChangeEvent, type ScrollView } from 'react-native';
 
 import { startPoints, themes, transportLabels, type Theme } from '@/course/contracts';
 import { alarmTime, lastEndTime, lastStartTime, minutes, moveStart, nextDate, nextTimeSlot,
-  seoulNow, validateFields, type SurveyErrors } from '@/course/schedule';
+  seoulNow, validateFields, visitDateLabel, type SurveyErrors } from '@/course/schedule';
 import { ClockPicker, DatePicker } from '@/course/schedule-picker';
 import { useCourseStore } from '@/course/store';
-import { Button, Card, ChoiceGroup, Screen, SelectionField } from '@/course/ui';
+import { Button, Card, ChoiceGroup, colors, Screen, SelectionField } from '@/course/ui';
 
 const themeOptions = (Object.keys(themes) as Theme[]).map(value => ({ value, label: themes[value] }));
 const companions = [
@@ -25,10 +25,10 @@ export default function Survey() {
   const [checkedAt, setCheckedAt] = useState<ReturnType<typeof seoulNow> | null>(null);
   const [themeLimitReached, setThemeLimitReached] = useState(false);
   const [showOptional, setShowOptional] = useState(false);
+  const [showOrigins, setShowOrigins] = useState(false);
   const [picker, setPicker] = useState<'date' | 'start' | 'end' | null>(null);
   const [now, setNow] = useState(() => seoulNow());
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
-  const cardOffsets = useRef({ schedule: 0, preferences: 0 });
   const fieldOffsets = useRef<Partial<Record<keyof SurveyErrors, number>>>({});
   const errors = checkedAt ? validateFields(request, checkedAt) : {};
   const currentSlot = nextTimeSlot(minutes(now.time));
@@ -59,25 +59,32 @@ export default function Survey() {
       router.push('/confirm');
       return;
     }
-    const card = first === 'transport' || first === 'themes' ? 'preferences' : 'schedule';
-    const y = cardOffsets.current[card] + (fieldOffsets.current[first] ?? 0);
+    const y = fieldOffsets.current[first] ?? 0;
     scroll.current?.scrollTo({ y: Math.max(0, y - 12), animated: true });
   }
 
   return (
-    <Screen title="서울 나들이 코스 찾기" subtitle="출발지와 머무를 시간을 정하고, 가보고 싶은 곳을 골라보세요."
-      scrollRef={scroll}>
-      <Card onLayout={event => { cardOffsets.current.schedule = event.nativeEvent.layout.y; }}>
-        <ChoiceGroup title="출발지" error={errors.startPointId} onLayout={event => rememberField('startPointId', event)}
-          options={startPoints.map(point => ({ value: point.id, label: point.name }))}
-          selected={[request.startPointId]} onChange={startPointId => update({ startPointId })} />
-        <SelectionField label="방문 날짜" value={request.date} error={errors.date} onLayout={event => rememberField('date', event)}
-          onPress={() => openPicker('date')} />
-        <SelectionField label="출발 시각" value={alarmTime(request.startTime)} error={errors.startTime}
-          onLayout={event => rememberField('startTime', event)} onPress={() => openPicker('start')} />
+    <Screen title="오늘의 서울을 골라주세요" scrollRef={scroll}>
+      <SelectionField label="출발 지점" error={errors.startPointId} expanded={showOrigins}
+        value={startPoints.find(point => point.id === request.startPointId)?.name ?? '선택해 주세요'}
+        onLayout={event => rememberField('startPointId', event)} onPress={() => setShowOrigins(value => !value)} />
+      {showOrigins && <ChoiceGroup title="대표 출발 지점" columns={2}
+        options={startPoints.map(point => ({ value: point.id, label: point.name }))}
+        selected={[request.startPointId]} onChange={startPointId => {
+          update({ startPointId });
+          setShowOrigins(false);
+        }} />}
+      <SelectionField label="방문 날짜" value={visitDateLabel(request.date)} error={errors.date}
+        onLayout={event => rememberField('date', event)} onPress={() => openPicker('date')} />
+      <View style={styles.timeRow} onLayout={event => {
+        rememberField('startTime', event);
+        rememberField('endTime', event);
+      }}>
+        <SelectionField label="시작 시각" value={alarmTime(request.startTime)} error={errors.startTime}
+          style={styles.timeField} onPress={() => openPicker('start')} />
         <SelectionField label="종료 시각" value={alarmTime(request.endTime)} error={errors.endTime}
-          onLayout={event => rememberField('endTime', event)} onPress={() => openPicker('end')} />
-      </Card>
+          style={styles.timeField} onPress={() => openPicker('end')} />
+      </View>
       {picker === 'date' && <DatePicker value={request.date} minimum={earliestDate} onClose={closePicker} onSelect={date => {
         const minimum = date === now.date ? currentSlot : 0;
         const start = Math.min(lastStartTime, nextTimeSlot(minutes(request.startTime)));
@@ -88,12 +95,13 @@ export default function Survey() {
       {picker === 'end' && <ClockPicker title="종료 시각 선택" value={request.endTime}
         minimum={Math.max(startFloor, minutes(request.startTime) + 1)} maximum={lastEndTime}
         onClose={closePicker} onSelect={endTime => selectSchedule({ endTime })} />}
-      <Card onLayout={event => { cardOffsets.current.preferences = event.nativeEvent.layout.y; }}>
-        <ChoiceGroup title="이동수단" error={errors.transport} onLayout={event => rememberField('transport', event)} options={[
+        <ChoiceGroup title="이동 수단" columns={2} error={errors.transport}
+          onLayout={event => rememberField('transport', event)} options={[
           { value: 'walk', label: transportLabels.walk },
           { value: 'transit', label: transportLabels.transit },
         ] as const} selected={[request.transport]} onChange={transport => update({ transport })} />
-        <ChoiceGroup title="선호 테마 · 1~3개" options={themeOptions} selected={request.themes} onLayout={event => rememberField('themes', event)}
+        <ChoiceGroup title="선호 테마 · 1~3개 선택" columns={3} options={themeOptions} selected={request.themes}
+          onLayout={event => rememberField('themes', event)}
           error={errors.themes ?? (themeLimitReached ? '테마는 최대 3개까지 선택할 수 있어요.' : undefined)} onChange={theme => {
           if (request.themes.includes(theme)) {
             update({ themes: request.themes.filter(value => value !== theme) });
@@ -105,9 +113,15 @@ export default function Survey() {
           }
           setThemeLimitReached(false);
         }} />
-      </Card>
-      <Button secondary title={showOptional ? '선택 조건 접기' : '선택 조건 입력'} onPress={() => setShowOptional(!showOptional)} />
-      {showOptional && <Card>
+      <Pressable accessibilityRole="button" accessibilityState={{ expanded: showOptional }}
+        style={styles.optional} onPress={() => setShowOptional(value => !value)}>
+        <View style={styles.optionalText}>
+          <Text style={styles.optionalTitle}>선택 조건</Text>
+          <Text style={styles.optionalHint}>동행 유형·인원·이동 선호도·연령대</Text>
+        </View>
+        <Text accessible={false} style={styles.optionalTitle}>{showOptional ? '⌃' : '›'}</Text>
+      </Pressable>
+      {showOptional && <Card style={styles.optionalFields}>
         <ChoiceGroup title="동행 유형" options={companions} selected={request.companion ? [request.companion] : []}
           onChange={value => {
             const companion = request.companion === value ? undefined : value;
@@ -126,7 +140,18 @@ export default function Survey() {
         <ChoiceGroup title="연령대" options={ages} selected={request.ageGroup ? [request.ageGroup] : []}
           onChange={value => update({ ageGroup: request.ageGroup === value ? undefined : value })} />
       </Card>}
-      <Button title="조건 확인" onPress={confirm} />
+      <Button title="조건 확인하기" arrow onPress={confirm} />
     </Screen>
   );
 }
+
+const styles = StyleSheet.create({
+  timeRow: { flexDirection: 'row', gap: 10 },
+  timeField: { flex: 1 },
+  optional: { backgroundColor: colors.surface, borderColor: colors.line, borderWidth: 1, borderRadius: 10,
+    padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 8 },
+  optionalText: { gap: 3, flexShrink: 1 },
+  optionalTitle: { fontWeight: '700', color: colors.text },
+  optionalHint: { fontSize: 12, color: colors.muted },
+  optionalFields: { gap: 12 },
+});

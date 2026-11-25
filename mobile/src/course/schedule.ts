@@ -35,6 +35,19 @@ export function alarmTime(time: string) {
   return (hour < 12 ? '오전 ' : '오후 ') + (hour % 12 || 12) + ':' + time.slice(3);
 }
 
+const visitDateFormat = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'full', timeZone: 'UTC' });
+
+export function visitDateLabel(date: string) {
+  const value = new Date(date + 'T00:00:00Z');
+  return Number.isFinite(value.getTime()) ? visitDateFormat.format(value) : date;
+}
+
+export function durationLabel(total: number) {
+  const hours = Math.floor(total / 60);
+  const remainder = total % 60;
+  return [hours > 0 ? hours + '시간' : '', remainder > 0 || hours === 0 ? remainder + '분' : ''].filter(Boolean).join(' ');
+}
+
 export function moveStart(request: RecommendRequest, start: number) {
   const previousEnd = Math.min(lastEndTime, nextTimeSlot(minutes(request.endTime)));
   const duration = Math.max(timeStep, nextTimeSlot(previousEnd - minutes(request.startTime)));
