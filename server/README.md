@@ -74,7 +74,7 @@ $env:KAKAO_REST_API_KEY="여기에_키"
 |---|---|---|
 | `GET /health` | 서버 상태, 설정된 지역, 키 설정 여부 | 완료 |
 | `POST /recommend` | 설문 값을 받아 코스 1~3개를 돌려줌 | 가짜 응답 |
-| `GET /places/{kakaoId}?theme=food&date=2026-11-28` | 카카오 ID로 구글 조회(별점, 영업시간, 폐업 여부). `theme`은 cafe, food, walk, shopping, history, culture 중 하나, `date`는 생략하면 오늘. `GOOGLE_PLACES_API_KEY`가 없으면 503 | 완료 |
+| `GET /places/{kakaoId}?theme=food&date=2026-11-28` | 카카오 ID로 구글 조회(별점, 영업시간, 폐업 여부). `theme`은 cafe, food, walk, shopping, history, culture 중 하나, `date`는 생략하면 오늘. `arrive`·`depart`(HH:mm)를 함께 주면 `openCheck`(OPEN, CLOSED, UNKNOWN)로 도착~출발 전체가 영업 구간 안인지 판정. `GOOGLE_PLACES_API_KEY`가 없으면 503 | 완료 |
 
 요청과 응답 형식은 팀 할일 목록 v2의 12-1절을 따릅니다.
 

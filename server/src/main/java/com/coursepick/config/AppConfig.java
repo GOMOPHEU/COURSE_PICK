@@ -6,8 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
 
@@ -25,9 +25,9 @@ public class AppConfig {
     }
 
     @Bean
-    @ConditionalOnExpression("!'${coursepick.keys.google-places:}'.isBlank()")
+    @Conditional(GooglePlacesKeyCondition.class)
     public PlaceLookupService placeLookupService(CoursepickProperties properties) throws IOException {
-        GooglePlacesClient client = new GooglePlacesClient(properties.keys().googlePlaces());
+        GooglePlacesClient client = new GooglePlacesClient(properties.keys().googlePlaces().strip());
         return new PlaceLookupService(
                 client,
                 Path.of(properties.places().mappingsPath()),
