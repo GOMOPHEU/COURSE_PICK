@@ -1,9 +1,12 @@
 package com.coursepick.config;
 
+import com.coursepick.places.GooglePlacesClient;
+import com.coursepick.places.PlaceLookupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestClient;
@@ -19,6 +22,16 @@ public class AppConfig {
             throw new IllegalStateException("설정 파일을 찾을 수 없습니다: " + path.toAbsolutePath());
         }
         return new CoursepickSettings(objectMapper.readTree(Files.readString(path)));
+    }
+
+    @Bean
+    @ConditionalOnExpression("!'${coursepick.keys.google-places:}'.isBlank()")
+    public PlaceLookupService placeLookupService(CoursepickProperties properties) throws IOException {
+        GooglePlacesClient client = new GooglePlacesClient(properties.keys().googlePlaces());
+        return new PlaceLookupService(
+                client,
+                Path.of(properties.places().mappingsPath()),
+                Path.of(properties.places().officialHoursPath()));
     }
 
     @Bean
