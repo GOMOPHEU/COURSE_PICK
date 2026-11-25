@@ -66,24 +66,39 @@ public class RouteVerifier {
     }
 
     private List<Pick> rebuild(List<Pick> picks, int[] travel, int startMin, int endMin, int reserveMin) {
+        int[] stay = new int[picks.size()];
+        for (int i = 0; i < picks.size(); i++) {
+            stay[i] = picks.get(i).stayMin();
+        }
+        int overflow = finish(travel, stay, startMin) + reserveMin - endMin;
+        for (int i = picks.size() - 1; i >= 0 && overflow > 0; i--) {
+            if ("food".equals(picks.get(i).theme())) {
+                continue;
+            }
+            int cut = Math.min(overflow, Math.max(stay[i] - picks.get(i).stay().minMin(), 0));
+            stay[i] -= cut;
+            overflow -= cut;
+        }
         List<Pick> result = new ArrayList<>();
         int clock = startMin;
         for (int i = 0; i < picks.size(); i++) {
             Pick p = picks.get(i);
             int arrive = clock + travel[i];
-            Pick moved = new Pick(p.place(), p.theme(), travel[i], arrive, p.stayMin(), p.stay(), p.openStatus());
+            Pick moved = new Pick(p.place(), p.theme(), travel[i], arrive, stay[i], p.stay(), p.openStatus());
             if (moved.departMin() + reserveMin > endMin) {
-                int stay = Math.max(p.stay().minMin(), endMin - reserveMin - arrive);
-                moved = new Pick(p.place(), p.theme(), travel[i], arrive, stay, p.stay(), p.openStatus());
-                if (moved.departMin() + reserveMin > endMin) {
-                    break;
-                }
-                result.add(moved);
                 break;
             }
             result.add(moved);
             clock = moved.departMin();
         }
         return result;
+    }
+
+    private int finish(int[] travel, int[] stay, int startMin) {
+        int clock = startMin;
+        for (int i = 0; i < travel.length; i++) {
+            clock += travel[i] + stay[i];
+        }
+        return clock;
     }
 }

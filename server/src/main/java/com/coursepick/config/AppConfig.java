@@ -26,12 +26,20 @@ public class AppConfig {
 
     @Bean
     @Conditional(GooglePlacesKeyCondition.class)
-    public PlaceLookupService placeLookupService(CoursepickProperties properties) throws IOException {
+    public PlaceLookupService placeLookupService(CoursepickProperties properties, CoursepickSettings settings)
+            throws IOException {
         GooglePlacesClient client = new GooglePlacesClient(properties.keys().googlePlaces().strip());
-        return new PlaceLookupService(
+        PlaceLookupService service = new PlaceLookupService(
                 client,
                 Path.of(properties.places().mappingsPath()),
                 Path.of(properties.places().officialHoursPath()));
+        var matching = settings.root().path("placeMatching");
+        if (matching.path("enabled").asBoolean(false)) {
+            service.enableRuntimeMatching(
+                    Path.of(matching.path("cachePath").asText("data/runtime-mappings.json")),
+                    matching.path("dailySearchLimit").asInt(300));
+        }
+        return service;
     }
 
     @Bean

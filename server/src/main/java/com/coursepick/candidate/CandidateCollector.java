@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 import org.springframework.stereotype.Component;
 
@@ -25,6 +26,53 @@ public class CandidateCollector {
     public CandidateCollector(KakaoLocalClient kakao, CoursepickSettings settings) {
         this.kakao = kakao;
         this.settings = settings;
+    }
+
+    public Optional<KakaoPlace> findByName(String name) {
+        String query = name == null ? "" : name.strip();
+        if (query.isEmpty()) {
+            return Optional.empty();
+        }
+        List<KakaoPlace> found = kakao.searchKeywordByAccuracy(
+                query, settings.regionLat(), settings.regionLng(), settings.regionRadiusM());
+        KakaoPlace partial = null;
+        for (KakaoPlace p : found) {
+            if (Geo.distanceM(settings.regionLat(), settings.regionLng(), p.lat(), p.lng())
+                    > settings.regionRadiusM()) {
+                continue;
+            }
+            if (p.name().equals(query)) {
+                return Optional.of(p);
+            }
+            if (partial == null && p.name().contains(query)) {
+                partial = p;
+            }
+        }
+        return Optional.ofNullable(partial);
+    }
+
+    public String themeOf(KakaoPlace place, List<String> preferred) {
+        JsonNode themes = search().path("themes");
+        List<String> order = new ArrayList<>(preferred);
+        themes.fieldNames().forEachRemaining(name -> {
+            if (!order.contains(name)) {
+                order.add(name);
+            }
+        });
+        String category = place.categoryName().replaceAll("\\s*>\\s*", " > ").strip();
+        for (String theme : order) {
+            JsonNode rule = themes.path(theme);
+            List<String> allowed = strings(rule.path("allowedCategoryPrefixes"));
+            if (allowed.isEmpty() || allowed.stream().noneMatch(category::startsWith)) {
+                continue;
+            }
+            if (strings(rule.path("excludeCategoryPrefixes")).stream().anyMatch(category::startsWith)
+                    || strings(rule.path("excludeNameKeywords")).stream().anyMatch(place.name()::contains)) {
+                continue;
+            }
+            return theme;
+        }
+        return null;
     }
 
     private JsonNode search() {

@@ -58,6 +58,11 @@ public class SlotPlanner {
         return Optional.of(new Slot(chosen, shortSlot, null));
     }
 
+    private int latestStart(JsonNode window, int windowEnd) {
+        String configured = window.path("latestStart").asText("");
+        return configured.isEmpty() ? windowEnd - 45 : parseMinutes(configured);
+    }
+
     public int mealWindowStart(String name) {
         return parseMinutes(edge(mealWindows.path(name), 0, "from"));
     }
@@ -72,8 +77,8 @@ public class SlotPlanner {
             }
             int ws = parseMinutes(edge(e.getValue(), 0, "from"));
             int we = parseMinutes(edge(e.getValue(), 1, "to"));
-            int overlap = Math.min(state.endMin(), we) - Math.max(state.courseStartMin(), ws);
-            if (overlap >= needOverlap && state.clockMin() <= we - 45) {
+            int overlap = Math.min(state.endMin(), latestStart(e.getValue(), we)) - Math.max(state.courseStartMin(), ws);
+            if (overlap >= needOverlap && state.clockMin() <= latestStart(e.getValue(), we)) {
                 return e.getKey();
             }
         }
@@ -91,8 +96,8 @@ public class SlotPlanner {
             }
             int ws = parseMinutes(edge(e.getValue(), 0, "from"));
             int we = parseMinutes(edge(e.getValue(), 1, "to"));
-            int overlap = Math.min(state.endMin(), we) - Math.max(state.courseStartMin(), ws);
-            boolean due = state.clockMin() >= ws - earlyMin && state.clockMin() <= we - 45;
+            int overlap = Math.min(state.endMin(), latestStart(e.getValue(), we)) - Math.max(state.courseStartMin(), ws);
+            boolean due = state.clockMin() >= ws - earlyMin && state.clockMin() <= latestStart(e.getValue(), we);
             if (overlap >= needOverlap && due) {
                 return e.getKey();
             }

@@ -11,7 +11,10 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /** Server-side, request-scoped Google details. Never persist or log response payloads. */
 public final class GooglePlacesClient {
@@ -93,6 +96,38 @@ public final class GooglePlacesClient {
             return failure(State.API_ERROR, placeId, date, "INTERRUPTED");
         } catch (IOException e) {
             return failure(State.API_ERROR, placeId, date, "IO_OR_INVALID_JSON");
+        }
+    }
+
+    public Optional<List<JsonNode>> searchText(String query, double lat, double lng) {
+        try {
+            var body = json.createObjectNode();
+            body.put("textQuery", query);
+            body.put("languageCode", "ko");
+            body.put("regionCode", "KR");
+            body.put("pageSize", 5);
+            var center = body.putObject("locationBias").putObject("circle").putObject("center");
+            center.put("latitude", lat);
+            center.put("longitude", lng);
+            ((com.fasterxml.jackson.databind.node.ObjectNode) body.path("locationBias").path("circle")).put("radius", 500.0);
+            URI uri = URI.create(base.toString().replaceAll("places/$", "places:searchText"));
+            HttpRequest request = HttpRequest.newBuilder(uri)
+                .header("X-Goog-Api-Key", apiKey)
+                .header("X-Goog-FieldMask", "places.id,places.displayName,places.formattedAddress,places.location")
+                .header("Content-Type", "application/json")
+                .timeout(Duration.ofSeconds(12))
+                .POST(HttpRequest.BodyPublishers.ofString(json.writeValueAsString(body))).build();
+            HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
+            if (response.statusCode() != 200) return Optional.empty();
+            JsonNode data = json.readTree(response.body());
+            List<JsonNode> places = new ArrayList<>();
+            if (data != null && data.path("places").isArray()) data.get("places").forEach(places::add);
+            return Optional.of(places);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return Optional.empty();
+        } catch (IOException | RuntimeException e) {
+            return Optional.empty();
         }
     }
 

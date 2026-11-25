@@ -52,6 +52,21 @@ public class KakaoLocalClient {
                 .body(JsonNode.class)).places();
     }
 
+    public List<KakaoPlace> searchKeywordByAccuracy(String keyword, double lat, double lng, int radiusM) {
+        return fetchPages(MAX_PAGES, page -> client.get()
+                .uri(uri -> uri.path("/v2/local/search/keyword.json")
+                        .queryParam("query", keyword)
+                        .queryParam("x", lng)
+                        .queryParam("y", lat)
+                        .queryParam("radius", radiusM)
+                        .queryParam("sort", "accuracy")
+                        .queryParam("size", PAGE_SIZE)
+                        .queryParam("page", page)
+                        .build())
+                .retrieve()
+                .body(JsonNode.class)).places();
+    }
+
     public KakaoSearchResult searchCategoryRect(String categoryGroupCode, Rect rect, int pages) {
         return fetchPages(pages, page -> client.get()
                 .uri(uri -> uri.path("/v2/local/search/category.json")

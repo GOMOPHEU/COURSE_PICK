@@ -12,7 +12,8 @@ public record RecommendResponse(List<Course> courses, String state) {
             int totalMinutes,
             String endAt,
             String fit,
-            String reason) {
+            String reason,
+            List<String> notes) {
     }
 
     public record Place(

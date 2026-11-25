@@ -48,11 +48,22 @@ class RouteVerifierTest {
     @Test
     void dropsPlacesThatNoLongerFitBeforeEnd() {
         List<Pick> picks = List.of(pick("a", 5, 605, 60), pick("b", 20, 685, 60));
-        when(client.walkMinutes(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(120);
+        when(client.walkMinutes(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(300);
 
         RouteVerifier.Result result = verifier.verify(picks, 37.5, 126.9, 600, 780, 15, false);
 
         assertThat(result.picks()).extracting(p -> p.place().id()).containsExactly("a");
+    }
+
+    @Test
+    void shrinksEarlierStaysBeforeDroppingTheTail() {
+        List<Pick> picks = List.of(pick("a", 5, 605, 60), pick("b", 20, 685, 60));
+        when(client.walkMinutes(anyDouble(), anyDouble(), anyDouble(), anyDouble())).thenReturn(50);
+
+        RouteVerifier.Result result = verifier.verify(picks, 37.5, 126.9, 600, 780, 15, false);
+
+        assertThat(result.picks()).extracting(p -> p.place().id()).containsExactly("a", "b");
+        assertThat(result.picks().get(1).departMin() + 15).isLessThanOrEqualTo(780);
     }
 
     @Test

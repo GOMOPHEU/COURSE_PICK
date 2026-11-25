@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Component;
@@ -79,6 +80,25 @@ public class CourseAssembler {
         final PlaceLookupService lookup;
         final ScoreCalculator calculator;
         int googleCalls;
+        int searchCalls;
+        final Map<String, Set<String>> seen = new HashMap<>();
+        final Map<String, Map<String, String>> rejected = new HashMap<>();
+        final Set<String> tried = new HashSet<>();
+
+        void see(String theme, String id) {
+            seen.computeIfAbsent(theme, k -> new HashSet<>()).add(id);
+        }
+
+        void reject(String theme, String id, String reason) {
+            rejected.computeIfAbsent(theme, k -> new HashMap<>()).put(id, reason);
+        }
+
+        void accept(String theme, String id) {
+            Map<String, String> map = rejected.get(theme);
+            if (map != null) {
+                map.remove(id);
+            }
+        }
 
         Context(Input input, int reserveMin, PlaceLookupService lookup, ScoreCalculator calculator) {
             this.input = input;
@@ -115,12 +135,93 @@ public class CourseAssembler {
     }
 
     public List<Pick> assemble(Input in) {
+        return assemble(in, Set.of());
+    }
+
+    public Optional<KakaoPlace> findPlace(String name) {
+        return collector.findByName(name);
+    }
+
+    public List<Pick> assemble(Input in, Set<String> excludedIds) {
+        return assemble(in, excludedIds, null);
+    }
+
+    public record Assembly(List<Pick> picks, Map<String, String> notes) {
+    }
+
+    public List<Pick> assemble(Input in, Set<String> excludedIds, KakaoPlace mustVisit) {
+        return assembleWithNotes(in, excludedIds, mustVisit).picks();
+    }
+
+    public Assembly assembleWithNotes(Input in, Set<String> excludedIds, KakaoPlace mustVisit) {
+        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator());
+        List<Pick> picks = build(in, excludedIds, mustVisit, ctx);
+        return new Assembly(picks, missingNotes(ctx, picks, in));
+    }
+
+    public static String themeLabel(String theme) {
+        return switch (theme) {
+            case "walk" -> "산책";
+            case "culture" -> "문화";
+            case "history" -> "역사";
+            case "cafe" -> "카페";
+            case "food" -> "식당";
+            case "shopping" -> "쇼핑";
+            default -> theme;
+        };
+    }
+
+    private Map<String, String> missingNotes(Context ctx, List<Pick> picks, Input in) {
+        Set<String> pickedThemes = new HashSet<>();
+        Set<String> pickedIds = new HashSet<>();
+        for (Pick p : picks) {
+            pickedThemes.add(p.theme());
+            pickedIds.add(p.place().id());
+        }
+        Map<String, String> notes = new java.util.LinkedHashMap<>();
+        for (String theme : in.themes()) {
+            if (pickedThemes.contains(theme) || notes.containsKey(theme)) {
+                continue;
+            }
+            String label = themeLabel(theme);
+            Set<String> seen = new HashSet<>(ctx.seen.getOrDefault(theme, Set.of()));
+            seen.removeAll(pickedIds);
+            if (seen.isEmpty()) {
+                notes.put(theme, ctx.tried.contains(theme)
+                        ? label + ": 이동 가능한 반경 안에 후보가 없어요"
+                        : label + ": 시간이 부족해 일정에 넣지 못했어요");
+                continue;
+            }
+            Map<String, Integer> counts = new HashMap<>();
+            for (Map.Entry<String, String> e : ctx.rejected.getOrDefault(theme, Map.of()).entrySet()) {
+                if (seen.contains(e.getKey())) {
+                    counts.merge(e.getValue(), 1, Integer::sum);
+                }
+            }
+            if (counts.isEmpty()) {
+                notes.put(theme, label + ": 후보 " + seen.size() + "곳이 있었지만 시간 배분상 넣지 못했어요");
+                continue;
+            }
+            List<Map.Entry<String, Integer>> sorted = new ArrayList<>(counts.entrySet());
+            sorted.sort((a, b) -> b.getValue() - a.getValue());
+            StringBuilder text = new StringBuilder(label + ": 후보 " + seen.size() + "곳 중 ");
+            for (int i = 0; i < Math.min(3, sorted.size()); i++) {
+                if (i > 0) {
+                    text.append(", ");
+                }
+                text.append(sorted.get(i).getKey()).append(' ').append(sorted.get(i).getValue()).append('곳');
+            }
+            notes.put(theme, text.toString());
+        }
+        return notes;
+    }
+
+    private List<Pick> build(Input in, Set<String> excludedIds, KakaoPlace mustVisit, Context ctx) {
         JsonNode planning = settings.root().path("planning");
         int maxPlaces = planning.path("maxPlaces").asInt(8);
-        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator());
 
         List<Pick> picks = new ArrayList<>();
-        Set<String> used = new HashSet<>();
+        Set<String> used = new HashSet<>(excludedIds);
         Map<String, Integer> counts = new HashMap<>();
         Set<String> meals = new HashSet<>();
         int clock = in.startMin();
@@ -129,13 +230,22 @@ public class CourseAssembler {
         double lat = in.startLat();
         double lng = in.startLng();
 
+        String mustTheme = null;
+        boolean mustDone = mustVisit == null;
+        if (mustVisit != null) {
+            mustTheme = collector.themeOf(mustVisit, in.themes());
+            if (mustTheme == null) {
+                mustTheme = "walk";
+            }
+        }
+
         while (picks.size() < maxPlaces) {
             PlanState state = new PlanState(
                     in.startMin(), clock, in.endMin(), last, lastCafe, Map.copyOf(counts), Set.copyOf(meals), in.themes());
             String pending = planner.pendingMealWindow(state);
             boolean mealPending = pending != null;
             Slot slot = planner.next(state).orElse(null);
-            if (slot == null && mealPending && !"food".equals(last)) {
+            if (slot == null && mealPending && !"food".equals(last) && !mealTooEarly(pending, clock)) {
                 slot = new Slot("food", false, pending);
             }
             if (slot == null) {
@@ -145,7 +255,21 @@ public class CourseAssembler {
                 meals.add(slot.mealWindow());
             }
             String theme = slot.theme();
-            Eligible chosen = choose(ctx, theme, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
+            Eligible chosen = null;
+            if (!mustDone) {
+                boolean now = "food".equals(mustTheme)
+                        ? "food".equals(theme) : slot.mealWindow() == null && !mustTheme.equals(last);
+                if (now) {
+                    mustDone = true;
+                    chosen = mustEligible(ctx, mustVisit, mustTheme, lat, lng, clock, picks, mealPending);
+                    if (chosen != null) {
+                        theme = mustTheme;
+                    }
+                }
+            }
+            if (chosen == null) {
+                chosen = choose(ctx, theme, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
+            }
             if (chosen == null && slot.mealWindow() != null) {
                 chosen = rescueMeal(ctx, slot.mealWindow(), picks, used, counts);
                 if (chosen == null) {
@@ -160,8 +284,14 @@ public class CourseAssembler {
                 lng = c.lng();
             }
             if (chosen == null) {
-                for (String alt : in.themes()) {
-                    if (alt.equals(slot.theme()) || alt.equals(last)) {
+                List<String> alts = new ArrayList<>(in.themes());
+                for (String extra : slot.shortSlot() ? List.of("walk") : List.of("walk", "culture", "history", "cafe")) {
+                    if (!alts.contains(extra)) {
+                        alts.add(extra);
+                    }
+                }
+                for (String alt : alts) {
+                    if (alt.equals(slot.theme()) || alt.equals(last) || !planner.allows(state, alt)) {
                         continue;
                     }
                     chosen = choose(ctx, alt, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
@@ -171,7 +301,7 @@ public class CourseAssembler {
                     }
                 }
             }
-            if (chosen == null && mealPending && !"food".equals(last)) {
+            if (chosen == null && mealPending && !"food".equals(last) && !mealTooEarly(pending, clock)) {
                 chosen = choose(ctx, "food", false, lat, lng, clock, picks, used, false);
                 if (chosen != null) {
                     theme = "food";
@@ -219,7 +349,32 @@ public class CourseAssembler {
                 }
             }
         }
+        Set<String> servedMeals = new HashSet<>();
+        for (String window : List.of("lunch", "dinner")) {
+            int windowStart = planner.mealWindowStart(window);
+            for (Pick p : picks) {
+                if ("food".equals(p.theme()) && p.arriveMin() >= windowStart - 90) {
+                    servedMeals.add(window);
+                }
+            }
+        }
+        PlanState finalState = new PlanState(
+                in.startMin(), clock, in.endMin(), last, lastCafe, Map.copyOf(counts), servedMeals, in.themes());
+        String missingMeal = planner.pendingMealWindow(finalState);
+        if (missingMeal != null) {
+            Eligible rescued = rescueMeal(ctx, missingMeal, picks, used, counts);
+            if (rescued == null) {
+                return picks;
+            }
+            picks.add(new Pick(rescued.place(), "food", rescued.travelMin(), rescued.arriveMin(), rescued.stayMin(),
+                    rescued.stay(), rescued.openStatus()));
+        }
         return extendLast(picks, in.endMin(), ctx.reserveMin);
+    }
+
+    private boolean mealTooEarly(String window, int clock) {
+        int early = settings.root().path("planning").path("forcedMealEarlyMin").asInt(60);
+        return clock < planner.mealWindowStart(window) - early;
     }
 
     private record Cursor(int clock, String last, int lastCafe, double lat, double lng) {}
@@ -312,13 +467,19 @@ public class CourseAssembler {
         List<Eligible> eligible = new ArrayList<>();
         int verifyCount = 0;
         int inner = 0;
+        ctx.tried.add(theme);
 
         for (int step : collector.expansionSteps()) {
             List<KakaoPlace> raw = collector.collectRing(theme, lat, lng, inner, step);
             inner = step;
             List<Eligible> pre = new ArrayList<>();
             for (KakaoPlace p : raw) {
-                if (!seen.add(p.id()) || used.contains(p.id())) {
+                if (!seen.add(p.id())) {
+                    continue;
+                }
+                ctx.see(theme, p.id());
+                if (used.contains(p.id())) {
+                    ctx.reject(theme, p.id(), "앞선 코스에서 쓴 곳");
                     continue;
                 }
                 Eligible e = prefilter(ctx, p, theme, shortSlot, clock, picks, mealPending);
@@ -330,12 +491,13 @@ public class CourseAssembler {
                 if (eligible.size() >= minEligible || verifyCount >= maxVerify) {
                     break;
                 }
-                int callsBefore = ctx.googleCalls;
+                int callsBefore = ctx.googleCalls + ctx.searchCalls;
                 Eligible verified = verify(ctx, e, theme);
-                if (ctx.googleCalls > callsBefore) {
+                if (ctx.googleCalls + ctx.searchCalls > callsBefore) {
                     verifyCount++;
                 }
                 if (verified != null) {
+                    ctx.accept(theme, e.place().id());
                     eligible.add(verified);
                 }
             }
@@ -391,12 +553,22 @@ public class CourseAssembler {
             List<Pick> picks,
             boolean mealPending) {
         Input in = ctx.input;
-        if (isClosedDay(p.name(), in.date()) || isExcludedBar(p, in) || duplicatesChosen(p, theme, picks)) {
+        if (isClosedDay(p.name(), in.date())) {
+            ctx.reject(theme, p.id(), "휴관일");
+            return null;
+        }
+        if (isExcludedBar(p, in)) {
+            ctx.reject(theme, p.id(), "주류 업종 제외");
+            return null;
+        }
+        if (duplicatesChosen(p, theme, picks)) {
+            ctx.reject(theme, p.id(), "이미 고른 곳과 중복");
             return null;
         }
         int travel = walkTime.minutes(p.distanceM());
         int maxLeg = maxLegMinutes(in);
         if (maxLeg > 0 && travel > maxLeg) {
+            ctx.reject(theme, p.id(), "이동 시간 한도 초과");
             return null;
         }
         int arrive = clock + travel;
@@ -407,6 +579,7 @@ public class CourseAssembler {
             stayMin = stay.minMin();
         }
         if (arrive + stayMin + mealReserve + ctx.reserveMin > in.endMin()) {
+            ctx.reject(theme, p.id(), "남은 시간 부족");
             return null;
         }
         return new Eligible(p, travel, arrive, stayMin, stay, "unknown", null, null);
@@ -417,40 +590,83 @@ public class CourseAssembler {
         return stayPolicy.stayFor("food", "").minMin() + buffer;
     }
 
+    private Eligible mustEligible(
+            Context ctx, KakaoPlace place, String theme, double lat, double lng, int clock, List<Pick> picks,
+            boolean mealPending) {
+        int distance = (int) Math.round(Geo.distanceM(lat, lng, place.lat(), place.lng()));
+        KakaoPlace anchored = new KakaoPlace(place.id(), place.name(), place.categoryName(),
+                place.categoryGroupCode(), place.address(), place.roadAddress(), place.lat(), place.lng(),
+                distance, place.placeUrl());
+        Eligible e = prefilter(ctx, anchored, theme, false, clock, picks, mealPending);
+        if (e == null) {
+            return null;
+        }
+        return verify(ctx, e, theme, true);
+    }
+
     private Eligible verify(Context ctx, Eligible e, String theme) {
+        return verify(ctx, e, theme, false);
+    }
+
+    private Eligible verify(Context ctx, Eligible e, String theme, boolean lenient) {
         JsonNode planning = settings.root().path("planning");
         int maxCalls = planning.path("maxGoogleCallsPerRequest").asInt(30);
-        boolean strict = planning.path("requireGoogleMatch").asBoolean(false);
+        boolean strict = !lenient && planning.path("requireGoogleMatch").asBoolean(false);
         if (ctx.lookup == null) {
             return e;
         }
-        if (ctx.googleCalls >= maxCalls) {
-            return strict ? null : e;
+        int maxSearches = planning.path("maxGoogleSearchesPerRequest").asInt(60);
+        String id = e.place().id();
+        if (ctx.googleCalls >= maxCalls || ctx.searchCalls >= maxSearches) {
+            if (strict) {
+                ctx.reject(theme, id, "구글 확인 한도 초과");
+                return null;
+            }
+            return e;
         }
         LocalDate date = ctx.input.date();
         LocalDateTime arrive = date.atStartOfDay().plusMinutes(e.arriveMin());
         LocalDateTime depart = arrive.plusMinutes(e.stayMin());
         PlaceLookupService.Result result;
+        int searchesBefore = ctx.lookup.searchCount();
         try {
-            result = ctx.lookup.lookup(e.place().id(), theme, date);
+            result = ctx.lookup.lookup(e.place(), theme, date);
         } catch (RuntimeException ex) {
-            return strict ? null : e;
+            ctx.searchCalls += ctx.lookup.searchCount() - searchesBefore;
+            if (strict) {
+                ctx.reject(theme, id, "구글 조회 실패");
+                return null;
+            }
+            return e;
         }
+        ctx.searchCalls += ctx.lookup.searchCount() - searchesBefore;
         if (result.google() != null) {
             ctx.googleCalls++;
         }
         String decision = result.decision();
         if ("EXCLUDE".equals(decision)) {
+            ctx.reject(theme, id, "제외 대상 장소");
             return null;
         }
         if (!"CHECK_HOURS".equals(decision)) {
-            return strict ? null : e;
+            if (strict) {
+                ctx.reject(theme, id, "구글 매칭 실패");
+                return null;
+            }
+            return e;
         }
         PlaceLookupResponse response = PlaceLookupResponse.from(result, date, arrive, depart);
         if ("CLOSED".equals(response.openCheck())) {
+            ctx.reject(theme, id, "방문 시각에 영업 안 함");
             return null;
         }
         if (response.businessStatus() != null && !"OPERATIONAL".equals(response.businessStatus())) {
+            ctx.reject(theme, id, "폐업 또는 휴업");
+            return null;
+        }
+        if (!"OPEN".equals(response.openCheck()) && !lenient
+                && planning.path("requireKnownHours").asBoolean(false)) {
+            ctx.reject(theme, id, "영업시간 확인 불가");
             return null;
         }
         String status = "OPEN".equals(response.openCheck()) ? "confirmed" : "unknown";

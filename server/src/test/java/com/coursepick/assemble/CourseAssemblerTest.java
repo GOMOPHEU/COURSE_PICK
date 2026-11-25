@@ -2,6 +2,7 @@ package com.coursepick.assemble;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -170,7 +171,7 @@ class CourseAssemblerTest {
         stubCategory("AT4", place("h2", "창덕궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0030, 0.0050));
         stubCategory("FD6", place("f2", "한식당", "음식점 > 한식", 0.0004, -0.0003));
 
-        List<Pick> picks = assembler.assemble(input("2026-11-28", "14:00", "19:00", List.of("history"), null));
+        List<Pick> picks = assembler.assemble(input("2026-11-28", "15:30", "19:00", List.of("history"), null));
 
         assertThat(picks).extracting(Pick::theme).contains("history", "food");
     }
@@ -196,9 +197,9 @@ class CourseAssemblerTest {
                 """;
         JsonNode official = new ObjectMapper().readTree(openAllDay);
         PlaceLookupService lookup = mock(PlaceLookupService.class);
-        when(lookup.lookup(eq("h1"), eq("history"), any(LocalDate.class)))
+        when(lookup.lookup(argThat((KakaoPlace p) -> p != null && p.id().equals("h1")), eq("history"), any(LocalDate.class)))
                 .thenReturn(new PlaceLookupService.Result("h1", "CHECK_HOURS", "official", "R", null, official));
-        when(lookup.lookup(eq("h2"), eq("history"), any(LocalDate.class)))
+        when(lookup.lookup(argThat((KakaoPlace p) -> p != null && p.id().equals("h2")), eq("history"), any(LocalDate.class)))
                 .thenReturn(new PlaceLookupService.Result("h2", "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null));
         ObjectProvider<PlaceLookupService> provider = mock(ObjectProvider.class);
         when(provider.getIfAvailable()).thenReturn(lookup);
@@ -243,6 +244,51 @@ class CourseAssemblerTest {
 
         assertThat(picks).extracting(Pick::theme).startsWith("cafe", "food");
         assertThat(picks.get(0).departMin()).isEqualTo(SlotPlanner.parseMinutes("17:00"));
+    }
+
+    @Test
+    void excludedPlacesAreNeverPicked() {
+        stubCategory("CE7",
+                place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003),
+                place("c2", "카페B", "음식점 > 카페", 0.0005, -0.0004));
+
+        List<Pick> picks = assembler.assemble(
+                input("2026-11-28", "14:00", "16:00", List.of("cafe"), null), java.util.Set.of("c1"));
+
+        assertThat(picks).extracting(p -> p.place().id()).containsExactly("c2");
+    }
+
+    @Test
+    void explainsWhyAThemeIsMissing() {
+        stubCategory("CE7", place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003));
+
+        CourseAssembler.Assembly result = assembler.assembleWithNotes(
+                input("2026-11-28", "14:00", "16:00", List.of("cafe"), null), java.util.Set.of("c1"), null);
+
+        assertThat(result.picks()).isEmpty();
+        assertThat(result.notes().get("cafe")).contains("카페", "앞선 코스에서 쓴 곳 1곳");
+    }
+
+    @Test
+    void mustVisitPlaceIsIncludedEvenWhenThemeWasNotChosen() {
+        stubCategory("CE7", place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003));
+        KakaoPlace must = place("h1", "운현궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0004, 0.0016);
+
+        List<Pick> picks = assembler.assemble(
+                input("2026-11-28", "14:00", "17:30", List.of("cafe"), null), java.util.Set.of(), must);
+
+        assertThat(picks).extracting(p -> p.place().id()).contains("h1", "c1");
+    }
+
+    @Test
+    void mustVisitIsSkippedWhenItsClosedDayMatches() {
+        stubCategory("CE7", place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003));
+        KakaoPlace must = place("h2", "창덕궁", "여행 > 관광,명소 > 문화유적 > 고궁,궁", 0.0030, 0.0050);
+
+        List<Pick> picks = assembler.assemble(
+                input("2026-11-30", "14:00", "16:00", List.of("cafe"), null), java.util.Set.of(), must);
+
+        assertThat(picks).extracting(p -> p.place().id()).doesNotContain("h2");
     }
 
     @Test

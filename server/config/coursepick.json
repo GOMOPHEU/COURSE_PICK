@@ -79,11 +79,13 @@
   "mealWindows": {
     "lunch": {
       "from": "11:00",
-      "to": "14:30"
+      "to": "14:30",
+      "latestStart": "13:30"
     },
     "dinner": {
       "from": "17:00",
-      "to": "20:30"
+      "to": "20:30",
+      "latestStart": "19:30"
     }
   },
   "timeFit": {
@@ -316,7 +318,7 @@
   ],
   "planning": {
     "returnReserveMin": 15,
-    "mealOverlapMin": 30,
+    "mealOverlapMin": 65,
     "cafeMaxPerDay": 3,
     "cafeMinGapMin": 240,
     "largePalaceNames": [
@@ -333,10 +335,20 @@
     "requireGoogleMatch": true,
     "dinnerPlan": {
       "splitAt": "16:30"
-    }
+    },
+    "maxCourses": 3,
+    "minPlacesPerCourse": 2,
+    "maxGoogleSearchesPerRequest": 60,
+    "forcedMealEarlyMin": 60,
+    "requireKnownHours": true
   },
   "routeVerify": {
     "enabled": true,
     "maxLegs": 3
+  },
+  "placeMatching": {
+    "enabled": true,
+    "cachePath": "data/runtime-mappings.json",
+    "dailySearchLimit": 300
   }
 }
