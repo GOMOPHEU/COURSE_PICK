@@ -6,6 +6,7 @@ import com.coursepick.assemble.CourseAssembler.Pick;
 import com.coursepick.config.CoursepickProperties;
 import com.coursepick.config.CoursepickSettings;
 import com.coursepick.dto.RecommendRequest;
+import com.coursepick.gemini.GeminiRanker;
 import com.coursepick.dto.RecommendResponse;
 import com.coursepick.dto.RecommendResponse.Course;
 import com.coursepick.dto.RecommendResponse.Leg;
@@ -32,11 +33,13 @@ public class RecommendService {
     private final CoursepickSettings settings;
     private final CoursepickProperties properties;
     private final RouteVerifier routeVerifier;
+    private final GeminiRanker geminiRanker;
 
     public RecommendService(
             CourseAssembler assembler, CoursepickSettings settings, CoursepickProperties properties,
-            RouteVerifier routeVerifier) {
+            RouteVerifier routeVerifier, GeminiRanker geminiRanker) {
         this.routeVerifier = routeVerifier;
+        this.geminiRanker = geminiRanker;
         this.assembler = assembler;
         this.settings = settings;
         this.properties = properties;
@@ -72,9 +75,12 @@ public class RecommendService {
                     .orElseThrow(() -> new BadRequestException("필수 방문지를 이 지역에서 찾을 수 없습니다"));
         }
         List<Course> courses = new ArrayList<>();
+        List<String> geminiNotes = new ArrayList<>();
         Set<String> excluded = new HashSet<>();
         boolean routeFailed = false;
-        for (int n = 0; n < maxCourses; n++) {
+        boolean useGemini = geminiRanker.available();
+        int target = useGemini ? Math.max(maxCourses, geminiRanker.candidateCourses()) : maxCourses;
+        for (int n = 0; n < target && courses.size() < target; n++) {
             CourseAssembler.Assembly assembly = assembler.assembleWithNotes(input, excluded, mustVisit);
             List<Pick> picks = assembly.picks();
             if (picks.isEmpty()) {
@@ -110,12 +116,47 @@ public class RecommendService {
                     ? "가까운 곳부터 점수순으로 이어 붙인 기본 추천이에요"
                     : "앞선 코스와 장소가 겹치지 않는 다른 구성의 추천이에요";
             List<String> notes = missingThemeNotes(input.themes(), picks, assembledThemes, assembly.notes());
-            courses.add(toCourse(id, reason, picks, startMin, endMin, modes, notes));
+            courses.add(toCourse(id, "basic", reason, picks, startMin, endMin, modes, notes));
         }
         if (courses.isEmpty()) {
-            return new RecommendResponse(List.of(), routeFailed ? "ROUTE_FAIL" : "NO_COURSE");
+            return new RecommendResponse(List.of(), routeFailed ? "ROUTE_FAIL" : "NO_COURSE", geminiNotes);
         }
-        return new RecommendResponse(courses, "OK");
+        if (useGemini && courses.size() > 1) {
+            GeminiRanker.Result ranked = geminiRanker.rank(input, courses, maxCourses);
+            geminiNotes.addAll(ranked.notes());
+            courses = applyChoices(courses, ranked.choices(), maxCourses);
+        } else if (courses.size() > maxCourses) {
+            courses = renumber(new ArrayList<>(courses.subList(0, maxCourses)));
+        }
+        return new RecommendResponse(courses, "OK", geminiNotes);
+    }
+
+    private List<Course> applyChoices(List<Course> courses, List<GeminiRanker.Choice> choices, int maxCourses) {
+        List<Course> ordered = new ArrayList<>();
+        Set<Integer> used = new HashSet<>();
+        for (GeminiRanker.Choice choice : choices) {
+            Course base = courses.get(choice.index());
+            String reason = choice.reason().isBlank() ? base.reason() : choice.reason();
+            ordered.add(new Course(base.courseId(), base.source(), base.places(), base.legs(), base.totalMinutes(),
+                    base.endAt(), base.fit(), reason, base.notes()));
+            used.add(choice.index());
+        }
+        for (int i = 0; i < courses.size() && ordered.size() < maxCourses; i++) {
+            if (!used.contains(i)) {
+                ordered.add(courses.get(i));
+            }
+        }
+        return renumber(ordered);
+    }
+
+    private List<Course> renumber(List<Course> list) {
+        List<Course> result = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            Course c = list.get(i);
+            result.add(new Course("c" + (i + 1), c.source(), c.places(), c.legs(), c.totalMinutes(), c.endAt(),
+                    c.fit(), c.reason(), c.notes()));
+        }
+        return result;
     }
 
     private List<String> missingThemeNotes(
@@ -141,7 +182,7 @@ public class RecommendService {
     }
 
     private Course toCourse(
-            String id, String reason, List<Pick> picks, int startMin, int endMin, Map<Integer, String> modes,
+            String id, String source, String reason, List<Pick> picks, int startMin, int endMin, Map<Integer, String> modes,
             List<String> notes) {
         List<Place> places = new ArrayList<>();
         List<Leg> legs = new ArrayList<>();
@@ -156,7 +197,7 @@ public class RecommendService {
         int totalMinutes = finishMin - startMin;
         TimeFit fit = TimeFit.of(totalMinutes + assembler.returnReserveMin(), endMin - startMin);
         String fitValue = fit == TimeFit.OVER ? TimeFit.TIGHT.apiValue() : fit.apiValue();
-        return new Course(id, "basic", places, legs, totalMinutes, format(finishMin), fitValue, reason, notes);
+        return new Course(id, source, places, legs, totalMinutes, format(finishMin), fitValue, reason, notes);
     }
 
     private JsonNode findStartPoint(String id) {
@@ -195,6 +236,6 @@ public class RecommendService {
                 "relaxed",
                 "임시 응답입니다. 카카오 키가 없어 앱 화면 개발용 가짜 데이터를 돌려줘요",
                 List.of());
-        return new RecommendResponse(List.of(course), "OK");
+        return new RecommendResponse(List.of(course), "OK", List.of());
     }
 }

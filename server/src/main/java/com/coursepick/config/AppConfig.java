@@ -1,5 +1,6 @@
 package com.coursepick.config;
 
+import com.coursepick.gemini.GeminiClient;
 import com.coursepick.places.GooglePlacesClient;
 import com.coursepick.places.PlaceLookupService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,16 @@ public class AppConfig {
                     matching.path("dailySearchLimit").asInt(300));
         }
         return service;
+    }
+
+    @Bean
+    @Conditional(GeminiKeyCondition.class)
+    public GeminiClient geminiClient(CoursepickProperties properties, CoursepickSettings settings) {
+        var gemini = settings.root().path("gemini");
+        return new GeminiClient(
+                properties.keys().gemini().strip(),
+                gemini.path("model").asText("gemini-3.5-flash-lite"),
+                gemini.path("timeoutSeconds").asInt(40));
     }
 
     @Bean

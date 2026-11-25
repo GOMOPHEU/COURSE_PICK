@@ -2,7 +2,7 @@ package com.coursepick.dto;
 
 import java.util.List;
 
-public record RecommendResponse(List<Course> courses, String state) {
+public record RecommendResponse(List<Course> courses, String state, List<String> geminiNotes) {
 
     public record Course(
             String courseId,

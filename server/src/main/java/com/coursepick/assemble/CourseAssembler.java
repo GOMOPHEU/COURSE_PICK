@@ -450,7 +450,7 @@ public class CourseAssembler {
         return result;
     }
 
-    private Eligible choose(
+    private List<Eligible> collectEligible(
             Context ctx,
             String theme,
             boolean shortSlot,
@@ -459,10 +459,10 @@ public class CourseAssembler {
             int clock,
             List<Pick> picks,
             Set<String> used,
-            boolean mealPending) {
+            boolean mealPending,
+            int minEligible) {
         JsonNode planning = settings.root().path("planning");
         int maxVerify = planning.path("maxVerifyPerSlot").asInt(20);
-        int minEligible = collector.minEligible();
         Set<String> seen = new HashSet<>();
         List<Eligible> eligible = new ArrayList<>();
         int verifyCount = 0;
@@ -505,6 +505,21 @@ public class CourseAssembler {
                 break;
             }
         }
+        return eligible;
+    }
+
+    private Eligible choose(
+            Context ctx,
+            String theme,
+            boolean shortSlot,
+            double lat,
+            double lng,
+            int clock,
+            List<Pick> picks,
+            Set<String> used,
+            boolean mealPending) {
+        List<Eligible> eligible = collectEligible(
+                ctx, theme, shortSlot, lat, lng, clock, picks, used, mealPending, collector.minEligible());
         if (eligible.isEmpty()) {
             return null;
         }

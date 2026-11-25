@@ -52,7 +52,7 @@ curl http://localhost:8080/health
 |---|---|
 | `KAKAO_REST_API_KEY` | 카카오 로컬 API와 길찾기 API (같은 앱 키를 사용) |
 | `GOOGLE_PLACES_API_KEY` | 구글 Places API (New) |
-| `GEMINI_API_KEY` | Gemini (11/25 이후 연결 예정) |
+| `GEMINI_API_KEY` | Gemini 코스 구성 (없으면 기본 코스만 사용) |
 
 PowerShell에서 키를 넣고 실행하는 예:
 
