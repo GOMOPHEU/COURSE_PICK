@@ -334,5 +334,9 @@
     "dinnerPlan": {
       "splitAt": "16:30"
     }
+  },
+  "routeVerify": {
+    "enabled": true,
+    "maxLegs": 3
   }
 }

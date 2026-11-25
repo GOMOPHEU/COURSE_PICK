@@ -11,12 +11,15 @@ import com.coursepick.dto.RecommendResponse.Course;
 import com.coursepick.dto.RecommendResponse.Leg;
 import com.coursepick.dto.RecommendResponse.Place;
 import com.coursepick.plan.SlotPlanner;
+import com.coursepick.route.RouteException;
+import com.coursepick.route.RouteVerifier;
 import com.coursepick.score.TimeFit;
 import com.fasterxml.jackson.databind.JsonNode;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,8 +28,12 @@ public class RecommendService {
     private final CourseAssembler assembler;
     private final CoursepickSettings settings;
     private final CoursepickProperties properties;
+    private final RouteVerifier routeVerifier;
 
-    public RecommendService(CourseAssembler assembler, CoursepickSettings settings, CoursepickProperties properties) {
+    public RecommendService(
+            CourseAssembler assembler, CoursepickSettings settings, CoursepickProperties properties,
+            RouteVerifier routeVerifier) {
+        this.routeVerifier = routeVerifier;
         this.assembler = assembler;
         this.settings = settings;
         this.properties = properties;
@@ -54,10 +61,26 @@ public class RecommendService {
         if (picks.isEmpty()) {
             return new RecommendResponse(List.of(), "NO_COURSE");
         }
-        return new RecommendResponse(List.of(toCourse(picks, startMin, endMin)), "OK");
+        boolean transit = "transit".equalsIgnoreCase(request.transport());
+        Map<Integer, String> modes = Map.of();
+        if (settings.root().path("routeVerify").path("enabled").asBoolean(true)) {
+            try {
+                RouteVerifier.Result verified = routeVerifier.verify(
+                        picks, input.startLat(), input.startLng(), startMin, endMin,
+                        assembler.returnReserveMin(), transit);
+                picks = verified.picks();
+                modes = verified.modes();
+            } catch (RouteException e) {
+                return new RecommendResponse(List.of(), "ROUTE_FAIL");
+            }
+            if (picks.isEmpty()) {
+                return new RecommendResponse(List.of(), "NO_COURSE");
+            }
+        }
+        return new RecommendResponse(List.of(toCourse(picks, startMin, endMin, modes)), "OK");
     }
 
-    private Course toCourse(List<Pick> picks, int startMin, int endMin) {
+    private Course toCourse(List<Pick> picks, int startMin, int endMin, Map<Integer, String> modes) {
         List<Place> places = new ArrayList<>();
         List<Leg> legs = new ArrayList<>();
         for (int i = 0; i < picks.size(); i++) {
@@ -65,7 +88,7 @@ public class RecommendService {
             places.add(new Place(i + 1, p.place().id(), p.place().name(), p.theme(), p.place().lat(), p.place().lng(),
                     format(p.arriveMin()), p.stayMin(), p.openStatus()));
             Object from = i == 0 ? "start" : (Object) i;
-            legs.add(new Leg(from, i + 1, "walk", p.travelMin()));
+            legs.add(new Leg(from, i + 1, modes.getOrDefault(i, "walk"), p.travelMin()));
         }
         int finishMin = picks.get(picks.size() - 1).departMin();
         int totalMinutes = finishMin - startMin;
