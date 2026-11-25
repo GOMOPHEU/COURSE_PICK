@@ -76,6 +76,13 @@ public class SlotPlanner {
         return null;
     }
 
+    public boolean allows(PlanState state, String theme) {
+        if (theme.equals(state.lastTheme())) {
+            return false;
+        }
+        return !"cafe".equals(theme) || cafeAllowed(state);
+    }
+
     private String edge(JsonNode window, int index, String key) {
         return window.isArray() ? window.get(index).asText() : window.path(key).asText();
     }

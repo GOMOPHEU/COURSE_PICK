@@ -316,6 +316,9 @@
       "창경궁",
       "덕수궁",
       "경희궁"
-    ]
+    ],
+    "maxPlaces": 8,
+    "maxVerifyPerSlot": 20,
+    "maxGoogleCallsPerRequest": 30
   }
 }
