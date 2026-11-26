@@ -47,6 +47,7 @@ class ApiSmokeTest {
     @Test
     void recommendRejectsMissingFields() throws Exception {
         mockMvc.perform(post("/recommend").contentType(MediaType.APPLICATION_JSON).content("{}"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("INVALID_INPUT"));
     }
 }

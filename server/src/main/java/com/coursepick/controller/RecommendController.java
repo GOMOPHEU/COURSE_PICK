@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import java.time.format.DateTimeParseException;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,17 +33,23 @@ public class RecommendController {
 
     @ExceptionHandler({BadRequestException.class, DateTimeParseException.class})
     public ResponseEntity<Map<String, String>> badRequest(RuntimeException e) {
-        return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
+        return ResponseEntity.badRequest().body(Map.of("code", "INVALID_INPUT", "error", e.getMessage()));
+    }
+
+    @ExceptionHandler({MethodArgumentNotValidException.class, HttpMessageNotReadableException.class})
+    public ResponseEntity<Map<String, String>> invalidBody(Exception e) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("code", "INVALID_INPUT", "error", "요청 값이 비었거나 형식이 올바르지 않습니다"));
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<Map<String, String>> internalError(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of("error", "요청을 처리하는 중 오류가 발생했습니다"));
+                .body(Map.of("code", "INTERNAL_ERROR", "error", "요청을 처리하는 중 오류가 발생했습니다"));
     }
 
     @ExceptionHandler(RestClientException.class)
     public ResponseEntity<Map<String, String>> upstreamFailure(RestClientException e) {
-        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of("error", "외부 API 조회에 실패했습니다"));
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY).body(Map.of("code", "UPSTREAM_FAILURE", "error", "외부 API 조회에 실패했습니다"));
     }
 }
