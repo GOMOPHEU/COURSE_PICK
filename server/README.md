@@ -1,6 +1,6 @@
 # coursepick-server
 
-코스픽(CoursePick) 추천 서버입니다. 앱의 설문 값을 받아 카카오 후보 조회, 구글 검증, 코스 구성, 경로 API 시간 검증을 거친 코스를 돌려줍니다. 현재는 앱 개발용으로 `/recommend`가 고정된 가짜 응답을 돌려주는 상태입니다.
+코스픽(CoursePick) 추천 서버입니다. 앱의 설문 값을 받아 카카오 후보 조회, 구글 검증, 코스 구성, 경로 API 시간 검증을 거친 코스를 돌려줍니다. 카카오 키가 없으면 `/recommend`는 앱 화면 개발용 고정 응답을 돌려줍니다. 요청·응답 형식과 추천 흐름은 [API.md](API.md)를 봅니다.
 
 ## 환경
 
@@ -52,7 +52,7 @@ curl http://localhost:8080/health
 |---|---|
 | `KAKAO_REST_API_KEY` | 카카오 로컬 API와 길찾기 API (같은 앱 키를 사용) |
 | `GOOGLE_PLACES_API_KEY` | 구글 Places API (New) |
-| `GEMINI_API_KEY` | Gemini 코스 구성 (없으면 기본 코스만 사용) |
+| `GEMINI_API_KEY` | Gemini 코스 선택과 추천 이유 (없으면 코드가 만든 코스를 그대로 사용) |
 
 PowerShell에서 키를 넣고 실행하는 예:
 
@@ -73,10 +73,10 @@ $env:KAKAO_REST_API_KEY="여기에_키"
 | 주소 | 설명 | 상태 |
 |---|---|---|
 | `GET /health` | 서버 상태, 설정된 지역, 키 설정 여부 | 완료 |
-| `POST /recommend` | 설문 값을 받아 코스 1~3개를 돌려줌 | 가짜 응답 |
+| `POST /recommend` | 설문 값을 받아 코스 1~3개를 돌려줌. 키가 없으면 고정 응답 | 완료 |
 | `GET /places/{kakaoId}?theme=food&date=2026-11-28` | 카카오 ID로 구글 조회(별점, 영업시간, 폐업 여부). `theme`은 cafe, food, walk, shopping, history, culture 중 하나, `date`는 생략하면 오늘. `arrive`·`depart`(HH:mm)를 함께 주면 `openCheck`(OPEN, CLOSED, UNKNOWN)로 도착~출발 전체가 영업 구간 안인지 판정. `GOOGLE_PLACES_API_KEY`가 없으면 503 | 완료 |
 
-요청과 응답 형식은 팀 할일 목록 v2의 12-1절을 따릅니다.
+요청과 응답 형식, 오류 코드, 추천 흐름은 [API.md](API.md)에 있습니다.
 
 ## 설정 파일
 
@@ -91,7 +91,13 @@ src/main/java/com/coursepick
 ├── controller    요청을 받는 곳
 ├── places        구글 장소 조회 (정환 작성, mobile/tools/place-data에서 이동)
 ├── dto           앱과 주고받는 요청·응답 형식
-└── service       추천 로직 (현재는 가짜 응답)
+├── assemble      코스 조립
+├── candidate     카카오 후보 수집
+├── plan          시간표, 체류시간, 식사 규칙
+├── score         점수 계산
+├── route         카카오 길찾기 시간 검증
+├── gemini        Gemini 코스 선택과 추천 이유
+└── service       추천 흐름 전체
 config/coursepick.json
 config/place-mappings.json    카카오 ID와 구글 장소 ID 연결표 (정환 작성, 데모 표본 90곳)
 config/official-hours.json    구글에 없는 시설의 공식 운영시간 기록

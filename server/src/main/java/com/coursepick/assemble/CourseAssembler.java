@@ -267,6 +267,15 @@ public class CourseAssembler {
                     }
                 }
             }
+            if (chosen == null && slot.mealWindow() == null) {
+                for (String preferred : eveningThemes(in, slot, last, clock, state)) {
+                    chosen = choose(ctx, preferred, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
+                    if (chosen != null) {
+                        theme = preferred;
+                        break;
+                    }
+                }
+            }
             if (chosen == null) {
                 chosen = choose(ctx, theme, slot.shortSlot(), lat, lng, clock, picks, used, mealPending);
             }
@@ -370,6 +379,68 @@ public class CourseAssembler {
                     rescued.stay(), rescued.openStatus()));
         }
         return extendLast(picks, in.endMin(), ctx.reserveMin);
+    }
+
+    private List<String> eveningThemes(Input in, Slot slot, String last, int clock, PlanState state) {
+        JsonNode rule = settings.root().path("companionRules").path(nullToEmpty(in.companion()));
+        String from = rule.path("eveningFrom").asText("");
+        if (from.isEmpty() || clock < SlotPlanner.parseMinutes(from)) {
+            return List.of();
+        }
+        List<String> preferred = new ArrayList<>();
+        for (JsonNode t : rule.path("eveningPreferThemes")) {
+            preferred.add(t.asText());
+        }
+        if (preferred.contains(slot.theme())) {
+            return List.of();
+        }
+        List<String> ordered = new ArrayList<>();
+        for (String t : in.themes()) {
+            if (preferred.contains(t)) {
+                ordered.add(t);
+            }
+        }
+        for (String t : preferred) {
+            if (!ordered.contains(t)) {
+                ordered.add(t);
+            }
+        }
+        List<String> result = new ArrayList<>();
+        for (String t : ordered) {
+            if (t.equals(last) || !planner.allows(state, t)) {
+                continue;
+            }
+            if (slot.shortSlot() && !"walk".equals(t)) {
+                continue;
+            }
+            result.add(t);
+        }
+        return result;
+    }
+
+    private double companionMatch(Input in, Eligible e, String theme) {
+        JsonNode rule = settings.root().path("companionRules").path(nullToEmpty(in.companion()));
+        if (rule.isMissingNode() || rule.isEmpty()) {
+            return 0.0;
+        }
+        double score = 0.0;
+        for (JsonNode k : rule.path("bonusKeywords")) {
+            String keyword = k.asText();
+            if (!keyword.isEmpty()
+                    && (e.place().name().contains(keyword) || e.place().categoryName().contains(keyword))) {
+                score = 1.0;
+                break;
+            }
+        }
+        String from = rule.path("eveningFrom").asText("");
+        if (!from.isEmpty() && e.arriveMin() >= SlotPlanner.parseMinutes(from)) {
+            for (JsonNode t : rule.path("eveningPreferThemes")) {
+                if (theme.equals(t.asText())) {
+                    score = 1.0;
+                }
+            }
+        }
+        return score;
     }
 
     private boolean mealTooEarly(String window, int clock) {
@@ -553,7 +624,8 @@ public class CourseAssembler {
         double themeMatch = ctx.input.themes().contains(theme) ? 1.0 : 0.6;
         List<Candidate> result = new ArrayList<>();
         for (Eligible e : list) {
-            result.add(new Candidate(e.place().id(), e.place().distanceM(), e.rating(), e.reviews(), themeMatch, 0.0,
+            result.add(new Candidate(e.place().id(), e.place().distanceM(), e.rating(), e.reviews(), themeMatch,
+                    companionMatch(ctx.input, e, theme),
                     "confirmed".equals(e.openStatus()), 0.0));
         }
         return result;

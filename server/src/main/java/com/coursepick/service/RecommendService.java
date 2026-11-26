@@ -137,7 +137,7 @@ public class RecommendService {
         for (GeminiRanker.Choice choice : choices) {
             Course base = courses.get(choice.index());
             String reason = choice.reason().isBlank() ? base.reason() : choice.reason();
-            ordered.add(new Course(base.courseId(), base.source(), base.places(), base.legs(), base.totalMinutes(),
+            ordered.add(new Course(base.courseId(), "ai", base.places(), base.legs(), base.totalMinutes(),
                     base.endAt(), base.fit(), reason, base.notes()));
             used.add(choice.index());
         }

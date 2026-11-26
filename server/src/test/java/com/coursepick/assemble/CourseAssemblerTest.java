@@ -75,7 +75,9 @@ class CourseAssemblerTest {
               "reviewBonus": true,
               "duplicateRule": {"excludeIfNameStartsWithChosen": true, "sameCategoryWithinMeters": 300},
               "barRule": {"categoryContains": ["음식점 > 술집"], "nameKeywords": ["포차"]},
-              "companionRules": {"family": {"excludeBars": true, "maxLegMinutes": 15}},
+              "companionRules": {"family": {"excludeBars": true, "maxLegMinutes": 15},
+                                 "couple": {"eveningFrom": "17:00", "eveningPreferThemes": ["cafe", "walk"],
+                                            "bonusKeywords": ["분위기"]}},
               "ageGroupRules": {},
               "mobilityRules": {},
               "closedDays": [{"name": "창덕궁", "weekday": "MON"}],
@@ -244,6 +246,18 @@ class CourseAssemblerTest {
 
         assertThat(picks).extracting(Pick::theme).startsWith("cafe", "food");
         assertThat(picks.get(0).departMin()).isEqualTo(SlotPlanner.parseMinutes("17:00"));
+    }
+
+    @Test
+    void couplePrefersPlacesWithTheirBonusKeywords() {
+        stubCategory("CE7",
+                place("c1", "카페A", "음식점 > 카페", 0.0003, 0.0003),
+                place("c2", "분위기 좋은 카페", "음식점 > 카페", 0.0005, 0.0004));
+
+        List<Pick> picks = assembler.assemble(
+                input("2026-11-28", "14:00", "15:30", List.of("cafe"), "couple"));
+
+        assertThat(picks).extracting(p -> p.place().id()).containsExactly("c2");
     }
 
     @Test
