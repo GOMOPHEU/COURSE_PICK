@@ -10,7 +10,7 @@ $out = foreach ($r in $rows) {
         $q = [uri]::EscapeDataString($r.'이름')
         $res = Invoke-RestMethod -Uri "http://localhost:8080/places/$($r.'카카오ID')/match?name=$q&theme=$theme&date=$date" -Method Get
     } catch {
-        $res = [pscustomobject]@{ decision = "ERROR"; source = ""; reason = $_.Exception.Message; businessStatus = ""; googleMapsUri = "" }
+        $res = [pscustomobject]@{ decision = "ERROR"; source = ""; reason = $_.Exception.Message; businessStatus = ""; googleMapsUri = ""; googleHours = "" }
     }
     [pscustomobject]@{
         번호 = $r.'번호'
@@ -22,6 +22,7 @@ $out = foreach ($r in $rows) {
         reason = $res.reason
         businessStatus = $res.businessStatus
         googleMapsUri = $res.googleMapsUri
+        googleHours = $res.googleHours
     }
     Write-Host "$($r.'번호') $($r.'이름') $($res.decision) $($res.reason)"
 }

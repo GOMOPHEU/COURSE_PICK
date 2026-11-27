@@ -81,7 +81,8 @@ public class PlacesController {
                 "source", result.source(),
                 "reason", String.valueOf(result.reason()),
                 "businessStatus", result.google() == null ? "" : String.valueOf(result.google().businessStatus()),
-                "googleMapsUri", result.google() == null ? "" : String.valueOf(result.google().googleMapsUri())));
+                "googleMapsUri", result.google() == null ? "" : String.valueOf(result.google().googleMapsUri()),
+                "googleHours", googleHoursText(result.google())));
     }
 
     @GetMapping("/places/{kakaoId}")
@@ -108,6 +109,18 @@ public class PlacesController {
         }
         return ResponseEntity.ok(PlaceLookupResponse.from(
                 service.lookup(kakaoId, theme, visitDate), visitDate, arriveAt, departAt));
+    }
+
+    private static String googleHoursText(com.coursepick.places.GooglePlacesClient.Details google) {
+        if (google == null || google.regularOpeningHours() == null) {
+            return "";
+        }
+        com.fasterxml.jackson.databind.JsonNode days = google.regularOpeningHours().path("weekdayDescriptions");
+        java.util.List<String> parts = new java.util.ArrayList<>();
+        for (com.fasterxml.jackson.databind.JsonNode d : days) {
+            parts.add(d.asText());
+        }
+        return String.join(" / ", parts);
     }
 
     private static LocalTime parseTime(String text) {

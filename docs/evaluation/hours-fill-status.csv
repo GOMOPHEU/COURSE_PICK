@@ -1,0 +1,75 @@
+﻿번호,구분,이름,카카오링크,직접 입력 상태,내용
+1,산책,인사동 문화의거리,http://place.map.kakao.com/21273056,직접 입력,24시간
+2,산책,원서공원,http://place.map.kakao.com/8035658,직접 입력,24시간
+3,산책,인사동거리,http://place.map.kakao.com/8053121,직접 입력,24시간
+4,산책,우정총국시민광장,http://place.map.kakao.com/18214024,직접 입력,24시간
+5,산책,태화관길,http://place.map.kakao.com/66105607,직접 입력,24시간
+6,산책,낙원동아구찜거리,http://place.map.kakao.com/25623277,직접 입력,24시간
+7,산책,수송공원,http://place.map.kakao.com/18213828,직접 입력,24시간
+8,산책,익선동한옥거리,http://place.map.kakao.com/467710256,직접 입력,24시간
+9,산책,락희거리,http://place.map.kakao.com/133553180,직접 입력,24시간
+10,산책,공평공원,http://place.map.kakao.com/919042739,직접 입력,24시간
+11,산책,창덕공원,http://place.map.kakao.com/1248528572,직접 입력,24시간
+12,산책,탑골공원,http://place.map.kakao.com/8625328,입력 없음(구글 의존),
+13,산책,삼청동거리,http://place.map.kakao.com/8383806,직접 입력,24시간
+14,산책,청진공원,http://place.map.kakao.com/1963402560,직접 입력,24시간
+15,산책,종로정원사마을,http://place.map.kakao.com/850231755,직접 입력,24시간
+16,산책,경복공원,http://place.map.kakao.com/8181333,직접 입력,24시간
+17,산책,젊음의거리,http://place.map.kakao.com/8138423,직접 입력,24시간
+18,산책,종로귀금속거리,http://place.map.kakao.com/10788332,입력 없음(구글 의존),
+19,산책,서린공원,http://place.map.kakao.com/735903470,직접 입력,24시간
+20,산책,세종로공원,http://place.map.kakao.com/7964572,입력 없음(구글 의존),
+21,산책,청계천한빛공원,http://place.map.kakao.com/24974768,직접 입력,24시간
+22,산책,한화불꽃길,http://place.map.kakao.com/27068488,직접 입력,24시간
+23,산책,종묘 시민광장,http://place.map.kakao.com/8081471,직접 입력,24시간
+24,산책,삼청동쉼터,http://place.map.kakao.com/1462572933,직접 입력,24시간
+25,산책,의료기기상가,http://place.map.kakao.com/1374003386,입력 없음(구글 의존),
+26,산책,다동공원,http://place.map.kakao.com/1530674602,직접 입력,24시간
+27,산책,세종문화회관 예술의정원,http://place.map.kakao.com/11571758,직접 입력,24시간
+28,산책,을지한빛거리,http://place.map.kakao.com/11635437,직접 입력,24시간
+29,산책,통의동마을마당,http://place.map.kakao.com/968776522,직접 입력,24시간
+30,산책,청계광장,http://place.map.kakao.com/11512319,입력 없음(구글 의존),
+31,산책,광화문원표공원,http://place.map.kakao.com/1293426985,직접 입력,24시간
+32,산책,을지로타일상가,http://place.map.kakao.com/1635974981,입력 없음(구글 의존),
+33,산책,주시경마당,http://place.map.kakao.com/1917543422,직접 입력,24시간
+34,산책,도렴공원,http://place.map.kakao.com/1180317771,직접 입력,24시간
+35,산책,을지로역시민쉼터,http://place.map.kakao.com/27506216,직접 입력,24시간
+36,산책,덕수공원,http://place.map.kakao.com/911781492,직접 입력,24시간
+37,산책,하나플레이파크,http://place.map.kakao.com/1500012858,입력 없음(구글 의존),
+38,산책,서학당길,http://place.map.kakao.com/26635948,직접 입력,24시간
+39,문화시설,국립현대미술관 서울,http://place.map.kakao.com/17952661,입력 없음(구글 의존),
+40,문화시설,국립민속박물관 본관,http://place.map.kakao.com/8191467,직접 입력,시간 있음
+41,문화시설,국립고궁박물관,http://place.map.kakao.com/8214304,입력 없음(구글 의존),
+42,문화시설,서울공예박물관,http://place.map.kakao.com/1038056172,입력 없음(구글 의존),
+43,문화시설,대림미술관,http://place.map.kakao.com/8299285,입력 없음(구글 의존),
+44,문화시설,일민미술관,http://place.map.kakao.com/11179476,입력 없음(구글 의존),
+45,문화시설,아라리오뮤지엄 인 스페이스,http://place.map.kakao.com/14982312,입력 없음(구글 의존),
+46,문화시설,아트선재센터,http://place.map.kakao.com/8474452,입력 없음(구글 의존),
+47,문화시설,금호미술관,http://place.map.kakao.com/12163059,입력 없음(구글 의존),
+48,문화시설,국제갤러리 K1,http://place.map.kakao.com/12447481,직접 입력,시간 있음
+49,문화시설,국제갤러리 K3,http://place.map.kakao.com/1090866945,직접 입력,시간 있음
+50,문화시설,갤러리현대 본관,http://place.map.kakao.com/17513074,직접 입력,시간 있음
+51,문화시설,세종문화회관 미술관,http://place.map.kakao.com/25587453,입력 없음(구글 의존),
+52,문화시설,세종문화회관,http://place.map.kakao.com/8373453,입력 없음(구글 의존),
+53,문화시설,세종문화회관 대극장,http://place.map.kakao.com/27151624,입력 없음(구글 의존),
+54,문화시설,대한민국역사박물관,http://place.map.kakao.com/15104327,입력 없음(구글 의존),
+55,문화시설,신문박물관,http://place.map.kakao.com/7982743,직접 입력,시간 있음
+56,문화시설,북촌박물관,http://place.map.kakao.com/20058590,입력 없음(구글 의존),
+57,문화시설,OCI미술관,http://place.map.kakao.com/18573750,입력 없음(구글 의존),
+58,문화시설,가회민화박물관,http://place.map.kakao.com/8125507,입력 없음(구글 의존),
+59,문화시설,아름다운차박물관,http://place.map.kakao.com/11118966,입력 없음(구글 의존),
+60,문화시설,서울돈화문국악당,http://place.map.kakao.com/26952171,직접 입력,시간 있음
+61,문화시설,공평도시유적전시관,http://place.map.kakao.com/593401689,입력 없음(구글 의존),
+62,문화시설,인사도시유적전시관,http://place.map.kakao.com/1353140836,직접 입력,시간 있음
+63,문화시설,광화문광장 유구전시공간,http://place.map.kakao.com/1836216734,직접 입력,24시간
+64,문화시설,청와대 사랑채 한국관광전시관,http://place.map.kakao.com/344059620,직접 입력,시간 있음
+65,문화시설,국립민속박물관 어린이박물관,http://place.map.kakao.com/8208595,입력 없음(구글 의존),
+66,문화시설,한국금융사박물관,http://place.map.kakao.com/12110587,입력 없음(구글 의존),
+67,문화시설,공근혜갤러리,http://place.map.kakao.com/8750355,입력 없음(구글 의존),
+68,문화시설,PKM갤러리,http://place.map.kakao.com/1542000520,입력 없음(구글 의존),
+69,문화시설,표갤러리,http://place.map.kakao.com/8129692,직접 입력,시간 있음
+70,문화시설,인사아트센터,http://place.map.kakao.com/8099727,입력 없음(구글 의존),
+71,문화시설,종로구립 고희동미술관,http://place.map.kakao.com/114806024,직접 입력,시간 있음
+72,문화시설,어둠속의대화,http://place.map.kakao.com/11682128,직접 입력,시간 있음
+73,문화시설,미래기술 체험관 티움,http://place.map.kakao.com/12697270,입력 없음(구글 의존),
+74,문화시설,불교중앙박물관,http://place.map.kakao.com/8138151,직접 입력,시간 있음
