@@ -1,0 +1,22 @@
+{
+  "regionId": "anguk-1300m",
+  "centerQuery": "안국역 3호선",
+  "radiusMeters": 1300,
+  "maxPerTheme": 15,
+  "priorityNames": ["경복궁", "창덕궁", "운현궁", "서울공예박물관", "국립현대미술관 서울", "탑골공원"],
+  "searches": [
+    {"theme": "history", "query": "경복궁"},
+    {"theme": "history", "query": "창덕궁"},
+    {"theme": "culture", "query": "서울공예박물관"},
+    {"theme": "culture", "query": "국립현대미술관 서울"},
+    {"theme": "history", "query": "궁궐"},
+    {"theme": "history", "query": "문화유적"},
+    {"theme": "culture", "category": "CT1"},
+    {"theme": "walk", "query": "공원"},
+    {"theme": "walk", "query": "산책"},
+    {"theme": "shopping", "query": "소품샵"},
+    {"theme": "shopping", "query": "쇼핑"},
+    {"theme": "cafe", "category": "CE7"},
+    {"theme": "food", "category": "FD6"}
+  ]
+}

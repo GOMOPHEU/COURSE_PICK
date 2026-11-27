@@ -8,9 +8,12 @@ spring:
 coursepick:
   config-path: ${COURSEPICK_CONFIG:config/coursepick.json}
   keys:
-    kakao-rest: ${KAKAO_REST_KEY:}
-    google-places: ${GOOGLE_PLACES_KEY:}
+    kakao-rest: ${KAKAO_REST_API_KEY:}
+    google-places: ${GOOGLE_PLACES_API_KEY:}
     gemini: ${GEMINI_API_KEY:}
   endpoints:
     kakao-local: https://dapi.kakao.com
     google-places: https://places.googleapis.com
+  places:
+    mappings-path: ${PLACE_MAPPINGS_PATH:config/place-mappings.json}
+    official-hours-path: ${OFFICIAL_HOURS_PATH:config/official-hours.json}
