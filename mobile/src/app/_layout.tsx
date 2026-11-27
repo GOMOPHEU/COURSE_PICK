@@ -1,18 +1,28 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useColorScheme } from 'react-native';
+import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { colors } from '@/course/ui';
 
-SplashScreen.preventAutoHideAsync();
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function Layout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      <AppTabs />
-    </ThemeProvider>
+    <>
+      <StatusBar style="dark" />
+      <Stack screenOptions={{
+        headerTintColor: colors.text,
+        headerStyle: { backgroundColor: colors.bg },
+        headerShadowVisible: false,
+        contentStyle: { backgroundColor: colors.bg },
+      }}>
+        <Stack.Screen name="index" options={{ title: '코스픽' }} />
+        <Stack.Screen name="survey" options={{ title: '코스픽 · 코스 취향 설정' }} />
+        <Stack.Screen name="confirm" options={{ title: '입력 조건 확인' }} />
+        <Stack.Screen name="recommend" options={{ title: '코스 추천' }} />
+        <Stack.Screen name="courses" options={{ title: '추천 코스' }} />
+        <Stack.Screen name="course/[courseId]/index" options={{ title: '코스 상세' }} />
+        <Stack.Screen name="course/[courseId]/map" options={{ title: '지도와 길찾기' }} />
+        <Stack.Screen name="course/[courseId]/place/[order]" options={{ title: '장소 상세' }} />
+        <Stack.Screen name="course/[courseId]/replace/[order]" options={{ title: '장소 변경' }} />
+      </Stack>
+    </>
   );
 }
