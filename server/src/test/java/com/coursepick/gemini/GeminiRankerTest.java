@@ -65,6 +65,34 @@ class GeminiRankerTest {
     }
 
     @Test
+    void dropsReasonsThatClaimAThemeTheCourseIsMissing() {
+        Place place = new Place(1, "k1", "대한민국역사박물관", "culture", 37.57, 126.98, "10:00", 60, "confirmed");
+        Course missingHistory = new Course("c1", "basic", List.of(place), List.of(), 120, "12:00", "tight", "기본",
+                List.of("역사: 후보 2곳 중 휴관일 1곳"));
+        when(client.generate(any(), any())).thenReturn("""
+                {"picks":[{"courseId":"c1","reason":"대한민국역사박물관에서 역사 테마를 즐기는 코스예요"}]}
+                """);
+
+        GeminiRanker.Result result = ranker.rank(input(), List.of(missingHistory, course("c2")), 1);
+
+        assertThat(result.choices().get(0).reason()).isEmpty();
+    }
+
+    @Test
+    void keepsReasonsThatOnlyMentionPlaceNamesContainingAThemeWord() {
+        Place place = new Place(1, "k1", "대한민국역사박물관", "culture", 37.57, 126.98, "10:00", 60, "confirmed");
+        Course missingHistory = new Course("c1", "basic", List.of(place), List.of(), 120, "12:00", "tight", "기본",
+                List.of("역사: 후보 2곳 중 휴관일 1곳"));
+        when(client.generate(any(), any())).thenReturn("""
+                {"picks":[{"courseId":"c1","reason":"대한민국역사박물관을 둘러보는 코스예요"}]}
+                """);
+
+        GeminiRanker.Result result = ranker.rank(input(), List.of(missingHistory, course("c2")), 1);
+
+        assertThat(result.choices().get(0).reason()).isEqualTo("대한민국역사박물관을 둘러보는 코스예요");
+    }
+
+    @Test
     void returnsNoChoicesWhenGeminiFails() {
         when(client.generate(any(), any())).thenThrow(new GeminiException("Gemini 응답 오류 503"));
 

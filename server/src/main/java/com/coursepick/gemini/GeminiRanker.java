@@ -79,6 +79,10 @@ public class GeminiRanker {
             if (reason.length() > MAX_REASON_LENGTH) {
                 reason = reason.substring(0, MAX_REASON_LENGTH);
             }
+            if (claimsMissingTheme(reason, courses.get(index))) {
+                notes.add("코스 " + id + "의 추천 이유가 빠진 테마를 언급해 기본 문장으로 바꿨어요");
+                reason = "";
+            }
             choices.add(new Choice(index, reason));
         }
         if (choices.isEmpty()) {
@@ -87,6 +91,20 @@ public class GeminiRanker {
             notes.add("제미나이가 코스 " + courses.size() + "개 중 " + choices.size() + "개를 골랐어요");
         }
         return new Result(choices, notes);
+    }
+
+    private boolean claimsMissingTheme(String reason, Course course) {
+        String text = reason;
+        for (Place p : course.places()) {
+            text = text.replace(p.name(), "");
+        }
+        for (String note : course.notes()) {
+            int colon = note.indexOf(':');
+            if (colon > 0 && text.contains(note.substring(0, colon).strip())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private int indexOf(List<Course> courses, String id) {
@@ -130,7 +148,9 @@ public class GeminiRanker {
         text.append("고르는 기준: 선택테마가 잘 반영됐는지, 동행과 연령대에 어울리는지, 장소 흐름이 자연스러운지, ")
                 .append("시간을 알차게 쓰는지, 고른 코스끼리 구성이 다양한지.\n");
         text.append("각 코스의 reason에는 사용자에게 보여줄 추천 이유를 한국어 한 문장으로 쓴다. 장소 이름을 포함하고, ")
-                .append("데이터에 없는 사실(분위기, 가격, 메뉴 등)은 지어내지 않는다.\n\n데이터:\n");
+                .append("데이터에 없는 사실(분위기, 가격, 메뉴 등)은 지어내지 않는다. ")
+                .append("코스의 빠진선택테마에 적힌 테마는 그 코스에 없으니 reason에서 포함한다고 쓰지 않는다. ")
+                .append("장소의 테마는 데이터의 테마 값만 따르고 이름에서 추측하지 않는다.\n\n데이터:\n");
         text.append(json.writeValueAsString(data));
         return text.toString();
     }
