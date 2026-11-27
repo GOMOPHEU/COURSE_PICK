@@ -79,8 +79,7 @@ public class CourseAssembler {
         final int reserveMin;
         final PlaceLookupService lookup;
         final ScoreCalculator calculator;
-        int googleCalls;
-        int searchCalls;
+        final Budget budget;
         final Map<String, Set<String>> seen = new HashMap<>();
         final Map<String, Map<String, String>> rejected = new HashMap<>();
         final Set<String> tried = new HashSet<>();
@@ -100,7 +99,8 @@ public class CourseAssembler {
             }
         }
 
-        Context(Input input, int reserveMin, PlaceLookupService lookup, ScoreCalculator calculator) {
+        Context(Input input, int reserveMin, PlaceLookupService lookup, ScoreCalculator calculator, Budget budget) {
+            this.budget = budget;
             this.input = input;
             this.reserveMin = reserveMin;
             this.lookup = lookup;
@@ -149,12 +149,22 @@ public class CourseAssembler {
     public record Assembly(List<Pick> picks, Map<String, String> notes) {
     }
 
+    public static final class Budget {
+        int googleCalls;
+        int searchCalls;
+        final Map<String, PlaceLookupService.Result> results = new HashMap<>();
+    }
+
     public List<Pick> assemble(Input in, Set<String> excludedIds, KakaoPlace mustVisit) {
         return assembleWithNotes(in, excludedIds, mustVisit).picks();
     }
 
     public Assembly assembleWithNotes(Input in, Set<String> excludedIds, KakaoPlace mustVisit) {
-        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator());
+        return assembleWithNotes(in, excludedIds, mustVisit, new Budget());
+    }
+
+    public Assembly assembleWithNotes(Input in, Set<String> excludedIds, KakaoPlace mustVisit, Budget budget) {
+        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator(), budget);
         List<Pick> picks = build(in, excludedIds, mustVisit, ctx);
         return new Assembly(picks, missingNotes(ctx, picks, in));
     }
@@ -562,9 +572,9 @@ public class CourseAssembler {
                 if (eligible.size() >= minEligible || verifyCount >= maxVerify) {
                     break;
                 }
-                int callsBefore = ctx.googleCalls + ctx.searchCalls;
+                int callsBefore = ctx.budget.googleCalls + ctx.budget.searchCalls;
                 Eligible verified = verify(ctx, e, theme);
-                if (ctx.googleCalls + ctx.searchCalls > callsBefore) {
+                if (ctx.budget.googleCalls + ctx.budget.searchCalls > callsBefore) {
                     verifyCount++;
                 }
                 if (verified != null) {
@@ -704,7 +714,7 @@ public class CourseAssembler {
         }
         int maxSearches = planning.path("maxGoogleSearchesPerRequest").asInt(60);
         String id = e.place().id();
-        if (ctx.googleCalls >= maxCalls || ctx.searchCalls >= maxSearches) {
+        if (ctx.budget.googleCalls >= maxCalls || ctx.budget.searchCalls >= maxSearches) {
             if (strict) {
                 ctx.reject(theme, id, "구글 확인 한도 초과");
                 return null;
@@ -715,20 +725,27 @@ public class CourseAssembler {
         LocalDateTime arrive = date.atStartOfDay().plusMinutes(e.arriveMin());
         LocalDateTime depart = arrive.plusMinutes(e.stayMin());
         PlaceLookupService.Result result;
+        String cacheKey = id + "|" + theme;
+        boolean fresh = false;
         int searchesBefore = ctx.lookup.searchCount();
         try {
-            result = ctx.lookup.lookup(e.place(), theme, date);
+            result = ctx.budget.results.get(cacheKey);
+            fresh = result == null;
+            if (fresh) {
+                result = ctx.lookup.lookup(e.place(), theme, date);
+                ctx.budget.results.put(cacheKey, result);
+            }
         } catch (RuntimeException ex) {
-            ctx.searchCalls += ctx.lookup.searchCount() - searchesBefore;
+            ctx.budget.searchCalls += ctx.lookup.searchCount() - searchesBefore;
             if (strict) {
                 ctx.reject(theme, id, "구글 조회 실패");
                 return null;
             }
             return e;
         }
-        ctx.searchCalls += ctx.lookup.searchCount() - searchesBefore;
-        if (result.google() != null) {
-            ctx.googleCalls++;
+        ctx.budget.searchCalls += ctx.lookup.searchCount() - searchesBefore;
+        if (fresh && result.google() != null) {
+            ctx.budget.googleCalls++;
         }
         String decision = result.decision();
         if ("EXCLUDE".equals(decision)) {

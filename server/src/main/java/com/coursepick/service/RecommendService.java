@@ -80,8 +80,9 @@ public class RecommendService {
         boolean routeFailed = false;
         boolean useGemini = geminiRanker.available();
         int target = useGemini ? Math.max(maxCourses, geminiRanker.candidateCourses()) : maxCourses;
+        CourseAssembler.Budget budget = new CourseAssembler.Budget();
         for (int n = 0; n < target && courses.size() < target; n++) {
-            CourseAssembler.Assembly assembly = assembler.assembleWithNotes(input, excluded, mustVisit);
+            CourseAssembler.Assembly assembly = assembler.assembleWithNotes(input, excluded, mustVisit, budget);
             List<Pick> picks = assembly.picks();
             if (picks.isEmpty()) {
                 break;

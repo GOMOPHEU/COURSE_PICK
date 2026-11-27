@@ -337,7 +337,7 @@
     ],
     "maxPlaces": 8,
     "maxVerifyPerSlot": 20,
-    "maxGoogleCallsPerRequest": 30,
+    "maxGoogleCallsPerRequest": 100,
     "mealEarlyMin": 0,
     "requireGoogleMatch": true,
     "dinnerPlan": {
@@ -345,7 +345,7 @@
     },
     "maxCourses": 3,
     "minPlacesPerCourse": 2,
-    "maxGoogleSearchesPerRequest": 60,
+    "maxGoogleSearchesPerRequest": 200,
     "forcedMealEarlyMin": 60,
     "requireKnownHours": true
   },
