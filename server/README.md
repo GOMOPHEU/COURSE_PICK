@@ -6,13 +6,13 @@
 
 | 항목 | 값 |
 |---|---|
-| Java | 17 (JDK 17 이상 필요) |
+| Java | 17~24 (JDK 17 이상 24 이하) |
 | 빌드 도구 | Gradle 8.14.3 (프로젝트에 포함된 Gradle Wrapper 사용, 별도 설치 불필요) |
 | 프레임워크 | Spring Boot 3.5.0 |
 | 서버 포트 | 8080 |
 | DB | 사용하지 않음. 설정은 `config/coursepick.json` 파일로 관리 |
 
-Java 버전은 `java -version`으로 확인하세요. 17 이상이면 그대로 빌드됩니다.
+Java 버전은 `java -version`으로 확인하세요. 17~24면 그대로 빌드됩니다. 25 이상은 Gradle 8.14.3이 지원하지 않습니다.
 
 ## 실행 방법
 

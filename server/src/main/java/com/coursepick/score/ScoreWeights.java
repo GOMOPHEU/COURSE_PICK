@@ -66,4 +66,11 @@ public record ScoreWeights(
                 openVerified * scale,
                 review * scale);
     }
+
+    public ScoreWeights withFactors(double distanceFactor, double ratingFactor) {
+        double d = distance * distanceFactor;
+        double r = rating * ratingFactor;
+        double sum = d + r + theme + companion + openVerified + review;
+        return new ScoreWeights(d / sum, r / sum, theme / sum, companion / sum, openVerified / sum, review / sum);
+    }
 }

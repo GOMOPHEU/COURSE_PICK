@@ -263,7 +263,8 @@ public class CourseAssembler {
 
     private List<Pick> build(Input in, Set<String> excludedIds, KakaoPlace mustVisit, Context ctx) {
         JsonNode planning = settings.root().path("planning");
-        int maxPlaces = planning.path("maxPlaces").asInt(8);
+        int maxPlaces = settings.root().path("companionRules").path(nullToEmpty(in.companion()))
+                .path("maxPlaces").asInt(planning.path("maxPlaces").asInt(8));
 
         List<Pick> picks = new ArrayList<>();
         Set<String> used = new HashSet<>(excludedIds);
@@ -885,6 +886,10 @@ public class CourseAssembler {
                 w.path("review").asDouble(0.05));
         if (!settings.root().path("reviewBonus").asBoolean(true)) {
             weights = weights.withoutReview();
+        }
+        JsonNode factors = settings.root().path("companionRules").path(nullToEmpty(in.companion())).path("weightFactors");
+        if (factors.isObject()) {
+            weights = weights.withFactors(factors.path("distance").asDouble(1.0), factors.path("rating").asDouble(1.0));
         }
         JsonNode mobilityRule = settings.root().path("mobilityRules").path(nullToEmpty(in.mobility()));
         if (mobilityRule.path("preferShorterWalkTotal").asBoolean(false)) {

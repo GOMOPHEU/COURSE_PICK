@@ -50,13 +50,16 @@ public class RecommendService {
     }
 
     public RecommendResponse recommend(RecommendRequest request) {
-        if (!properties.keys().hasKakaoRest()) {
-            return stub();
-        }
         int startMin = parseTime(request.startTime(), "출발 시각");
         int endMin = parseTime(request.endTime(), "종료 시각");
         if (endMin <= startMin) {
             throw new BadRequestException("종료 시각은 출발 시각보다 늦어야 합니다");
+        }
+        if (request.date() != null && !request.date().isBlank()) {
+            LocalDate.parse(request.date());
+        }
+        if (!properties.keys().hasKakaoRest()) {
+            return stub();
         }
         JsonNode startPoint = findStartPoint(request.startPointId());
         LocalDate date = request.date() == null || request.date().isBlank()

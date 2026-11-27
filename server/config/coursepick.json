@@ -128,9 +128,12 @@
         "categoryCodes": [
           "CE7"
         ],
-        "keywords": [],
+        "keywords": [
+          "베이커리"
+        ],
         "allowedCategoryPrefixes": [
-          "음식점 > 카페"
+          "음식점 > 카페",
+          "음식점 > 간식 > 제과,베이커리"
         ],
         "excludeCategoryPrefixes": [],
         "excludeNameKeywords": []
@@ -229,7 +232,7 @@
     "openVerified": 0.1,
     "review": 0.05
   },
-  "reviewBonus": true,
+  "reviewBonus": false,
   "duplicateRule": {
     "excludeIfNameStartsWithChosen": true,
     "sameCategoryWithinMeters": 300
@@ -260,7 +263,8 @@
         "가족",
         "유모차",
         "키즈"
-      ]
+      ],
+      "maxPlaces": 5
     },
     "couple": {
       "eveningFrom": "17:00",
@@ -273,7 +277,11 @@
         "데이트",
         "분위기",
         "야경"
-      ]
+      ],
+      "maxPlaces": 6,
+      "weightFactors": {
+        "rating": 1.5
+      }
     },
     "friends": {
       "bonusAttributes": [
@@ -282,14 +290,24 @@
       "bonusKeywords": [
         "친구",
         "모임"
-      ]
+      ],
+      "maxPlaces": 6,
+      "maxLegMinutes": 20,
+      "weightFactors": {
+        "rating": 1.3
+      }
     },
     "solo": {
       "bonusKeywords": [
         "혼밥",
         "혼자",
         "1인"
-      ]
+      ],
+      "maxPlaces": 4,
+      "maxLegMinutes": 15,
+      "weightFactors": {
+        "distance": 1.5
+      }
     }
   },
   "partySizeRules": {
