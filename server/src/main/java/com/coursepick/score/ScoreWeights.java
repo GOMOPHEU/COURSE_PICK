@@ -50,4 +50,20 @@ public record ScoreWeights(
                 openVerified / rest,
                 0.0);
     }
+
+    public ScoreWeights withDistanceFactor(double factor) {
+        double boosted = Math.min(distance * factor, 0.9);
+        double restBefore = 1.0 - distance;
+        if (restBefore <= 0) {
+            return this;
+        }
+        double scale = (1.0 - boosted) / restBefore;
+        return new ScoreWeights(
+                boosted,
+                rating * scale,
+                theme * scale,
+                companion * scale,
+                openVerified * scale,
+                review * scale);
+    }
 }

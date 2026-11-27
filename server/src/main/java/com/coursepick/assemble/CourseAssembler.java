@@ -172,7 +172,7 @@ public class CourseAssembler {
     }
 
     public Assembly assembleWithNotes(Input in, Set<String> excludedIds, KakaoPlace mustVisit, Budget budget) {
-        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator(), budget);
+        Context ctx = new Context(in, returnReserveMin(), lookupProvider.getIfAvailable(), calculator(in), budget);
         List<Pick> picks = build(in, excludedIds, mustVisit, ctx);
         return new Assembly(picks, missingNotes(ctx, picks, in));
     }
@@ -874,7 +874,7 @@ public class CourseAssembler {
         return value == null ? "" : value;
     }
 
-    private ScoreCalculator calculator() {
+    private ScoreCalculator calculator(Input in) {
         JsonNode w = settings.root().path("weights");
         ScoreWeights weights = new ScoreWeights(
                 w.path("distance").asDouble(0.25),
@@ -885,6 +885,10 @@ public class CourseAssembler {
                 w.path("review").asDouble(0.05));
         if (!settings.root().path("reviewBonus").asBoolean(true)) {
             weights = weights.withoutReview();
+        }
+        JsonNode mobilityRule = settings.root().path("mobilityRules").path(nullToEmpty(in.mobility()));
+        if (mobilityRule.path("preferShorterWalkTotal").asBoolean(false)) {
+            weights = weights.withDistanceFactor(mobilityRule.path("distanceWeightFactor").asDouble(2.0));
         }
         double m = settings.root().path("rating").path("m").asDouble(50);
         List<Integer> steps = collector.expansionSteps();

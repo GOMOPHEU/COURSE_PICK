@@ -311,7 +311,8 @@
   "mobilityRules": {
     "minimizeWalking": {
       "maxWalkLegMinutes": 10,
-      "preferShorterWalkTotal": true
+      "preferShorterWalkTotal": true,
+      "distanceWeightFactor": 2.0
     }
   },
   "closedDays": [
