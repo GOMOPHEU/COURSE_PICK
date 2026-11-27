@@ -25,7 +25,7 @@ export default function ReplacePlace() {
 
   function apply() {
     const { result, setResult } = useCourseStore.getState();
-    if (!selected || !course || !result || !result.courses.includes(course)) return;
+    if (!selected || !course || result?.state !== 'OK' || !result.courses.includes(course)) return;
     setResult({ ...result, courses: result.courses.map(item => item === course ? selected.course : item) });
     back();
   }

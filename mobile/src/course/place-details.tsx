@@ -20,7 +20,7 @@ export function PlaceDetails({ place, date, demo }: { place: Place; date: string
     const timeout = setTimeout(() => controller.abort('timeout'), 15000);
     let active = true;
 
-    getPlaceDetails(place.kakaoId, date, controller.signal)
+    getPlaceDetails(place, date, controller.signal)
       .then(value => { if (active) setDetails(value); })
       .catch(cause => {
         if (!active) return;
@@ -34,7 +34,7 @@ export function PlaceDetails({ place, date, demo }: { place: Place; date: string
       clearTimeout(timeout);
       controller.abort();
     };
-  }, [place.kakaoId, date, demo]);
+  }, [place, date, demo]);
   return (
     <>
       {details?.photoUrl && !photoFailed ? <Image source={{ uri: details.photoUrl }} accessibilityLabel="장소 사진"
@@ -47,7 +47,10 @@ export function PlaceDetails({ place, date, demo }: { place: Place; date: string
       {details && <Copy>{details.address ? '주소 (카카오) · ' + details.address : '주소 미확인'}</Copy>}
       <Card style={styles.hours}>
         <Heading>{visitDateLabel(date)} 운영정보</Heading>
-        <Copy>{operatingStatus[place.openStatus]}</Copy>
+        {!details?.openCheck && <Copy>{operatingStatus[place.openStatus]}</Copy>}
+        {details?.openCheck === 'OPEN' && <Copy>방문 예정 시간에 영업 중이에요.</Copy>}
+        {details?.openCheck === 'CLOSED' && <ErrorText message="방문 예정 시간에 이용할 수 없어요." />}
+        {details?.openCheck === 'UNKNOWN' && <Copy>방문 예정 시간의 영업 여부를 확인할 수 없어요.</Copy>}
         {details?.openingHours && <Copy>영업시간 {details.openingHours} · Google Maps</Copy>}
       </Card>
       {details?.rating !== undefined && <Copy>별점 {details.rating} · Google Maps</Copy>}

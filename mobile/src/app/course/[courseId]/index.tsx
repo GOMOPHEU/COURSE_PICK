@@ -1,7 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { isMockMode } from '@/course/api';
 import { startPoints, themes, transportLabels } from '@/course/contracts';
 import { courseTitle } from '@/course/course-summary';
 import { durationLabel, minutes, timeAt, visitDateLabel } from '@/course/schedule';
@@ -51,14 +50,6 @@ export default function CourseDetail() {
                 </View>
                 <Text accessible={false} style={styles.chevron}>›</Text>
               </Pressable>
-              {isMockMode && (
-                <Pressable accessibilityRole="button" accessibilityLabel={place.name + ' 장소 변경'} style={styles.replace}
-                  onPress={() => router.push({
-                    pathname: '/course/[courseId]/replace/[order]', params: { courseId, order: String(place.order) },
-                  })}>
-                  <Text style={styles.replaceText}>장소 변경</Text>
-                </Pressable>
-              )}
             </View>
           );
         })}
@@ -67,6 +58,10 @@ export default function CourseDetail() {
 
       <View style={styles.place}>
         <Copy>{course.reason}</Copy>
+        {!!course.notes?.length && <>
+          <Heading>빠진 테마 안내</Heading>
+          {course.notes.map((note, index) => <Copy key={index}>{note}</Copy>)}
+        </>}
         <Copy>총 소요시간에 첫 장소까지의 이동을 포함해요. 귀가 이동은 별도예요.</Copy>
       </View>
       <Button title="지도와 길찾기" arrow onPress={() => router.push({
@@ -88,6 +83,4 @@ const styles = StyleSheet.create({
   numberText: { color: colors.surface, fontWeight: '700' },
   chevron: { color: colors.primary, fontSize: 22 },
   pressed: { opacity: 0.7 },
-  replace: { alignSelf: 'flex-end', minHeight: 44, justifyContent: 'center', paddingHorizontal: 10 },
-  replaceText: { color: colors.primary, fontWeight: '700', fontSize: 13 },
 });

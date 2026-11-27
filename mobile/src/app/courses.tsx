@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { isMockMode } from '@/course/api';
 import { ConditionSummary, courseTitle } from '@/course/course-summary';
-import { durationLabel } from '@/course/schedule';
+import { durationLabel, minutes } from '@/course/schedule';
 import { useCourseStore } from '@/course/store';
 import { Button, Card, colors, Copy, FitBadge, Heading, Screen } from '@/course/ui';
 
@@ -11,10 +11,19 @@ export default function Courses() {
   const result = useCourseStore(state => state.result);
   const request = useCourseStore(state => state.request);
   const edit = () => router.dismissTo('/survey');
-  if (!result?.courses.length) {
+  if (!result || result.state === 'NO_COURSE') {
+    const available = minutes(request.endTime) - minutes(request.startTime);
+    let subtitle = '설문을 작성하면 코스를 볼 수 있어요.';
+    if (result?.reason === 'INSUFFICIENT_TIME') {
+      subtitle = `이용 시간 ${durationLabel(available)} 안에 이동과 체류가 가능한 장소가 없어요. 종료 시각을 늦춰 보세요.`;
+    } else if (result && available < 20) {
+      subtitle = `이용 시간이 ${durationLabel(available)}이에요. 종료 시각을 늦춰 이동과 체류 시간을 확보해 보세요.`;
+    } else if (result) {
+      subtitle = '이 조건에 맞는 코스가 없어요. 시간을 늘리거나 선호 테마를 바꿔 보세요.';
+    }
     return (
       <Screen title={result ? '조금 다른 조건으로\n다시 찾아볼까요?' : '추천 결과가 없어요'} centered
-        subtitle={result ? '시간을 늘리거나 테마를 바꾸면 다른 코스를 찾을 수 있어요.' : '설문을 작성하면 코스를 볼 수 있어요.'}
+        subtitle={subtitle}
         style={styles.empty}>
         <ConditionSummary request={request} />
         <Button title="조건 수정하기" arrow onPress={edit} />

@@ -1,6 +1,8 @@
 export const startPoints = [
   { id: 'anguk-stn', name: '안국역', lat: 37.5765, lng: 126.9854 },
-  { id: 'gyeongbokgung-stn', name: '경복궁역', lat: 37.5758, lng: 126.9737 },
+  { id: 'gyeongbokgung-stn', name: '경복궁역', lat: 37.5758, lng: 126.9733 },
+  { id: 'jonggak-stn', name: '종각역', lat: 37.5702, lng: 126.9831 },
+  { id: 'gwanghwamun-stn', name: '광화문역', lat: 37.5716, lng: 126.9768 },
 ] as const;
 
 export const themes = {
@@ -45,9 +47,9 @@ export interface Course {
   endAt: string;
   fit: 'relaxed' | 'tight';
   reason: string;
+  notes?: string[];
 }
 
-export interface RecommendResponse {
-  state: 'OK' | 'NO_COURSE';
-  courses: Course[];
-}
+export type RecommendResponse =
+  | { state: 'OK'; courses: Course[] }
+  | { state: 'NO_COURSE'; courses: []; reason?: 'INSUFFICIENT_TIME' };

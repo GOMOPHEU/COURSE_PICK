@@ -50,16 +50,21 @@ export function mockReplacementCourses(request: RecommendRequest, course: Course
 export function mockRecommend(request: RecommendRequest): RecommendResponse {
   const origin = startPoints.find(point => point.id === request.startPointId) ?? startPoints[0];
   const limit = minutes(request.endTime) - minutes(request.startTime);
+  if (stops.every(stop => travelMinutes(origin, stop, request.transport) + stop.stayMinutes > limit)) {
+    return { state: 'NO_COURSE', courses: [], reason: 'INSUFFICIENT_TIME' };
+  }
   const preferred = stops.filter(stop => request.themes.includes(stop.theme));
-  const courses = preferred.slice(0, 3).flatMap((first, index): Course[] => {
+  const other = stops.filter(stop => !preferred.includes(stop));
+  const courses = [...preferred, ...other].flatMap((lead, index): Course[] => {
     const places: Place[] = [];
     const legs: Course['legs'] = [];
     let elapsed = 0;
     let previous: { lat: number; lng: number } = origin;
-    const ordered = [first, ...preferred.filter(stop => stop !== first), ...stops.filter(stop => !preferred.includes(stop))];
+    const ordered = preferred.includes(lead)
+      ? [lead, ...preferred.filter(stop => stop !== lead), ...other]
+      : [...preferred, lead, ...other.filter(stop => stop !== lead)];
 
     for (const stop of ordered) {
-      if (places.length === 3) break;
       const travel = travelMinutes(previous, stop, request.transport);
       if (elapsed + travel + stop.stayMinutes > limit) continue;
 
@@ -83,8 +88,8 @@ export function mockRecommend(request: RecommendRequest): RecommendResponse {
     }];
   });
   const unique = courses.filter((course, index) => {
-    const signature = (item: Course) => item.places.map(place => place.kakaoId).sort().join(',');
+    const signature = (item: Course) => item.places.map(place => place.kakaoId).join(',');
     return courses.findIndex(item => signature(item) === signature(course)) === index;
   });
-  return { state: unique.length ? 'OK' : 'NO_COURSE', courses: unique };
+  return unique.length ? { state: 'OK', courses: unique.slice(0, 3) } : { state: 'NO_COURSE', courses: [] };
 }

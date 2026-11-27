@@ -50,7 +50,7 @@ export function Button({ title, onPress, secondary = false, arrow = false }: {
 
 export function FitBadge({ fit }: { fit: 'relaxed' | 'tight' }) {
   const tight = fit === 'tight';
-  return <Text style={[styles.badge, tight && styles.tight]}>{tight ? '빡빡함' : '여유'}</Text>;
+  return <Text style={[styles.badge, tight && styles.tight]}>{tight ? '빠듯' : '여유'}</Text>;
 }
 
 export function ChoiceGroup<T extends string>({

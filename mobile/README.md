@@ -1,56 +1,34 @@
-# Welcome to your Expo app 👋
+# 코스픽 모바일 앱
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+안국역 일대에서 방문 날짜, 이용 시간, 이동수단, 선호 테마에 맞는 서울 나들이 코스를 추천하는 앱입니다. 현재는 **앱 내 목데이터로 화면 흐름을 확인하는 단계**입니다.
 
-## Get started
+## 현재 구현
 
-1. Install dependencies
+- **홈 → 설문 → 조건 확인 → 추천 진행 → 코스 목록 → 상세 → 지도** 흐름을 구현했습니다.
+- 설문에서 출발지 4곳, 방문 날짜, 출발·종료 시각(5분 단위), 이동수단, 테마 1~3개를 선택합니다. 동행 유형·인원·연령대·도보 최소화는 선택 항목입니다.
+- 코스 목록과 상세에서 방문 순서, 이동·체류시간, 예상 종료 시각, 여유/빠듯, 추천 이유를 표시합니다. 운영정보 미확인과 추천 결과 없음도 안내합니다.
+- 지도는 출발지와 방문 순서를 보여주고 구간별 카카오맵 길찾기를 연결합니다. 장소 변경은 향후 확장 항목입니다.
 
-   ```bash
-   npm install
-   ```
+## 목데이터 실행
 
-2. Start the app
+`src/course/mock.ts`의 예시 장소 6곳을 사용합니다. 선호 테마를 먼저 검토하고, 추정 이동시간과 체류시간을 합쳐 이용 시간 안에 들어가는 장소를 담습니다. 시연에서는 방문 순서가 다른 일정도 별도 코스로 보고 최대 3개를 표시합니다. 예시 장소의 운영정보는 ‘미확인’으로 표시합니다.
 
-   ```bash
-   npx expo start
-   ```
+에뮬레이터를 켜고 Android Studio의 **Terminal**에서 저장소 루트를 기준으로 실행합니다. 앱 목데이터 모드는 기본값이며, `mobile/.env.local`에 별도 설정이 있다면 `EXPO_PUBLIC_USE_MOCK=true`로 지정합니다.
 
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```powershell
+cd mobile
+npm.cmd ci
+npx.cmd expo run:android
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+개발 빌드가 이미 설치돼 있으면 `mobile` 폴더에서 `npx.cmd expo start --dev-client`를 실행한 뒤 터미널에서 `a`를 누릅니다.
 
-### Other setup steps
+## 다음 작업 — 서버 연동
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+앱에는 `POST /recommend`와 `GET /places/{kakaoId}` 호출 코드가 들어 있습니다. 실제 서버 연동은 검증 전입니다.
 
-## Learn more
+1. [서버 README](../server/README.md)에 따라 서버를 실행합니다. 앱의 `mobile/.env.local`에 `EXPO_PUBLIC_USE_MOCK=false`와 `EXPO_PUBLIC_API_URL=http://10.0.2.2:8080`을 설정하고 안드로이드 앱을 다시 빌드합니다.
+2. 키 없는 서버의 고정 응답으로 설문 → 결과 → 지도 흐름을 확인합니다.
+3. 키가 설정된 서버에서 실제 추천 시간표, 운영정보, 빠진 테마 안내(`notes`)와 오류 처리를 검증합니다. 안드로이드 지도 타일과 구간별 길찾기도 기기에서 확인합니다.
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+타입 검사·린트와 예시 응답을 사용한 API 처리 검사는 통과했습니다.

@@ -10,6 +10,7 @@ import { useCourseStore } from '@/course/store';
 import { Button, Card, ChoiceGroup, colors, Screen, SelectionField } from '@/course/ui';
 
 const themeOptions = (Object.keys(themes) as Theme[]).map(value => ({ value, label: themes[value] }));
+const originOptions = startPoints.map(point => ({ value: point.id, label: point.name }));
 const companions = [
   { value: 'solo', label: '혼자' }, { value: 'friends', label: '친구' },
   { value: 'family', label: '가족' }, { value: 'couple', label: '연인' },
@@ -25,7 +26,6 @@ export default function Survey() {
   const [checkedAt, setCheckedAt] = useState<ReturnType<typeof seoulNow> | null>(null);
   const [themeLimitReached, setThemeLimitReached] = useState(false);
   const [showOptional, setShowOptional] = useState(false);
-  const [showOrigins, setShowOrigins] = useState(false);
   const [picker, setPicker] = useState<'date' | 'start' | 'end' | null>(null);
   const [now, setNow] = useState(() => seoulNow());
   const scroll = useRef<ComponentRef<typeof ScrollView>>(null);
@@ -65,15 +65,9 @@ export default function Survey() {
 
   return (
     <Screen title="오늘의 서울을 골라주세요" scrollRef={scroll}>
-      <SelectionField label="출발 지점" error={errors.startPointId} expanded={showOrigins}
-        value={startPoints.find(point => point.id === request.startPointId)?.name ?? '선택해 주세요'}
-        onLayout={event => rememberField('startPointId', event)} onPress={() => setShowOrigins(value => !value)} />
-      {showOrigins && <ChoiceGroup title="대표 출발 지점" columns={2}
-        options={startPoints.map(point => ({ value: point.id, label: point.name }))}
-        selected={[request.startPointId]} onChange={startPointId => {
-          update({ startPointId });
-          setShowOrigins(false);
-        }} />}
+      <ChoiceGroup title="출발 지점" columns={2} error={errors.startPointId}
+        onLayout={event => rememberField('startPointId', event)} options={originOptions}
+        selected={[request.startPointId]} onChange={startPointId => update({ startPointId })} />
       <SelectionField label="방문 날짜" value={visitDateLabel(request.date)} error={errors.date}
         onLayout={event => rememberField('date', event)} onPress={() => openPicker('date')} />
       <View style={styles.timeRow} onLayout={event => {

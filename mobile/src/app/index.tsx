@@ -12,7 +12,7 @@ export default function Home() {
       <SeoulIllustration />
       <Card>
         <Heading>계획은 가볍게, 하루는 알차게</Heading>
-        <Copy>안국역·경복궁역 일대에서 갈 만한 장소와 방문 순서를 찾아보세요.</Copy>
+        <Copy>안국역 주변에서 갈 만한 장소와 방문 순서를 찾아보세요.</Copy>
       </Card>
       <View style={styles.action}>
         <Button title="나만의 코스 만들기" arrow onPress={() => { reset(); router.navigate('/survey'); }} />
