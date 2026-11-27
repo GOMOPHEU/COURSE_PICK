@@ -30,6 +30,7 @@ public final class PlaceLookupService {
     private Path runtimePath;
     private int dailySearchLimit;
     private boolean runtimeMatching;
+    private boolean acceptSingleCandidate;
     private LocalDate searchDay;
     private int searchToday;
     private int searchTotal;
@@ -74,6 +75,10 @@ public final class PlaceLookupService {
         }
     }
 
+    public void acceptSingleCandidate(boolean value) {
+        this.acceptSingleCandidate = value;
+    }
+
     public synchronized int searchCount() {
         return searchTotal;
     }
@@ -82,6 +87,10 @@ public final class PlaceLookupService {
         if (kakaoId == null || kakaoId.isBlank() || visitDate == null || theme == null
             || !Set.of("cafe", "food", "walk", "shopping", "history", "culture").contains(theme))
             throw new IllegalArgumentException("Kakao ID, valid theme and visitDate required");
+    }
+
+    public Optional<List<JsonNode>> searchCandidates(String query, double lat, double lng) {
+        return google.searchText(query, lat, lng);
     }
 
     public Result lookup(KakaoPlace place, String theme, LocalDate visitDate) {
@@ -164,14 +173,19 @@ public final class PlaceLookupService {
             return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null);
         }
         String status = mapping.path("status").asText();
+        String googlePlaceId = mapping.path("googlePlaceId").asText();
+        if (acceptSingleCandidate && status.equals("review")
+            && mapping.path("candidatePlaceIds").isArray() && mapping.path("candidatePlaceIds").size() == 1) {
+            status = "matched";
+            googlePlaceId = mapping.path("candidatePlaceIds").get(0).asText();
+        }
         JsonNode verified = official.get(kakaoId);
-        if ((status.equals("review") || status.equals("api_error")) && verified != null
-            && verified.path("verificationStatus").asText().equals("verified") && verified.hasNonNull("hours"))
+        if (verified != null && verified.path("verificationStatus").asText().equals("verified") && verified.hasNonNull("hours"))
             return result(kakaoId, "CHECK_HOURS", "official", "OFFICIAL_RULES_REQUIRE_EVALUATION", null, verified);
         if (status.equals("api_error")) return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MATCH_API_ERROR", null, null);
         if (status.equals("review")) return result(kakaoId, "NEEDS_REVIEW", "unknown", "MATCH_REVIEW_REQUIRED", null, null);
         if (status.equals("matched")) {
-            GooglePlacesClient.Details details = google.fetch(mapping.path("googlePlaceId").asText());
+            GooglePlacesClient.Details details = google.fetch(googlePlaceId);
             if (details.state() == GooglePlacesClient.State.API_ERROR)
                 return result(kakaoId, "KEEP_UNKNOWN", "unknown", details.errorCode(), details, null);
             if (details.state() == GooglePlacesClient.State.NOT_FOUND)

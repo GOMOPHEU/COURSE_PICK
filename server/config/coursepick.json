@@ -201,7 +201,18 @@
           "문화,예술 > 문화시설"
         ],
         "excludeCategoryPrefixes": [],
-        "excludeNameKeywords": []
+        "excludeNameKeywords": [
+          "세종문화회관 대극장",
+          "세종문화회관 체임버홀",
+          "세종문화회관 S씨어터",
+          "세종문화회관 M씨어터",
+          "세종문화회관 뮤지컬단",
+          "세종문화회관 소년소녀합창단",
+          "세종문화회관 무용단",
+          "세종문화회관 세종예술아카데미",
+          "세종문화회관 서비스플라자",
+          "세종문화회관 아루비쥬"
+        ]
       }
     }
   },
@@ -362,6 +373,7 @@
   "placeMatching": {
     "enabled": true,
     "cachePath": "data/runtime-mappings.json",
-    "dailySearchLimit": 300
+    "dailySearchLimit": 300,
+    "acceptSingleCandidate": true
   }
 }

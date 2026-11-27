@@ -35,6 +35,7 @@ public class AppConfig {
                 Path.of(properties.places().mappingsPath()),
                 Path.of(properties.places().officialHoursPath()));
         var matching = settings.root().path("placeMatching");
+        service.acceptSingleCandidate(matching.path("acceptSingleCandidate").asBoolean(false));
         if (matching.path("enabled").asBoolean(false)) {
             service.enableRuntimeMatching(
                     Path.of(matching.path("cachePath").asText("data/runtime-mappings.json")),

@@ -132,12 +132,37 @@
     {
       "kakaoId": "919042739",
       "researchLabel": "공평공원",
-      "verificationStatus": "unconfirmed",
-      "hours": null,
-      "closedDays": null,
-      "checkedAt": "2026-11-19",
-      "note": "공원 명칭이 행정 자료에 있으나 현재 개방시간·휴무 근거는 확인하지 못함.",
-      "sources": [],
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "공원 명칭이 행정 자료에 있으나 현재 개방시간·휴무 근거는 확인하지 못함. 개방시간 자료가 없어 열린 공원으로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/919042739",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ],
       "researchQueries": [
         "공평공원 공식 운영시간 휴관일"
       ]
@@ -145,11 +170,30 @@
     {
       "kakaoId": "850231755",
       "researchLabel": "종로정원사마을",
-      "verificationStatus": "unconfirmed",
-      "hours": null,
-      "closedDays": null,
-      "checkedAt": "2026-11-19",
-      "note": "예약 프로그램 일정만 확인됨. 프로그램 시간을 공원 전체의 개방시간으로 사용하지 않음. 예약이 필요한 체험은 보고서의 예약 제외 범위에 해당.",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "예약 프로그램 일정만 확인됨. 프로그램 시간을 공원 전체의 개방시간으로 사용하지 않음. 예약이 필요한 체험은 보고서의 예약 제외 범위에 해당. 개방시간 자료가 없어 열린 공원으로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
       "sources": [
         {
           "url": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260716101448580150",
@@ -176,11 +220,30 @@
     {
       "kakaoId": "735903470",
       "researchLabel": "서린공원",
-      "verificationStatus": "unconfirmed",
-      "hours": null,
-      "closedDays": null,
-      "checkedAt": "2026-11-19",
-      "note": "도시계획 자료로 시설은 확인되나 현재 개방시간·휴관일은 확인하지 못함.",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "도시계획 자료로 시설은 확인되나 현재 개방시간·휴관일은 확인하지 못함. 개방시간 자료가 없어 열린 공원으로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
       "sources": [
         {
           "url": "https://bookcouncil.jongno.go.kr/attach/record/JONGNO/appendix/a09/A0010795.pdf",
@@ -406,6 +469,2289 @@
           "url": "https://www.cha.go.kr/",
           "checkedAt": "2026-11-25",
           "scope": "국가유산청 궁능 관람 안내(팀원 제공 시간표). 정확한 안내 페이지 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1353140836",
+      "researchLabel": "인사도시유적전시관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "09:00",
+            "close": "18:00",
+            "lastEntry": "17:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": [
+          "2027-01-01"
+        ]
+      },
+      "checkedAt": "2026-11-27",
+      "note": "화~일 09:00~18:00, 입장 마감 17:30, 월요일(공휴일 제외)·1월 1일 휴관. 공휴일인 월요일은 개방하지만 보수적으로 휴관 처리",
+      "sources": [
+        {
+          "url": "https://mediahub.seoul.go.kr/archives/2018796",
+          "checkedAt": "2026-11-27",
+          "scope": "서울시 미디어허브 기사(2026-07-20). 공식 안내 페이지(museum.seoul.go.kr 분관 안내)로 교체 필요"
+        },
+        {
+          "url": "https://mediahub.seoul.go.kr/archives/2018885",
+          "checkedAt": "2026-11-27",
+          "scope": "서울시 미디어허브 기사(2026-07-30). 같은 내용"
+        }
+      ]
+    },
+    {
+      "kakaoId": "26952171",
+      "researchLabel": "서울돈화문국악당",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "09:00",
+            "close": "21:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "화~일 09:00~21:00, 월요일 휴관. 공연 여부에 따라 달라질 수 있으며 한 제3자 사이트는 09:00~18:00로 적음",
+      "sources": [
+        {
+          "url": "https://news.seoul.go.kr/culture/archives/510960",
+          "checkedAt": "2026-11-27",
+          "scope": "서울시 문화분야 누리집(2026-08-31). 공식 사이트 sgtt.kr로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8191467",
+      "researchLabel": "국립민속박물관 본관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "09:00",
+            "close": "18:00",
+            "lastEntry": "17:00",
+            "months": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10
+            ]
+          },
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "09:00",
+            "close": "17:00",
+            "lastEntry": "16:00",
+            "months": [
+              11,
+              12,
+              1,
+              2
+            ]
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": [
+          "2027-01-01"
+        ]
+      },
+      "checkedAt": "2026-11-27",
+      "note": "3~10월 09:00~18:00, 11~2월 09:00~17:00, 입장 마감은 종료 1시간 전. 휴관 1월 1일·설·추석 당일(설·추석 날짜는 미입력)",
+      "sources": [
+        {
+          "url": "https://mediahub.seoul.go.kr/archives/2013403",
+          "checkedAt": "2026-11-27",
+          "scope": "서울시 미디어허브 기사(2025-02-17). 공식 페이지 https://www.nfm.go.kr/home/subIndex/1239.do 로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "7982743",
+      "researchLabel": "신문박물관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 정기휴무, 나머지 10:00~18:30",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/7982743",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "17513074",
+      "researchLabel": "갤러리현대 본관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 정기휴무, 나머지 10:00~18:30",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/17513074",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "12447481",
+      "researchLabel": "국제갤러리 K1",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          },
+          {
+            "days": [
+              7
+            ],
+            "open": "10:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월~토 10:00~18:00, 일 10:00~17:00 (국제갤러리 서울 안내 하단 시간과 동일)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/12447481",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1090866945",
+      "researchLabel": "국제갤러리 K3",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          },
+          {
+            "days": [
+              7
+            ],
+            "open": "10:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월~토 10:00~18:00, 일 10:00~17:00 (국제갤러리 서울 안내 하단 시간과 동일)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1090866945",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1836216734",
+      "researchLabel": "광화문광장 유구전시공간",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "광장 길거리에서 보는 전시라 운영시간 없음, 상시 관람",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1836216734",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "344059620",
+      "researchLabel": "청와대 사랑채 한국관광전시관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "09:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          2
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "화요일 정기휴무, 나머지 09:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/344059620",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8129692",
+      "researchLabel": "표갤러리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "일요일 정기휴무, 나머지 10:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8129692",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "114806024",
+      "researchLabel": "종로구립 고희동미술관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 정기휴무, 나머지 10:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/114806024",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "11682128",
+      "researchLabel": "어둠속의대화",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "19:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월·화 정기휴무, 나머지 10:00~19:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/11682128",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8138151",
+      "researchLabel": "불교중앙박물관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 정기휴무, 나머지 10:00~17:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8138151",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 해당 장소의 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "21273056",
+      "researchLabel": "인사동 문화의거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/21273056",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8035658",
+      "researchLabel": "원서공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8035658",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8053121",
+      "researchLabel": "인사동거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8053121",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "18214024",
+      "researchLabel": "우정총국시민광장",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/18214024",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "66105607",
+      "researchLabel": "태화관길",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/66105607",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "25623277",
+      "researchLabel": "낙원동아구찜거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/25623277",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "18213828",
+      "researchLabel": "수송공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/18213828",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "467710256",
+      "researchLabel": "익선동한옥거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/467710256",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "133553180",
+      "researchLabel": "락희거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/133553180",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1248528572",
+      "researchLabel": "창덕공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1248528572",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8383806",
+      "researchLabel": "삼청동거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8383806",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1963402560",
+      "researchLabel": "청진공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1963402560",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8181333",
+      "researchLabel": "경복공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8181333",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8138423",
+      "researchLabel": "젊음의거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8138423",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "24974768",
+      "researchLabel": "청계천한빛공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/24974768",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "27068488",
+      "researchLabel": "한화불꽃길",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/27068488",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8081471",
+      "researchLabel": "종묘 시민광장",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/8081471",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1462572933",
+      "researchLabel": "삼청동쉼터",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1462572933",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1530674602",
+      "researchLabel": "다동공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1530674602",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "11571758",
+      "researchLabel": "세종문화회관 예술의정원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/11571758",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "11635437",
+      "researchLabel": "을지한빛거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/11635437",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "968776522",
+      "researchLabel": "통의동마을마당",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/968776522",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1293426985",
+      "researchLabel": "광화문원표공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1293426985",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1917543422",
+      "researchLabel": "주시경마당",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1917543422",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1180317771",
+      "researchLabel": "도렴공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1180317771",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "27506216",
+      "researchLabel": "을지로역시민쉼터",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/27506216",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "911781492",
+      "researchLabel": "덕수공원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/911781492",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "26635948",
+      "researchLabel": "서학당길",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "00:00",
+            "close": "00:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "웹에서 공식 운영시간을 찾지 못함. 열린 공원·거리로 보고 24시간 개방으로 처리(팀 결정, 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/26635948",
+          "checkedAt": "2026-11-27",
+          "scope": "공식 운영시간 자료 없음. 팀 결정으로 24시간 개방 처리. 링크는 카카오맵 페이지"
+        }
+      ]
+    },
+    {
+      "kakaoId": "8071409",
+      "researchLabel": "종로문화원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "open": "09:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월~금 09:00~18:00, 토·일 휴무",
+      "sources": [
+        {
+          "url": "https://www.ktriptips.com/kor/culture/130207",
+          "checkedAt": "2026-11-27",
+          "scope": "한국관광공사 코리아트립팁스(갱신 2026-03-04). 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "675552138",
+      "researchLabel": "북한인권박물관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "10:00~18:00. 휴일은 공휴일 및 관리자 지정일이라고만 안내되어 날짜 미입력",
+      "sources": [
+        {
+          "url": "https://www.ktriptips.com/eng/culture/3566484",
+          "checkedAt": "2026-11-27",
+          "scope": "한국관광공사 코리아트립팁스(NKDB 북한인권전시실, 갱신 2025-11-13). 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "26784597",
+      "researchLabel": "한국색동박물관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "13:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "화~토 13:00~17:00, 일·월·법정공휴일 휴관. 구 자료는 10:00~18:00로 달라 전화(02-765-9286) 확인 권장",
+      "sources": [
+        {
+          "url": "https://info.koreacharts.com/tour/3013281/contents.html",
+          "checkedAt": "2026-11-27",
+          "scope": "한국관광공사 데이터(정보 기준일 2026-11-27). 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "480480086",
+      "researchLabel": "KT 온마루",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월~토 10:00~18:00, 일요일 휴관",
+      "sources": [
+        {
+          "url": "https://mediahub.seoul.go.kr/archives/2017322",
+          "checkedAt": "2026-11-27",
+          "scope": "서울시 미디어허브 기사(2026-03-09). 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "24268177",
+      "researchLabel": "탑골미술관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          },
+          {
+            "days": [
+              6
+            ],
+            "open": "10:00",
+            "close": "15:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "일요일 정기휴무, 토 10:00~15:00, 나머지 10:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/24268177",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1462966471",
+      "researchLabel": "갤러리재동",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "11:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 정기휴무, 나머지 11:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1462966471",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "25700794",
+      "researchLabel": "인사아트프라자 갤러리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:30"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "10:00~18:30",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/25700794",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "11048641",
+      "researchLabel": "갤러리담",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "open": "12:00",
+            "close": "18:00"
+          },
+          {
+            "days": [
+              7
+            ],
+            "open": "12:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월~토 12:00~18:00, 일 12:00~17:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/11048641",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1646297495",
+      "researchLabel": "북촌전시실",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "10:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1646297495",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "17808472",
+      "researchLabel": "한국불교역사문화기념관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "10:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "월요일 휴무, 나머지 10:00~17:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/17808472",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1985142630",
+      "researchLabel": "스튜디오고함",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "11:00",
+            "close": "18:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "11:00~18:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1985142630",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1814291529",
+      "researchLabel": "양유당",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": [
+          {
+            "days": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7
+            ],
+            "open": "11:00",
+            "close": "17:00"
+          }
+        ]
+      },
+      "closedDays": {
+        "isoWeekdays": [],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "11:00~17:00",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1814291529",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1058701476",
+      "researchLabel": "아트로직 스페이스",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1058701476",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1417941448",
+      "researchLabel": "갤러리인사아트",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1417941448",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "297684466",
+      "researchLabel": "인사아트홀",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/297684466",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "474132916",
+      "researchLabel": "갤러리공간35",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "제외 결정 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/474132916",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "844839897",
+      "researchLabel": "체신기념관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "해당 업체 없음, 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/844839897",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "534290752",
+      "researchLabel": "북촌나래홀",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/534290752",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "7910481",
+      "researchLabel": "북촌창우극장",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/7910481",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1490290749",
+      "researchLabel": "한국미술협회 문화원",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1490290749",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "24941134",
+      "researchLabel": "남인사마당",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "운영 날짜가 비정기적이라 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/24941134",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1360720141",
+      "researchLabel": "태오양스튜디오",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "제외 결정 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1360720141",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "1799476514",
+      "researchLabel": "국립민속박물관 추억의거리",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "해당 업체 없음, 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/1799476514",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
+        }
+      ]
+    },
+    {
+      "kakaoId": "19120053",
+      "researchLabel": "육의전박물관",
+      "verificationStatus": "verified",
+      "hours": {
+        "weekly": []
+      },
+      "closedDays": {
+        "isoWeekdays": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ],
+        "exceptions": []
+      },
+      "checkedAt": "2026-11-27",
+      "note": "해당 업체 없음(휴관), 제외 (팀 결정 2026-11-27)",
+      "sources": [
+        {
+          "url": "https://place.map.kakao.com/19120053",
+          "checkedAt": "2026-11-27",
+          "scope": "팀원(임종욱)이 직접 확인해 제공한 값. 링크는 카카오맵 페이지이며 공식 안내 주소로 교체 필요"
         }
       ]
     }
