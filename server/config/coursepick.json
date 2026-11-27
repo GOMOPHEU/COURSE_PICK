@@ -120,7 +120,8 @@
       "덕수궁",
       "경희궁",
       "운현궁",
-      "종묘"
+      "종묘",
+      "경운궁"
     ],
     "themes": {
       "cafe": {
@@ -346,7 +347,7 @@
       "덕수궁",
       "경희궁"
     ],
-    "maxPlaces": 8,
+    "maxPlaces": 6,
     "maxVerifyPerSlot": 20,
     "maxGoogleCallsPerRequest": 100,
     "mealEarlyMin": 0,
@@ -355,7 +356,7 @@
       "splitAt": "16:30"
     },
     "maxCourses": 3,
-    "minPlacesPerCourse": 2,
+    "minPlacesPerCourse": 3,
     "maxGoogleSearchesPerRequest": 200,
     "forcedMealEarlyMin": 60,
     "requireKnownHours": true

@@ -153,6 +153,14 @@ public class CourseAssembler {
         int googleCalls;
         int searchCalls;
         final Map<String, PlaceLookupService.Result> results = new HashMap<>();
+
+        public int googleCalls() {
+            return googleCalls;
+        }
+
+        public int searchCalls() {
+            return searchCalls;
+        }
     }
 
     public List<Pick> assemble(Input in, Set<String> excludedIds, KakaoPlace mustVisit) {
@@ -181,6 +189,31 @@ public class CourseAssembler {
         };
     }
 
+    private static final Map<String, String[]> REASON_PHRASES = Map.of(
+            "used", new String[] {"다른 코스에서 이미 쓰였고", "다른 코스에서 이미 쓰였어요"},
+            "closedDay", new String[] {"휴관일이고", "휴관일이에요"},
+            "bar", new String[] {"술집이라 제외했고", "술집이라 제외했어요"},
+            "travel", new String[] {"이동 시간이 너무 길고", "이동 시간이 너무 길어요"},
+            "time", new String[] {"남은 시간에 들어가지 않고", "남은 시간에 들어가지 않아요"},
+            "unknownHours", new String[] {"영업시간을 확인하지 못했고", "영업시간을 확인하지 못했어요"},
+            "notOpen", new String[] {"그 시간에는 영업하지 않고", "그 시간에는 영업하지 않아요"},
+            "closed", new String[] {"폐업했거나 쉬고 있고", "폐업했거나 쉬고 있어요"},
+            "excluded", new String[] {"추천 대상이 아니고", "추천 대상이 아니에요"});
+
+    private static String reasonGroup(String reason) {
+        return switch (reason) {
+            case "앞선 코스에서 쓴 곳", "이미 고른 곳과 중복" -> "used";
+            case "휴관일" -> "closedDay";
+            case "주류 업종 제외" -> "bar";
+            case "이동 시간 한도 초과" -> "travel";
+            case "남은 시간 부족" -> "time";
+            case "구글 확인 한도 초과", "구글 조회 실패", "구글 매칭 실패", "영업시간 확인 불가" -> "unknownHours";
+            case "방문 시각에 영업 안 함" -> "notOpen";
+            case "폐업 또는 휴업" -> "closed";
+            default -> "excluded";
+        };
+    }
+
     private Map<String, String> missingNotes(Context ctx, List<Pick> picks, Input in) {
         Set<String> pickedThemes = new HashSet<>();
         Set<String> pickedIds = new HashSet<>();
@@ -202,10 +235,10 @@ public class CourseAssembler {
                         : label + ": 시간이 부족해 일정에 넣지 못했어요");
                 continue;
             }
-            Map<String, Integer> counts = new HashMap<>();
+            Map<String, Integer> counts = new java.util.LinkedHashMap<>();
             for (Map.Entry<String, String> e : ctx.rejected.getOrDefault(theme, Map.of()).entrySet()) {
                 if (seen.contains(e.getKey())) {
-                    counts.merge(e.getValue(), 1, Integer::sum);
+                    counts.merge(reasonGroup(e.getValue()), 1, Integer::sum);
                 }
             }
             if (counts.isEmpty()) {
@@ -214,12 +247,14 @@ public class CourseAssembler {
             }
             List<Map.Entry<String, Integer>> sorted = new ArrayList<>(counts.entrySet());
             sorted.sort((a, b) -> b.getValue() - a.getValue());
+            int shown = Math.min(3, sorted.size());
             StringBuilder text = new StringBuilder(label + ": 후보 " + seen.size() + "곳 중 ");
-            for (int i = 0; i < Math.min(3, sorted.size()); i++) {
-                if (i > 0) {
-                    text.append(", ");
+            for (int i = 0; i < shown; i++) {
+                String[] phrase = REASON_PHRASES.get(sorted.get(i).getKey());
+                text.append(sorted.get(i).getValue()).append("곳은 ").append(i == shown - 1 ? phrase[1] : phrase[0]);
+                if (i < shown - 1) {
+                    text.append(' ');
                 }
-                text.append(sorted.get(i).getKey()).append(' ').append(sorted.get(i).getValue()).append('곳');
             }
             notes.put(theme, text.toString());
         }

@@ -280,7 +280,7 @@ class CourseAssemblerTest {
                 input("2026-11-28", "14:00", "16:00", List.of("cafe"), null), java.util.Set.of("c1"), null);
 
         assertThat(result.picks()).isEmpty();
-        assertThat(result.notes().get("cafe")).contains("카페", "앞선 코스에서 쓴 곳 1곳");
+        assertThat(result.notes().get("cafe")).contains("카페", "1곳은 다른 코스에서 이미 쓰였어요");
     }
 
     @Test

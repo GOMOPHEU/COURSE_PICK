@@ -24,10 +24,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RecommendService {
+    private static final Logger log = LoggerFactory.getLogger(RecommendService.class);
+
 
     private final CourseAssembler assembler;
     private final CoursepickSettings settings;
@@ -129,6 +133,7 @@ public class RecommendService {
         } else if (courses.size() > maxCourses) {
             courses = renumber(new ArrayList<>(courses.subList(0, maxCourses)));
         }
+        log.info("구글 사용량: 상세 {}건, 검색 {}건, 코스 {}개", budget.googleCalls(), budget.searchCalls(), courses.size());
         return new RecommendResponse(courses, "OK", geminiNotes);
     }
 
