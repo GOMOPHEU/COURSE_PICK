@@ -7,6 +7,16 @@ ROOT = Path(__file__).resolve().parent / 'data'
 
 
 class DataChecks(unittest.TestCase):
+    def test_exclusions_and_ambiguous_park_hours(self):
+        facilities = json.loads((ROOT / 'official-hours.json').read_text())['facilities']
+        excluded = {r['kakaoId'] for r in facilities if r.get('recommendation', {}).get('exclude')}
+        config = Path(__file__).resolve().parents[3] / 'server/config/coursepick.json'
+        server_excluded = set(json.loads(config.read_text())['candidateSearch']['excludedPlaceIds'])
+        self.assertLessEqual(excluded, server_excluded)
+        park = next(r for r in facilities if r['kakaoId'] == '919042739')
+        self.assertIsNone(park['hours'])
+        self.assertIn('hours', park['userReport'])
+
     def test_matching_identifiers_and_storage_scope(self):
         data = json.loads((ROOT / 'place-mappings.json').read_text())
         self.assertEqual(data['radiusMeters'], 1300)
@@ -38,6 +48,10 @@ class DataChecks(unittest.TestCase):
             if row['verificationStatus'] == 'verified':
                 self.assertTrue(row['sources'])
                 self.assertIsNotNone(row['hours'])
+            elif row['verificationStatus'] == 'user_reported':
+                self.assertIsNotNone(row['hours'])
+                self.assertEqual(row['userReport']['sourceType'], 'user_provided')
+                self.assertFalse(row['userReport']['independentlyVerified'])
             else:
                 self.assertIsNone(row['hours'])
             for source in row['sources']:

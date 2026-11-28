@@ -106,3 +106,11 @@ var result = service.lookup(kakaoId, "culture", visitDate);
 - [Google 저장·표시 정책](https://developers.google.com/maps/documentation/places/web-service/policies)
 
 필드에 따라 Google 청구 SKU가 달라집니다. 예산 알림은 호출을 중단하지 않으므로 콘솔의 API 쿼터도 팀 예산에 맞게 설정하세요.
+
+## 2026-11-26 사용자 운영정보 반영
+
+`official-hours.json`에서 `user_reported`는 사용자 조사이며 공식 검증 완료가 아닙니다. `hours`에 시간을 구조화하고 `userReport`에 전달일과 출처 미제공을 기록합니다. 과거 `sources`는 새 시간을 증명하지 않습니다. Java는 `KEEP_UNKNOWN / user_reported / USER_HOURS_REQUIRE_CONFIRMATION`으로 반환합니다.
+
+요일은 ISO 월=1~일=7입니다. `alwaysOpen`은 상시 개방 제보이며 `scope`로 외관·집터·실내·공원을 구분합니다. 공휴일 휴무와 전시 교체 휴관은 별도 방문일 확인이 필요합니다. 공평공원의 제보 시간은 공평도시유적전시관과 혼동 가능성이 있어 `userReport`에만 보존하고 `hours`는 null입니다.
+
+예전사와 서울문화홍보원은 `recommendation.exclude: true`로 기록하며 Java가 매칭 여부보다 먼저 제외합니다. Spring 후보 서비스의 `candidateSearch.excludedPlaceIds`에도 동일 두 ID를 넣었습니다. 제외 정책 변경 시 두 목록을 함께 갱신하세요. 매칭표의 과거 90건은 조사 이력으로 보존하며 추천 후보 수와는 구분합니다.

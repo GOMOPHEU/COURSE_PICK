@@ -39,5 +39,96 @@
       "bonusAttributes": ["goodForChildren"],
       "bonusKeywords": ["아이", "아기", "가족", "유모차", "키즈"]
     }
+  },
+  "candidateSearch": {
+    "excludedPlaceIds": ["9290049", "1490573702"],
+    "radiusMeters": 690,
+    "maxRadiusMeters": 865,
+    "minCandidates": 3,
+    "maxPages": 2,
+    "shoppingKeywords": [
+      "시장",
+      "소품샵",
+      "인테리어장식",
+      "디자인문구",
+      "패션잡화",
+      "복합쇼핑몰"
+    ],
+    "shoppingAllowedCategories": [
+      "시장",
+      "인테리어장식판매",
+      "디자인문구",
+      "패션잡화점",
+      "복합쇼핑몰"
+    ],
+    "barNameKeywords": [
+      "이자카야",
+      "호프",
+      "포차",
+      "앤바",
+      "사카바",
+      "주점"
+    ],
+    "palaceGroups": [
+      {
+        "key": "palace:gyeongbokgung",
+        "name": "경복궁",
+        "lat": 37.5796,
+        "lng": 126.977,
+        "radiusMeters": 650,
+        "children": [
+          "근정전",
+          "경회루",
+          "향원정",
+          "광화문",
+          "흥례문",
+          "사정전",
+          "강녕전",
+          "교태전",
+          "자경전",
+          "건청궁"
+        ]
+      },
+      {
+        "key": "palace:changdeokgung",
+        "name": "창덕궁",
+        "lat": 37.5794,
+        "lng": 126.991,
+        "radiusMeters": 650,
+        "children": [
+          "인정전",
+          "선정전",
+          "희정당",
+          "대조전",
+          "돈화문",
+          "낙선재"
+        ]
+      },
+      {
+        "key": "palace:changgyeonggung",
+        "name": "창경궁",
+        "lat": 37.5788,
+        "lng": 126.995,
+        "radiusMeters": 500,
+        "children": [
+          "명정전",
+          "홍화문",
+          "문정전",
+          "통명전"
+        ]
+      },
+      {
+        "key": "palace:unhyeongung",
+        "name": "운현궁",
+        "lat": 37.5761,
+        "lng": 126.987,
+        "radiusMeters": 150,
+        "children": [
+          "노안당",
+          "노락당",
+          "이로당"
+        ]
+      }
+    ]
   }
 }

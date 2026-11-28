@@ -49,6 +49,9 @@ public final class PlaceLookupService {
         if (kakaoId == null || kakaoId.isBlank() || visitDate == null || theme == null
             || !Set.of("cafe", "food", "walk", "shopping", "history", "culture").contains(theme))
             throw new IllegalArgumentException("Kakao ID, valid theme and visitDate required");
+        JsonNode facility = official.get(kakaoId);
+        if (facility != null && facility.path("recommendation").path("exclude").asBoolean(false))
+            return result(kakaoId, "EXCLUDE", "team_policy", facility.path("recommendation").path("reason").asText(), null, facility);
         JsonNode mapping = mappings.get(kakaoId);
         if (mapping == null) return result(kakaoId, "KEEP_UNKNOWN", "unknown", "MAPPING_NOT_BUILT", null, null);
         String status = mapping.path("status").asText();
@@ -69,10 +72,11 @@ public final class PlaceLookupService {
             return result(kakaoId, "KEEP_UNKNOWN", "unknown", "UNKNOWN_MATCH_STATUS", null, null);
         if (theme.equals("food") || theme.equals("cafe"))
             return result(kakaoId, "EXCLUDE", "unknown", "UNMATCHED_FOOD_OR_CAFE", null, null);
-        JsonNode facility = official.get(kakaoId);
         if (facility != null && facility.path("verificationStatus").asText().equals("verified")
             && facility.hasNonNull("hours"))
             return result(kakaoId, "CHECK_HOURS", "official", "OFFICIAL_RULES_REQUIRE_EVALUATION", null, facility);
+        if (facility != null && facility.path("verificationStatus").asText().equals("user_reported"))
+            return result(kakaoId, "KEEP_UNKNOWN", "user_reported", "USER_HOURS_REQUIRE_CONFIRMATION", null, facility);
         return result(kakaoId, "KEEP_UNKNOWN", "unknown", "OFFICIAL_HOURS_UNCONFIRMED", null, facility);
     }
     private static Result result(String id, String decision, String source, String reason,

@@ -79,6 +79,16 @@ public final class PlacesTest {
             check(service.lookup("1", "food", date).decision().equals("KEEP_UNKNOWN"), "details outage fallback");
             code.set(200); body.set("{\"id\":\"test-id\",\"businessStatus\":\"CLOSED_PERMANENTLY\"}");
             check(service.lookup("1", "food", date).decision().equals("EXCLUDE"), "closed excluded");
+            Files.writeString(official, """
+                {"schemaVersion":1,"facilities":[
+                  {"kakaoId":"1","verificationStatus":"unconfirmed","sources":[],"recommendation":{"exclude":true,"reason":"USER_REQUESTED_EXCLUSION"}},
+                  {"kakaoId":"2","verificationStatus":"user_reported","sources":[],"hours":{"alwaysOpen":true}}
+                ]}
+                """);
+            service = new PlaceLookupService(client, mappings, official);
+            check(service.lookup("1", "culture", date).reason().equals("USER_REQUESTED_EXCLUSION"), "team exclusion precedes Google mapping");
+            check(service.lookup("2", "walk", date).reason().equals("USER_HOURS_REQUIRE_CONFIRMATION"), "user hours not official verification");
+            check(service.lookup("2", "walk", date).official().path("hours").path("alwaysOpen").asBoolean(), "user hours retained");
             Files.delete(mappings); Files.delete(official); Files.delete(dir);
             System.out.println("Java checks passed");
         } finally { server.stop(0); }
